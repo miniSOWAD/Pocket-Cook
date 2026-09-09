@@ -1,0 +1,79 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function owns(uid) { return request.auth != null && request.auth.uid == uid; }
+    function shortText(value, max) { return value is string && value.size() > 0 && value.size() <= max; }
+    function validTimestamp(value) { return value is int && value >= 0; }
+    function published(recipeId) {
+      return exists(/databases/$(database)/documents/recipes/$(recipeId))
+        && get(/databases/$(database)/documents/recipes/$(recipeId)).data.isPublished == true;
+    }
+    function validProfile(data) {
+      return data.keys().hasAll(['displayName', 'bio', 'updatedAt'])
+        && data.keys().hasOnly(['displayName', 'bio', 'updatedAt'])
+        && shortText(data.displayName, 60) && data.displayName.size() >= 2
+        && data.bio is string && data.bio.size() <= 240 && validTimestamp(data.updatedAt);
+    }
+    function validFavorite(data, recipeId) {
+      return data.keys().hasAll(['recipeId', 'savedAt'])
+        && data.keys().hasOnly(['recipeId', 'savedAt'])
+        && data.recipeId == recipeId && validTimestamp(data.savedAt) && published(recipeId);
+    }
+    function validMeal(data, entryId) {
+      return data.keys().hasAll(['date', 'slot', 'recipeId', 'recipeTitle', 'servings', 'updatedAt'])
+        && data.keys().hasOnly(['date', 'slot', 'recipeId', 'recipeTitle', 'servings', 'updatedAt'])
+        && data.date is string && data.date.matches('[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])')
+        && data.slot in ['breakfast', 'lunch', 'dinner', 'snack']
+        && entryId == data.date + '_' + data.slot
+        && shortText(data.recipeId, 80) && shortText(data.recipeTitle, 120)
+        && data.servings is int && data.servings >= 1 && data.servings <= 12
+        && validTimestamp(data.updatedAt) && published(data.recipeId);
+    }
+    function validSource(data, sourceId) {
+      // Nested ingredient records are validated by the client/seed validator.
+      // This rule validates ownership and the contribution envelope. The
+      // client also handles malformed private records as a recoverable error.
+      return sourceId.size() <= 160 && sourceId.matches('[A-Za-z0-9_-]+')
+        && data.keys().hasAll(['title', 'recipeId', 'servings', 'updatedAt', 'ingredients'])
+        && data.keys().hasOnly(['title', 'recipeId', 'servings', 'updatedAt', 'ingredients'])
+        && shortText(data.title, 180)
+        && (data.recipeId == null || shortText(data.recipeId, 80))
+        && data.servings is int && data.servings >= 1 && data.servings <= 12
+        && validTimestamp(data.updatedAt)
+        && data.ingredients is list && data.ingredients.size() > 0 && data.ingredients.size() <= 80;
+    }
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /recipes/{recipeId} {
+      allow read: if resource.data.isPublished == true;
+      allow write: if false;
+    }
+    match /users/{uid} {
+      allow read: if owns(uid);
+      allow create, update: if owns(uid) && validProfile(request.resource.data);
+      allow delete: if owns(uid);
+      match /favorites/{recipeId} {
+        allow read, delete: if owns(uid);
+        allow create, update: if owns(uid) && validFavorite(request.resource.data, recipeId);
+      }
+      match /mealPlans/{entryId} {
+        allow read, delete: if owns(uid);
+        allow create, update: if owns(uid) && validMeal(request.resource.data, entryId);
+      }
+      match /grocerySources/{sourceId} {
+        allow read, delete: if owns(uid);
+        allow create, update: if owns(uid) && validSource(request.resource.data, sourceId);
+      }
+      match /groceryChecks/{key} {
+        allow read, delete: if owns(uid);
+        allow create, update: if owns(uid) && key.size() <= 200
+          && request.resource.data.keys().hasOnly(['checked'])
+          && request.resource.data.keys().hasAll(['checked'])
+          && request.resource.data.checked is bool;
+      }
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}
