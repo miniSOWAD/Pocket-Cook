@@ -1,0 +1,1 @@
+Dry run: 13 recipe documents and 6 category documents. No writes performed.

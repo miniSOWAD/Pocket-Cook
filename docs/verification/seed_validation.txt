@@ -1,0 +1,1 @@
+Validated 13 recipes, 6 categories, and all bundled image paths.

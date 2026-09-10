@@ -1,0 +1,106 @@
+TAP version 13
+# Subtest: all bundled recipes and assets validate
+ok 1 - all bundled recipes and assets validate
+  ---
+  duration_ms: 8.309453
+  type: 'test'
+  ...
+# Subtest: demo and Firestore recipe catalogs are identical
+ok 2 - demo and Firestore recipe catalogs are identical
+  ---
+  duration_ms: 2.618372
+  type: 'test'
+  ...
+# Subtest: demo and Firestore categories are identical
+ok 3 - demo and Firestore categories are identical
+  ---
+  duration_ms: 0.856182
+  type: 'test'
+  ...
+# Subtest: duplicate recipe IDs are rejected
+ok 4 - duplicate recipe IDs are rejected
+  ---
+  duration_ms: 2.55829
+  type: 'test'
+  ...
+# Subtest: unknown categories are rejected
+ok 5 - unknown categories are rejected
+  ---
+  duration_ms: 5.75549
+  type: 'test'
+  ...
+# Subtest: zero servings are rejected
+ok 6 - zero servings are rejected
+  ---
+  duration_ms: 0.760965
+  type: 'test'
+  ...
+# Subtest: fractional servings are rejected
+ok 7 - fractional servings are rejected
+  ---
+  duration_ms: 1.134686
+  type: 'test'
+  ...
+# Subtest: negative quantities are rejected
+ok 8 - negative quantities are rejected
+  ---
+  duration_ms: 0.771436
+  type: 'test'
+  ...
+# Subtest: non-finite quantities are rejected
+ok 9 - non-finite quantities are rejected
+  ---
+  duration_ms: 1.534778
+  type: 'test'
+  ...
+# Subtest: to-taste quantities are valid
+ok 10 - to-taste quantities are valid
+  ---
+  duration_ms: 1.461017
+  type: 'test'
+  ...
+# Subtest: unrecognized units are rejected
+ok 11 - unrecognized units are rejected
+  ---
+  duration_ms: 1.633238
+  type: 'test'
+  ...
+# Subtest: empty instructions are rejected
+ok 12 - empty instructions are rejected
+  ---
+  duration_ms: 0.855058
+  type: 'test'
+  ...
+# Subtest: negative timers are rejected
+ok 13 - negative timers are rejected
+  ---
+  duration_ms: 0.644426
+  type: 'test'
+  ...
+# Subtest: unsafe remote image schemes are rejected
+ok 14 - unsafe remote image schemes are rejected
+  ---
+  duration_ms: 3.96356
+  type: 'test'
+  ...
+# Subtest: asset traversal is rejected
+ok 15 - asset traversal is rejected
+  ---
+  duration_ms: 4.128823
+  type: 'test'
+  ...
+# Subtest: missing assets are reported
+ok 16 - missing assets are reported
+  ---
+  duration_ms: 1.311097
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 448.641019
