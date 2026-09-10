@@ -1,0 +1,40 @@
+{
+  "generated_at_utc": "2026-09-09T17:25:45.564110+00:00",
+  "counts": {
+    "application_dart_files": 88,
+    "flutter_test_files": 11,
+    "integration_test_files": 1,
+    "authored_flutter_test_cases": 46,
+    "authored_integration_test_cases": 1,
+    "authored_firebase_rule_test_cases": 24,
+    "sample_recipes": 13,
+    "sample_categories": 6,
+    "original_png_illustrations": 13
+  },
+  "executed_checks": {
+    "node_seed_tests": {
+      "passed": 16,
+      "failed": 0
+    },
+    "seed_validation": "passed",
+    "seed_dry_run": "passed; no database writes",
+    "dart_structural_and_local_import_checks": "passed; custom non-compiler checker",
+    "json_yaml_python_parse": "passed",
+    "posix_shell_syntax": "passed",
+    "png_decode": "passed"
+  },
+  "not_executed": [
+    "Flutter dependency resolution",
+    "Dart formatter",
+    "Dart/Flutter analyzer",
+    "Flutter unit/widget/integration tests",
+    "Android/iOS/web compilation",
+    "Native or browser app rendering",
+    "Firebase emulator rule tests",
+    "PowerShell script execution",
+    "GitHub Actions workflow",
+    "Production Firebase provisioning/deployment"
+  ],
+  "environment_limit": "Flutter/Dart were not installed; attempted SDK retrieval failed. npm dependencies/emulator downloads were not available.",
+  "native_scaffolding": "Generated on recipient machine by tool/setup.ps1 or tool/setup.sh using flutter create; not pre-generated in archive."
+}
