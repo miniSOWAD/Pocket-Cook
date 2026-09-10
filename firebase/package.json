@@ -1,0 +1,23 @@
+{
+  "name": "savor-firebase-tools",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "validate": "node scripts/validate_seed.mjs",
+    "test:data": "node --test tests/seed_validation.test.mjs",
+    "seed:demo": "node scripts/seed_firestore.mjs --emulator",
+    "emulators": "firebase emulators:start --config ../firebase.json --project demo-recipe-app --only auth,firestore",
+    "test:rules": "firebase emulators:exec --config ../firebase.json --project demo-recipe-app --only firestore \"node --test rules_tests/firestore.rules.test.mjs\""
+  },
+  "dependencies": {
+    "firebase-admin": "^13.0.0"
+  },
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^4.0.1",
+    "firebase": "^11.0.0",
+    "firebase-tools": "^14.0.0"
+  }
+}
