@@ -42,6 +42,18 @@ service cloud.firestore {
         && validTimestamp(data.updatedAt)
         && data.ingredients is list && data.ingredients.size() > 0 && data.ingredients.size() <= 80;
     }
+    function validPantryItem(data, itemId) {
+      return itemId.size() <= 120 && itemId.matches('[A-Za-z0-9_-]+')
+        && data.keys().hasAll(['ingredientId', 'name', 'quantity', 'unit', 'lowStockThreshold', 'expiryDate', 'note', 'updatedAt'])
+        && data.keys().hasOnly(['ingredientId', 'name', 'quantity', 'unit', 'lowStockThreshold', 'expiryDate', 'note', 'updatedAt'])
+        && shortText(data.ingredientId, 80) && shortText(data.name, 120)
+        && data.quantity is number && data.quantity >= 0 && data.quantity <= 1000000
+        && data.unit in ['pcs', 'g', 'kg', 'ml', 'l', 'tsp', 'tbsp', 'cup']
+        && (data.lowStockThreshold == null || (data.lowStockThreshold is number && data.lowStockThreshold >= 0 && data.lowStockThreshold <= 1000000))
+        && (data.expiryDate == null || (data.expiryDate is string && data.expiryDate.matches('[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])')))
+        && data.note is string && data.note.size() <= 240
+        && validTimestamp(data.updatedAt);
+    }
     match /categories/{categoryId} {
       allow read: if true;
       allow write: if false;
@@ -72,6 +84,10 @@ service cloud.firestore {
           && request.resource.data.keys().hasOnly(['checked'])
           && request.resource.data.keys().hasAll(['checked'])
           && request.resource.data.checked is bool;
+      }
+      match /pantryItems/{itemId} {
+        allow read, delete: if owns(uid);
+        allow create, update: if owns(uid) && validPantryItem(request.resource.data, itemId);
       }
     }
     match /{document=**} { allow read, write: if false; }

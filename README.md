@@ -25,7 +25,7 @@ bash tool/setup.sh
 flutter run -d chrome --web-port=7357
 ```
 
-**The default is demo mode. No Firebase project, email, password, or Node installation is needed to try it.** Browse as a guest. Open Saved, Plan, Groceries, or You and choose **Enter demo workspace** to use local personal features. This is deliberately not represented as real authentication.
+**The default is demo mode. No Firebase project, email, password, or Node installation is needed to try it.** Browse as a guest. Open Saved, Plan, Groceries, Pantry, or the profile button and choose **Enter demo workspace** to use local personal features. This is deliberately not represented as real authentication.
 
 Use the same browser origin/port to retain browser-local demo data. Demo data is stored on that device/browser and can be lost when app data or site storage is cleared.
 
@@ -57,6 +57,7 @@ flutter pub get
 | Guided cooking | Step progress, pause/resume/reset countdown, saved wall-clock deadline, saved device-local session. |
 | Grocery list | Recipe and manual contributions, compatible-unit merging, checkmarks, source editing/removal, duplicate-safe updates. |
 | Meal planner | Weekly planning, breakfast/lunch/dinner/snack slots, serving counts, add/replace/remove, explicit week-to-groceries sync. |
+| My Pantry | Private ingredient inventory, quantity/unit tracking, low-stock thresholds, expiry dates, recipe readiness ranking, and one-tap missing-ingredient grocery handoff. |
 | Profile/settings | Display name, bio, system/light/dark preference, account-aware navigation reset. |
 | Content | 13 original sample recipes and 13 bundled original PNG illustrations. No external image service is required. |
 | Backend tooling | Firestore rules, safe seed script, localhost emulators, data checks, rule tests, and a CI workflow. |
@@ -124,7 +125,7 @@ Full Firebase rule tests require the emulator tooling; see [testing](docs/TESTIN
 ```text
 lib/app/                   Startup, dependencies, navigation and app shell
 lib/core/                  Shared state, storage, errors, theme and widgets
-lib/features/              Auth, recipes, favorites, cooking, groceries, planner,
+lib/features/              Auth, recipes, favorites, cooking, groceries, planner, pantry,
                            profile and settings
 assets/data/               Bundled demo catalogue
 assets/images/recipes/     Original recipe illustrations
@@ -143,9 +144,10 @@ Several small modules share the `DocumentStore` abstraction rather than duplicat
 - **Small catalogue:** Firestore watches all published recipes. Search and Show more work on that in-memory catalogue; they are not server-side full-text search or server pagination. Introduce a dedicated query/search design before scaling to a large catalogue.
 - **Timer:** There is no OS-level background alarm, notification, or sound. The deadline is recalculated when the app resumes; changing the device clock affects it. Use a separate cooking alarm when needed.
 - **Offline:** Bundled demo content works without a backend. Firebase mode relies on SDK behavior and is not a guaranteed offline-download product. A favorite is not a downloaded recipe.
-- **Local privacy:** Demo data is not encrypted. Cooking progress and theme preferences are device-local in both modes; cloud-synchronized data is limited to favorites, profile, meal plans, and groceries.
+- **Local privacy:** Demo data is not encrypted. Cooking progress and theme preferences are device-local in both modes; cloud-synchronized data includes favorites, profile, meal plans, groceries, and pantry items.
 - **Meal-plan sync:** Use Sync week to groceries after changing or deleting planned meals. Sync replaces that week's imported contributions, not other weeks or manual items. It is not a background process.
-- **Units:** kg/g and l/ml conversions are supported; cups/grams are never guessed. Ingredients with different IDs do not merge just because their labels look similar.
+- **Units:** kg/g and l/ml conversions are supported in grocery merging and pantry matching; cups/grams are never guessed. Ingredients with different IDs do not match just because their labels look similar.
+- **Pantry readiness:** Numeric recipe ingredients are compared against pantry stock at the recipe's base serving count. Nonnumeric ingredients such as ‘salt to taste’ do not block readiness. Pantry quantities are not automatically deducted after cooking in this version.
 - **Concurrency:** Batches are atomic within the repository. Cross-device edits are last-write-wins, not collaborative conflict resolution. Cloud operations time out visibly after 15 seconds; a queued operation can still complete later.
 - **Scale limits:** A batch is capped at 450 writes. Extremely large grocery lists need a chunking/server transaction strategy; this version reports an error instead of partially applying a batch.
 - **Content:** Sample cooking times and recipes are demonstration content, not professionally validated nutrition or dietary advice. Check allergens and handling requirements for your ingredients.
