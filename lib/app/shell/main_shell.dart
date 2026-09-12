@@ -5,7 +5,7 @@ import '../../features/auth/presentation/providers/auth_provider.dart';
 import '../../features/favorites/presentation/screens/favorites_screen.dart';
 import '../../features/grocery_list/presentation/screens/grocery_list_screen.dart';
 import '../../features/meal_planner/presentation/screens/meal_planner_screen.dart';
-import '../../features/profile/presentation/screens/profile_screen.dart';
+import '../../features/pantry/presentation/screens/pantry_screen.dart';
 import '../../features/recipes/presentation/screens/home_screen.dart';
 class MainShell extends StatefulWidget {
   const MainShell({super.key});
@@ -19,21 +19,21 @@ class _MainShellState extends State<MainShell> {
     (label: 'Saved', icon: Icons.favorite_border_rounded, selected: Icons.favorite_rounded),
     (label: 'Plan', icon: Icons.calendar_month_outlined, selected: Icons.calendar_month_rounded),
     (label: 'Groceries', icon: Icons.shopping_bag_outlined, selected: Icons.shopping_bag_rounded),
-    (label: 'You', icon: Icons.person_outline_rounded, selected: Icons.person_rounded),
+    (label: 'Pantry', icon: Icons.kitchen_outlined, selected: Icons.kitchen_rounded),
   ];
   @override
   Widget build(BuildContext context) {
     final wide = MediaQuery.sizeOf(context).width >= 1000;
     final auth = context.watch<AuthProvider>();
     final body = IndexedStack(index: _index, children: const [HomeScreen(), FavoritesScreen(),
-      MealPlannerScreen(), GroceryListScreen(), ProfileScreen()]);
+      MealPlannerScreen(), GroceryListScreen(), PantryScreen()]);
     return Scaffold(
       appBar: AppBar(leading: Padding(padding: const EdgeInsets.only(left: 18),
         child: Icon(Icons.spa_rounded, color: Theme.of(context).colorScheme.primary, size: 29)),
         title: const Text('Savor', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w800, letterSpacing: -1)),
         actions: [if (auth.isDemo || AppConfig.useEmulators) Padding(padding: const EdgeInsets.only(right: 12),
           child: Chip(label: Text(auth.isDemo ? 'LOCAL DEMO' : 'EMULATOR', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w700)))),
-          IconButton(tooltip: 'Your profile', onPressed: () => setState(() => _index = 4), icon: const Icon(Icons.account_circle_outlined)),
+          IconButton(tooltip: 'Your profile', onPressed: () => Navigator.pushNamed(context, '/profile'), icon: const Icon(Icons.account_circle_outlined)),
           const SizedBox(width: 12)]),
       body: SafeArea(bottom: false, child: wide ? Row(children: [
         NavigationRail(selectedIndex: _index, extended: true, minExtendedWidth: 180,

@@ -84,10 +84,14 @@ class _SourceTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final grocery = context.watch<GroceryProvider>();
-    return ListTile(title: Text(source.title), subtitle: Text(source.isManual ? 'Manual item' : '${source.servings} servings'),
+    return ListTile(title: Text(source.title), subtitle: Text(source.id.startsWith('pantry_') ? 'Missing ingredients from Pantry' : source.isManual ? 'Manual item' : '${source.servings} servings'),
       trailing: Row(mainAxisSize: MainAxisSize.min, children: [
         IconButton(tooltip: 'Edit contribution', icon: const Icon(Icons.edit_outlined), onPressed: grocery.busy ? null : () {
-          if (source.isManual) { editGroceryItem(context, source: source); return; }
+          if (source.isManual) {
+            if (source.ingredients.length == 1) { editGroceryItem(context, source: source); }
+            else { showMessage(context, 'This is a grouped pantry contribution. Remove it or update it again from Pantry.'); }
+            return;
+          }
           final recipe = context.read<RecipeCatalogProvider>().byId(source.recipeId!);
           if (recipe == null) { showMessage(context, 'This recipe is unavailable. Remove its contribution or add manual items.'); return; }
           showDialog<void>(context: context, builder: (_) => _SourceServingsDialog(source: source, recipe: recipe));
