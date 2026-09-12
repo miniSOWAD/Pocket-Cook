@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "888663828264",
+    "project_id": "cook-book-b23be",
+    "storage_bucket": "cook-book-b23be.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888663828264:android:35aac2b084a0e84315d21d",
+        "android_client_info": {
+          "package_name": "com.trendintools.recipe_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrKXgiYMo2xHFcr5_pKdXyl1R6JGC0DjM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
