@@ -1,4 +1,4 @@
-# Savor - a Flutter recipe app
+# Pocket Cook - a Flutter recipe app
 
 A feature-based Flutter + Provider recipe application, with a local demo and an optional Firebase backend. This is an original implementation of the project we planned, not source extracted from the referenced YouTube tutorial.
 
