@@ -2,7 +2,7 @@
 
 ## Design
 
-Savor uses feature-based Flutter code with Provider/ChangeNotifier presentation state. Widgets render state and forward actions. Repositories own persistence. Pure calculation classes own serving arithmetic, grocery merging and timer deadline logic.
+Savor uses feature-based Flutter code with Provider/ChangeNotifier presentation state. Widgets render state and forward actions. Repositories own persistence. Pure calculation classes own serving arithmetic, grocery merging, pantry matching and timer deadline logic.
 
 ```text
 Screen / widget
@@ -11,7 +11,7 @@ Screen / widget
       -> local or Firebase implementation
 ```
 
-Small features use one shared `DocumentStore` contract beneath feature-specific document repositories. `LocalDocumentStore` persists JSON to a key-value store for the demo. `FirestoreDocumentStore` implements the same watch/write contract with Firestore snapshots and batches. This avoids duplicating favorite, grocery, profile and meal-plan behavior in two backends.
+Small features use one shared `DocumentStore` contract beneath feature-specific document repositories. `LocalDocumentStore` persists JSON to a key-value store for the demo. `FirestoreDocumentStore` implements the same watch/write contract with Firestore snapshots and batches. This avoids duplicating favorite, grocery, pantry, profile and meal-plan behavior in two backends.
 
 The catalogue and authentication have distinct local/Firebase repositories because their source semantics differ. `AssetRecipeRepository` reads bundled JSON; `FirestoreRecipeRepository` watches published records. `DemoAuthRepository` is explicitly a workspace selector, not a password database. `FirebaseAuthRepository` delegates real credentials to Firebase Authentication.
 
@@ -27,7 +27,7 @@ The catalogue and authentication have distinct local/Firebase repositories becau
 | --- | --- |
 | Authentication and theme | App-wide |
 | Published recipe catalogue | App-wide |
-| Favorites, profile, groceries, meal plans | Shared, strictly tied to current user UID |
+| Favorites, profile, groceries, meal plans, pantry | Shared, strictly tied to current user UID |
 | Query/category/filter state | Search route |
 | Recipe serving selection | Individual detail route |
 | Step index and timer | Cooking route, persisted locally under UID/guest + recipe ID |
@@ -35,7 +35,7 @@ The catalogue and authentication have distinct local/Firebase repositories becau
 
 `UserScopedNotifier` observes the authentication provider. A UID change cancels old subscriptions, increments a generation number, clears private state synchronously and binds the new user's streams. Late stream callbacks and operation results are ignored when their generation is stale.
 
-`SavorApp` replaces its Navigator key when leaving/replacing an authenticated session. This disposes old profile forms, grocery modals and other route-local snapshots. Guest-to-authenticated navigation is kept so a pending Save action can return to its recipe.
+`SavorApp` replaces its Navigator key when leaving/replacing an authenticated session. This disposes old profile forms, grocery/pantry modals and other route-local snapshots. Guest-to-authenticated navigation is kept so a pending Save action can return to its recipe.
 
 UI guards only handle navigation and prompts. Firestore rules enforce backend ownership; hiding a button is not authorization.
 
@@ -51,7 +51,7 @@ Stream conversion validates basic record shape. A malformed remote record raises
 
 The `Recipe` model is the single recipe representation. Favorites store references, not copies. Grocery sources store scaled ingredient contributions, not editable duplicate recipes. Meal-plan entries store recipe IDs plus title snapshots for unavailable-recipe display.
 
-`ServingCalculator` always calculates from base recipe quantities. `IngredientMerger` uses ingredient ID and compatible canonical units, never labels alone or inferred cup/gram density.
+`ServingCalculator` always calculates from base recipe quantities. `IngredientMerger` and `PantryMatcher` use ingredient IDs and compatible canonical units, never labels alone or inferred cup/gram density.
 
 ## Platform and dependencies
 

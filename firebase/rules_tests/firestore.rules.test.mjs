@@ -8,6 +8,8 @@ const favorite = { recipeId: 'published', savedAt: 1 };
 const meal = { date: '2026-09-09', slot: 'dinner', recipeId: 'published', recipeTitle: 'Published recipe', servings: 2, updatedAt: 1 };
 const source = { title: 'Rice', recipeId: null, servings: 1, updatedAt: 1,
   ingredients: [{ id: 'rice', name: 'Rice', quantity: 200, unit: 'g', note: '' }] };
+const pantry = { ingredientId: 'rice', name: 'Rice', quantity: 1200, unit: 'g', lowStockThreshold: 300,
+  expiryDate: null, note: 'Basmati', updatedAt: 1 };
 const dbFor = (uid) => uid ? env.authenticatedContext(uid).firestore() : env.unauthenticatedContext().firestore();
 before(async () => {
   const [host, port] = (process.env.FIRESTORE_EMULATOR_HOST ?? '127.0.0.1:8080').split(':');
@@ -61,4 +63,14 @@ test('grocery sources and checkmarks are private', async () => {
   await assertFails(setDoc(doc(dbFor('bob'), 'users/alice/groceryChecks/key'), { checked: true }));
 });
 test('checkmarks only accept their schema', async () => assertFails(setDoc(doc(dbFor('alice'), 'users/alice/groceryChecks/key'), { checked: true, admin: true })));
+test('owners can create valid pantry items', async () => assertSucceeds(
+  setDoc(doc(dbFor('alice'), 'users/alice/pantryItems/pantry-rice'), pantry)));
+test('pantry items are private between users', async () => {
+  await assertFails(setDoc(doc(dbFor('bob'), 'users/alice/pantryItems/pantry-rice'), pantry));
+  await assertFails(getDocs(collection(dbFor('bob'), 'users/alice/pantryItems')));
+});
+test('invalid pantry units are rejected', async () => assertFails(
+  setDoc(doc(dbFor('alice'), 'users/alice/pantryItems/pantry-rice'), { ...pantry, unit: 'bag' })));
+test('unexpected pantry fields are rejected', async () => assertFails(
+  setDoc(doc(dbFor('alice'), 'users/alice/pantryItems/pantry-rice'), { ...pantry, admin: true })));
 test('unknown collections are denied', async () => assertFails(setDoc(doc(dbFor('alice'), 'anything/private'), { value: 1 })));
