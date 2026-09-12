@@ -6,9 +6,14 @@ import 'auth_repository.dart';
 
 class DemoAuthRepository implements AuthRepository {
   DemoAuthRepository(this.storage) {
-    if (storage.read(_key) == 'active') _user = demoUser;
+    final session = storage.read(_key) ?? storage.read(_legacyKey);
+    if (session == 'active') {
+      _user = demoUser;
+      if (storage.read(_key) == null) unawaited(storage.write(_key, 'active'));
+    }
   }
-  static const _key = 'savor.demo.session';
+  static const _key = 'lizas_kitchen.demo.session';
+  static const _legacyKey = 'savor.demo.session';
   static const demoUser = AuthUser(uid: 'demo-user', name: 'Home cook', email: '', isDemo: true);
   final KeyValueStore storage;
   AuthUser? _user;

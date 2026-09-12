@@ -46,7 +46,7 @@ abstract final class AppRouter {
         case AppRoutes.editProfile: return const EditProfileScreen();
         case AppRoutes.settings: return const SettingsScreen();
       }
-      return Scaffold(appBar: AppBar(title: const Text('Savor')), body: const EmptyStateView(
+      return Scaffold(appBar: AppBar(title: const Text("Liza's Kitchen")), body: const EmptyStateView(
         title: 'That page is not available', message: 'Go back and choose a recipe from the cookbook.'));
     });
   }

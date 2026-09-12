@@ -6,13 +6,17 @@ import 'key_value_store.dart';
 /// Demo-only storage. This is not encryption or production authentication.
 class LocalDocumentStore implements DocumentStore {
   LocalDocumentStore(this._storage) {
-    final saved = _storage.read(_storageKey);
+    final saved = _storage.read(_storageKey) ?? _storage.read(_legacyStorageKey);
+    if (_storage.read(_storageKey) == null && saved != null) {
+      unawaited(_storage.write(_storageKey, saved));
+    }
     if (saved != null) {
       final parsed = Map<String, dynamic>.from(jsonDecode(saved) as Map);
       _documents = parsed.map((key, value) => MapEntry(key, Map<String, dynamic>.from(value as Map)));
     }
   }
-  static const _storageKey = 'savor.documents.v1';
+  static const _storageKey = 'lizas_kitchen.documents.v1';
+  static const _legacyStorageKey = 'savor.documents.v1';
   final KeyValueStore _storage;
   Map<String, Json> _documents = {};
   final _changes = StreamController<void>.broadcast(sync: true);
