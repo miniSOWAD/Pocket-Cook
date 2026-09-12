@@ -4,6 +4,7 @@ import '../features/auth/presentation/providers/auth_provider.dart';
 import '../features/favorites/presentation/providers/favorites_provider.dart';
 import '../features/grocery_list/presentation/providers/grocery_provider.dart';
 import '../features/meal_planner/presentation/providers/meal_plan_provider.dart';
+import '../features/pantry/presentation/providers/pantry_provider.dart';
 import '../features/profile/presentation/providers/profile_provider.dart';
 import '../features/recipes/presentation/providers/recipe_catalog_provider.dart';
 import '../features/settings/presentation/providers/settings_provider.dart';
@@ -22,5 +23,6 @@ class AppProviders extends StatelessWidget {
     ChangeNotifierProvider(create: (context) => ProfileProvider(dependencies.profiles, context.read<AuthProvider>()), lazy: false),
     ChangeNotifierProvider(create: (context) => GroceryProvider(dependencies.groceries, context.read<AuthProvider>()), lazy: false),
     ChangeNotifierProvider(create: (context) => MealPlanProvider(dependencies.mealPlans, context.read<AuthProvider>()), lazy: false),
+    ChangeNotifierProvider(create: (context) => PantryProvider(dependencies.pantry, context.read<AuthProvider>()), lazy: false),
   ], child: child);
 }

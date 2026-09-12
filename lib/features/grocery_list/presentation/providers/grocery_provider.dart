@@ -43,6 +43,15 @@ class GroceryProvider extends UserScopedNotifier {
     await _save(uid, [GrocerySource.fromRecipe(recipe, servings, sourceId: sourceId, title: title)]);
   });
 
+  Future<bool> addIngredients(String title, List<Ingredient> ingredients, {String? sourceId}) => run(() async {
+    final uid = requireUser();
+    if (title.trim().isEmpty || title.length > 180) throw const AppException('Use a grocery title of 1 to 180 characters.');
+    if (ingredients.isEmpty || ingredients.length > 80) throw const AppException('Choose at least one missing ingredient.');
+    final source = GrocerySource(id: sourceId ?? 'pantry-${const Uuid().v4()}', title: title.trim(),
+      servings: 1, updatedAt: DateTime.now().millisecondsSinceEpoch, ingredients: ingredients);
+    await _save(uid, [source]);
+  });
+
   Future<bool> saveManual(String name, double quantity, String unit, {String? sourceId}) => run(() async {
     final uid = requireUser();
     if (name.trim().isEmpty || name.trim().length > 80) throw const AppException('Use an item name of 1 to 80 characters.');

@@ -11,6 +11,8 @@ import '../features/grocery_list/data/document_grocery_repository.dart';
 import '../features/grocery_list/data/grocery_repository.dart';
 import '../features/meal_planner/data/document_meal_plan_repository.dart';
 import '../features/meal_planner/data/meal_plan_repository.dart';
+import '../features/pantry/data/document_pantry_repository.dart';
+import '../features/pantry/data/pantry_repository.dart';
 import '../features/profile/data/document_profile_repository.dart';
 import '../features/profile/data/profile_repository.dart';
 import '../features/recipes/data/asset_recipe_repository.dart';
@@ -22,8 +24,8 @@ class AppDependencies {
   AppDependencies({required this.auth, required this.recipes, required this.documents, required KeyValueStore local})
     : favorites = DocumentFavoritesRepository(documents),
       groceries = DocumentGroceryRepository(documents), mealPlans = DocumentMealPlanRepository(documents),
-      profiles = DocumentProfileRepository(documents), settings = LocalSettingsRepository(local),
-      cooking = LocalCookingRepository(local);
+      profiles = DocumentProfileRepository(documents), pantry = DocumentPantryRepository(documents),
+      settings = LocalSettingsRepository(local), cooking = LocalCookingRepository(local);
   factory AppDependencies.demo(KeyValueStore storage) => AppDependencies(
     auth: DemoAuthRepository(storage), recipes: AssetRecipeRepository(),
     documents: LocalDocumentStore(storage), local: storage);
@@ -33,6 +35,7 @@ class AppDependencies {
   final FavoritesRepository favorites;
   final GroceryRepository groceries;
   final MealPlanRepository mealPlans;
+  final PantryRepository pantry;
   final ProfileRepository profiles;
   final SettingsRepository settings;
   final CookingRepository cooking;
