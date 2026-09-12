@@ -10,6 +10,7 @@ users/{uid}/favorites/{recipeId}
 users/{uid}/mealPlans/{YYYY-MM-DD_slot}
 users/{uid}/grocerySources/{sourceId}
 users/{uid}/groceryChecks/{encodedIngredientKey}
+users/{uid}/pantryItems/{itemId}
 ```
 
 ## Categories
@@ -53,6 +54,7 @@ IDs have these meanings:
 - `recipe_<id>`: added directly from recipe details; re-adding updates instead of doubling.
 - `plan_<date>_<slot>`: imported from a meal-plan slot; repeated week sync replaces the same source.
 - `manual-<uuid>`: manual ingredient contribution.
+- `pantry_<recipeId>_missing`: grouped deficit created from a pantry recipe match; refreshing that recipe's missing items replaces the same contribution instead of doubling it.
 
 Merged grocery rows are derived in memory. Compatible kg/g and l/ml are canonicalized; all other units require exact identity. Null amounts are not combined numerically with measured amounts. The row key is URL-safe Base64 of ingredient ID, canonical unit and amount/note type.
 
@@ -60,9 +62,22 @@ Merged grocery rows are derived in memory. Compatible kg/g and l/ml are canonica
 
 Week sync removes outdated imported sources only for that selected week. It leaves manual sources, direct recipe sources and other weeks unchanged. Unavailable recipes block a sync instead of silently dropping their contribution.
 
+
+## Pantry items
+
+`users/{uid}/pantryItems/{itemId}` contains `{ingredientId, name, quantity, unit, lowStockThreshold, expiryDate, note, updatedAt}`.
+
+`ingredientId` is the important link to recipe ingredients. The add/edit UI can select a known recipe ingredient so `rice` in the pantry matches `rice` in recipes. Custom names are normalized into an ID, but similarly spelled custom IDs are not guessed to be equivalent.
+
+`quantity` is nonnegative. Supported units are `pcs`, `g`, `kg`, `ml`, `l`, `tsp`, `tbsp`, and `cup`. A null low-stock threshold disables low-stock status. `expiryDate` is null or a local-calendar `YYYY-MM-DD` value; expiry is informational and does not delete stock automatically. `updatedAt` is a client-supplied epoch-millisecond value, not trusted audit evidence.
+
+Recipe matching scales the recipe to its requested servings, aggregates pantry entries with the same ingredient ID, and converts only kg/g and l/ml. It never guesses mass/volume conversions such as cups to grams. Nonnumeric recipe amounts such as “salt to taste” do not block readiness because stock sufficiency cannot be calculated precisely.
+
+A missing-ingredient grocery action writes only the measurable deficit in canonical units. It does not deduct the pantry after cooking and it does not mutate the recipe.
+
 ## Rule validation boundary
 
-Rules enforce UID ownership, allowed top-level fields, bounded names/IDs, serving ranges, timestamp types, published references for favorites/meal plans, and grocery ingredient list size 1-80. **Rules do not iterate and fully validate every nested grocery ingredient record.** Client deserialization/seed tooling validate nested content, but are not a substitute for server validation. A modified authenticated client can write malformed nested data within its own grocery documents, not another user's documents. It can disrupt its own view until the data is repaired.
+Rules enforce UID ownership, allowed top-level fields, bounded names/IDs, serving ranges, timestamp types, published references for favorites/meal plans, pantry field/unit/quantity bounds, and grocery ingredient list size 1-80. **Rules do not iterate and fully validate every nested grocery ingredient record.** Client deserialization/seed tooling validate nested content, but are not a substitute for server validation. A modified authenticated client can write malformed nested data within its own grocery documents, not another user's documents. It can disrupt its own view until the data is repaired.
 
 Before supporting shared lists, public submissions or privileged server processing, add stronger nested validation or a trusted write API. Do not describe this as a complete untrusted-input validation backend.
 

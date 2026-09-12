@@ -24,6 +24,19 @@ Do not merge by display name alone. `flour/g` and `flour/cup` remain different r
 
 Edit the contribution rather than directly editing an aggregated row. Changes reset the purchase checkmarks of affected ingredients. Manual contributions can be edited/deleted. Removing one recipe preserves the amounts contributed by other recipes.
 
+
+## My Pantry
+
+Pantry is private, user-scoped inventory. Users can add or edit an ingredient, stored quantity and unit, an optional low-stock threshold, an optional expiry date, and a short note. Matching an entry to a known recipe ingredient ID is recommended because readiness compares IDs rather than fuzzy display-name similarity.
+
+The All, Low stock, and Expiring filters operate on saved pantry data. “Expiring soon” means an expiry date from today through the next seven calendar days. Already expired items remain visible in All and are labeled expired; they are not silently removed.
+
+Recipe suggestions rank the loaded catalogue by the percentage of measurable ingredients available at the recipe's base serving count, breaking ties by total recipe time. Statuses are Can make now, Almost ready, Missing some, and Needs a shop. kg/g and l/ml convert; incompatible units stay missing. Multiple pantry entries for the same ingredient ID and compatible unit are summed.
+
+“Add missing to groceries” calculates each measurable deficit and stores it as one grouped grocery contribution with the stable ID `pantry_<recipeId>_missing`. Repeating the action updates that contribution instead of doubling it. Grouped pantry contributions can be removed from Groceries; edit them by refreshing from Pantry rather than editing one aggregated ingredient as though it were a single manual item.
+
+Pantry does not currently deduct ingredients after cooking, scan barcodes, infer aliases such as `onions` = `onion`, or send expiry/low-stock notifications. Those are explicit later extensions.
+
 ## Planner
 
 Each calendar day has four slots. Selecting an occupied slot prompts before replacing another recipe. Servings can be changed. Previous/next week navigation uses calendar arithmetic rather than UTC-hour offsets.
@@ -42,4 +55,4 @@ The app includes catalogue loading/empty/error states, empty favorites and groce
 
 ## Not included
 
-No admin dashboard, image upload, nutrition calculation, ratings/reviews, multi-user shared grocery lists, AI generator, push notification service, account-deletion cascade or production monitoring. A recipe catalogue larger than a small app needs a new backend query/pagination/search design.
+No admin dashboard, image upload, nutrition calculation, ratings/reviews, multi-user shared grocery lists, AI generator, push notification service, barcode scanning, automatic pantry deduction, account-deletion cascade or production monitoring. A recipe catalogue larger than a small app needs a new backend query/pagination/search design.
