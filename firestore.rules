@@ -1,24 +1,88 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function owns(uid) { return request.auth != null && request.auth.uid == uid; }
+    function signedIn() { return request.auth != null; }
+    function owns(uid) { return signedIn() && request.auth.uid == uid; }
+    function accountPath(uid) { return /databases/$(database)/documents/accounts/$(uid); }
+    function hasAccount() { return signedIn() && exists(accountPath(request.auth.uid)); }
+    function myAccount() { return get(accountPath(request.auth.uid)).data; }
+    function active() { return hasAccount() && myAccount().status == 'active'; }
+    function isAdmin() { return active() && myAccount().role == 'admin'; }
+    function isCook() { return active() && myAccount().role == 'cook'; }
+    function isStaff() { return isAdmin() || isCook(); }
+    function ownerActive(uid) { return owns(uid) && (!exists(accountPath(uid)) || active()); }
     function shortText(value, max) { return value is string && value.size() > 0 && value.size() <= max; }
     function validTimestamp(value) { return value is int && value >= 0; }
+
     function published(recipeId) {
       return exists(/databases/$(database)/documents/recipes/$(recipeId))
         && get(/databases/$(database)/documents/recipes/$(recipeId)).data.isPublished == true;
     }
+
+    function validAccount(data) {
+      return data.keys().hasAll(['displayName', 'photoUrl', 'role', 'status', 'createdAt', 'updatedAt'])
+        && data.keys().hasOnly(['displayName', 'photoUrl', 'role', 'status', 'createdAt', 'updatedAt'])
+        && shortText(data.displayName, 60)
+        && data.photoUrl is string && data.photoUrl.size() <= 1200
+        && data.role in ['admin', 'cook', 'visitor']
+        && data.status in ['active', 'blocked']
+        && validTimestamp(data.createdAt) && validTimestamp(data.updatedAt);
+    }
+
     function validProfile(data) {
       return data.keys().hasAll(['displayName', 'bio', 'updatedAt'])
         && data.keys().hasOnly(['displayName', 'bio', 'updatedAt'])
         && shortText(data.displayName, 60) && data.displayName.size() >= 2
         && data.bio is string && data.bio.size() <= 240 && validTimestamp(data.updatedAt);
     }
+
+    function validRecipe(data) {
+      return data.keys().hasAll([
+          'title', 'description', 'categoryId', 'prepMinutes', 'cookMinutes', 'baseServings',
+          'ingredients', 'steps', 'imageAsset', 'imageUrl', 'difficulty', 'vegetarian',
+          'featured', 'isPublished', 'tags', 'createdByUid', 'cookName', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'title', 'description', 'categoryId', 'prepMinutes', 'cookMinutes', 'baseServings',
+          'ingredients', 'steps', 'imageAsset', 'imageUrl', 'difficulty', 'vegetarian',
+          'featured', 'isPublished', 'tags', 'createdByUid', 'cookName', 'createdAt', 'updatedAt'
+        ])
+        && shortText(data.title, 120)
+        && shortText(data.description, 1000)
+        && shortText(data.categoryId, 80)
+        && data.prepMinutes is int && data.prepMinutes >= 0 && data.prepMinutes <= 1440
+        && data.cookMinutes is int && data.cookMinutes >= 0 && data.cookMinutes <= 1440
+        && data.baseServings is int && data.baseServings >= 1 && data.baseServings <= 12
+        && data.ingredients is list && data.ingredients.size() > 0 && data.ingredients.size() <= 80
+        && data.steps is list && data.steps.size() > 0 && data.steps.size() <= 80
+        && data.imageAsset is string && data.imageAsset.size() <= 300
+        && data.imageUrl is string && data.imageUrl.size() <= 1200
+        && data.difficulty in ['Easy', 'Medium', 'Hard']
+        && data.vegetarian is bool && data.featured is bool && data.isPublished is bool
+        && data.tags is list && data.tags.size() <= 30
+        && shortText(data.createdByUid, 128)
+        && shortText(data.cookName, 60)
+        && validTimestamp(data.createdAt) && validTimestamp(data.updatedAt);
+    }
+
+
+    function validCookApplication(data, uid) {
+      return data.keys().hasAll(['uid', 'requesterName', 'message', 'status', 'createdAt', 'reviewedAt'])
+        && data.keys().hasOnly(['uid', 'requesterName', 'message', 'status', 'createdAt', 'reviewedAt'])
+        && data.uid == uid
+        && data.requesterName == myAccount().displayName
+        && data.message is string && data.message.size() <= 400
+        && data.status == 'pending'
+        && validTimestamp(data.createdAt)
+        && data.reviewedAt == null;
+    }
+
     function validFavorite(data, recipeId) {
       return data.keys().hasAll(['recipeId', 'savedAt'])
         && data.keys().hasOnly(['recipeId', 'savedAt'])
         && data.recipeId == recipeId && validTimestamp(data.savedAt) && published(recipeId);
     }
+
     function validMeal(data, entryId) {
       return data.keys().hasAll(['date', 'slot', 'recipeId', 'recipeTitle', 'servings', 'updatedAt'])
         && data.keys().hasOnly(['date', 'slot', 'recipeId', 'recipeTitle', 'servings', 'updatedAt'])
@@ -29,10 +93,8 @@ service cloud.firestore {
         && data.servings is int && data.servings >= 1 && data.servings <= 12
         && validTimestamp(data.updatedAt) && published(data.recipeId);
     }
+
     function validSource(data, sourceId) {
-      // Nested ingredient records are validated by the client/seed validator.
-      // This rule validates ownership and the contribution envelope. The
-      // client also handles malformed private records as a recoverable error.
       return sourceId.size() <= 160 && sourceId.matches('[A-Za-z0-9_-]+')
         && data.keys().hasAll(['title', 'recipeId', 'servings', 'updatedAt', 'ingredients'])
         && data.keys().hasOnly(['title', 'recipeId', 'servings', 'updatedAt', 'ingredients'])
@@ -42,6 +104,7 @@ service cloud.firestore {
         && validTimestamp(data.updatedAt)
         && data.ingredients is list && data.ingredients.size() > 0 && data.ingredients.size() <= 80;
     }
+
     function validPantryItem(data, itemId) {
       return itemId.size() <= 120 && itemId.matches('[A-Za-z0-9_-]+')
         && data.keys().hasAll(['ingredientId', 'name', 'quantity', 'unit', 'lowStockThreshold', 'expiryDate', 'note', 'updatedAt'])
@@ -54,42 +117,101 @@ service cloud.firestore {
         && data.note is string && data.note.size() <= 240
         && validTimestamp(data.updatedAt);
     }
+
+    match /accounts/{uid} {
+      allow read: if owns(uid) || isAdmin()
+        || (resource.data.status == 'active' && resource.data.role in ['cook', 'admin']);
+      allow create: if owns(uid)
+        && validAccount(request.resource.data)
+        && request.resource.data.role == 'visitor'
+        && request.resource.data.status == 'active';
+      allow update: if ownerActive(uid)
+        && validAccount(request.resource.data)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['displayName', 'photoUrl', 'updatedAt']);
+      allow delete: if false;
+    }
+
     match /categories/{categoryId} {
       allow read: if true;
       allow write: if false;
     }
+
     match /recipes/{recipeId} {
-      allow read: if resource.data.isPublished == true;
-      allow write: if false;
+      allow read: if resource.data.isPublished == true || isStaff();
+      allow create: if isStaff() && validRecipe(request.resource.data)
+        && request.resource.data.createdByUid == request.auth.uid
+        && request.resource.data.cookName == myAccount().displayName;
+      allow update: if isStaff() && validRecipe(request.resource.data);
+      allow delete: if isStaff();
     }
+
+    match /cookApplications/{uid} {
+      allow read: if owns(uid) || isAdmin();
+      allow create: if ownerActive(uid) && myAccount().role == 'visitor'
+        && validCookApplication(request.resource.data, uid);
+      allow update: if ownerActive(uid) && myAccount().role == 'visitor'
+        && resource.data.status != 'pending'
+        && validCookApplication(request.resource.data, uid);
+      allow delete: if false;
+    }
+
+    match /recipeRequests/{requestId} {
+      allow read: if isStaff() || (signedIn() && resource.data.requesterUid == request.auth.uid);
+      allow create: if active()
+        && request.resource.data.keys().hasAll([
+          'requesterUid', 'requesterName', 'requesterRole', 'title', 'details',
+          'status', 'createdAt', 'fulfilledRecipeId'
+        ])
+        && request.resource.data.keys().hasOnly([
+          'requesterUid', 'requesterName', 'requesterRole', 'title', 'details',
+          'status', 'createdAt', 'fulfilledRecipeId'
+        ])
+        && request.resource.data.requesterUid == request.auth.uid
+        && request.resource.data.requesterName == myAccount().displayName
+        && request.resource.data.requesterRole == myAccount().role
+        && shortText(request.resource.data.title, 120)
+        && request.resource.data.details is string && request.resource.data.details.size() <= 600
+        && request.resource.data.status == 'pending'
+        && request.resource.data.fulfilledRecipeId == ''
+        && validTimestamp(request.resource.data.createdAt);
+      allow update: if isStaff()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'fulfilledRecipeId', 'updatedAt'])
+        && request.resource.data.status in ['pending', 'accepted', 'rejected', 'fulfilled']
+        && request.resource.data.fulfilledRecipeId is string && request.resource.data.fulfilledRecipeId.size() <= 128
+        && validTimestamp(request.resource.data.updatedAt);
+      allow delete: if signedIn() && resource.data.requesterUid == request.auth.uid && resource.data.status == 'pending';
+    }
+
     match /users/{uid} {
-      allow read: if owns(uid);
-      allow create, update: if owns(uid) && validProfile(request.resource.data);
+      allow read: if owns(uid) || isAdmin();
+      allow create, update: if ownerActive(uid) && validProfile(request.resource.data);
       allow delete: if owns(uid);
+
       match /favorites/{recipeId} {
-        allow read, delete: if owns(uid);
-        allow create, update: if owns(uid) && validFavorite(request.resource.data, recipeId);
+        allow read, delete: if ownerActive(uid);
+        allow create, update: if ownerActive(uid) && validFavorite(request.resource.data, recipeId);
       }
       match /mealPlans/{entryId} {
-        allow read, delete: if owns(uid);
-        allow create, update: if owns(uid) && validMeal(request.resource.data, entryId);
+        allow read, delete: if ownerActive(uid);
+        allow create, update: if ownerActive(uid) && validMeal(request.resource.data, entryId);
       }
       match /grocerySources/{sourceId} {
-        allow read, delete: if owns(uid);
-        allow create, update: if owns(uid) && validSource(request.resource.data, sourceId);
+        allow read, delete: if ownerActive(uid);
+        allow create, update: if ownerActive(uid) && validSource(request.resource.data, sourceId);
       }
       match /groceryChecks/{key} {
-        allow read, delete: if owns(uid);
-        allow create, update: if owns(uid) && key.size() <= 200
+        allow read, delete: if ownerActive(uid);
+        allow create, update: if ownerActive(uid) && key.size() <= 200
           && request.resource.data.keys().hasOnly(['checked'])
           && request.resource.data.keys().hasAll(['checked'])
           && request.resource.data.checked is bool;
       }
       match /pantryItems/{itemId} {
-        allow read, delete: if owns(uid);
-        allow create, update: if owns(uid) && validPantryItem(request.resource.data, itemId);
+        allow read, delete: if ownerActive(uid);
+        allow create, update: if ownerActive(uid) && validPantryItem(request.resource.data, itemId);
       }
     }
+
     match /{document=**} { allow read, write: if false; }
   }
 }
