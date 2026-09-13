@@ -1,10 +1,14 @@
 # Database schema
 
-Cloud collections are below. In demo mode the same private paths are stored in a local JSON document store. Demo mode is not a secure multi-user backend.
+Production roles and shared workflow data live in top-level Firestore collections. Personal recipe-app data remains under each Firebase Authentication UID.
 
 ```text
+accounts/{uid}
 categories/{categoryId}
 recipes/{recipeId}
+cookApplications/{uid}
+recipeRequests/{requestId}
+
 users/{uid}
 users/{uid}/favorites/{recipeId}
 users/{uid}/mealPlans/{YYYY-MM-DD_slot}
@@ -13,79 +17,117 @@ users/{uid}/groceryChecks/{encodedIngredientKey}
 users/{uid}/pantryItems/{itemId}
 ```
 
+## Accounts and roles
+
+`accounts/{uid}` contains:
+
+```text
+displayName: string
+photoUrl: string
+role: admin | cook | visitor
+status: active | blocked
+createdAt: epoch milliseconds
+updatedAt: epoch milliseconds
+```
+
+Normal registrations create `visitor`. The trusted Admin bootstrap can assign `admin`; Admin approval can assign `cook`. A normal client may update only its own display name/photo URL, never its role or status.
+
+Active Cook/Admin account summaries are publicly readable so the Cooks directory can be viewed by Visitors/guests. Visitor account records are not public. Admin's callable backend lists Firebase Authentication users and combines those records with this collection.
+
+## Private profile
+
+`users/{uid}` contains only `displayName`, `bio`, and `updatedAt`. Authentication email/password are managed by Firebase Authentication, not copied into this profile. Passwords cannot be read back by the app or Admin UI.
+
 ## Categories
 
-`id` (implied by document ID) and `name`. All users may read categories; mobile/web clients cannot write them.
+Category documents contain a display name. They are publicly readable and not client-writable.
 
 ## Recipes
 
-Fields: `title`, `description`, `categoryId`, `prepMinutes`, `cookMinutes`, `baseServings`, `imageAsset`, optional `imageUrl`, `difficulty`, `vegetarian`, `featured`, `isPublished`, `tags`, `ingredients`, `steps`.
+Every recipe includes the existing recipe fields plus ownership/attribution:
 
-A bundled seed record includes `id`; the trusted seeder stores the ID as the document key. The Firestore repository always uses the document ID as the model ID.
+```text
+title, description, categoryId
+prepMinutes, cookMinutes, baseServings
+ingredients[], steps[]
+imageAsset, imageUrl
+difficulty, vegetarian, featured, isPublished, tags[]
+createdByUid
+cookName
+createdAt
+updatedAt
+```
 
-An ingredient is `{id, name, quantity, unit, note}`. `quantity` is a positive number or null for nonnumeric amounts such as salt to taste. Seed units are a deliberately small explicit vocabulary. A step is `{title, instruction, timerSeconds}`; zero means no suggested timer.
+Guests/Visitors can read only published recipes. Active Cooks and Admins can read drafts and can add, edit, publish/unpublish, and delete recipes. New recipes must attribute `createdByUid` and `cookName` to the signed-in Cook/Admin. Existing seed recipes are attributed to `system` / `Liza's Kitchen`.
 
-Recipe times are not scaled with servings. This project contains no rating/review records or verified nutrition fields. Optional remote image URLs must use HTTPS in the seed validator; bundled images are used by default.
+The UI displays `Cook: <name>` on recipe cards/details and management screens.
 
-Public recipe reads require `isPublished == true`. Queries include this exact restriction. Client writes to the catalogue are denied regardless of authentication; publishing is via trusted tooling.
+## Become Cook applications
 
-## Profile
+`cookApplications/{uid}` contains:
 
-`users/{uid}` contains only `displayName`, `bio`, `updatedAt`. Name length is 2-60; bio is at most 240 characters. `updatedAt` is a client-supplied epoch-millisecond integer, not a trusted audit timestamp. Authentication identity/email are held by Firebase Authentication, not copied into this profile record. Missing profiles display the authentication name/default until edited.
+```text
+uid
+requesterName
+message
+status: pending | approved | rejected
+createdAt
+reviewedAt
+```
 
-There is no client-writable administrator/role field. The rule denies extra fields. Profile deletion does not cascade to subcollections and is not an implemented account deletion workflow.
+Only an active Visitor can create their own pending application. The owner and Admin can read it. Approval/rejection is performed through the trusted Admin callable function; approval updates `accounts/{uid}.role` to `cook`.
+
+## Recipe requests
+
+`recipeRequests/{requestId}` contains:
+
+```text
+requesterUid
+requesterName
+requesterRole
+title
+details
+status: pending | accepted | rejected | fulfilled
+createdAt
+fulfilledRecipeId
+updatedAt (after a staff action)
+```
+
+Any active registered role may create a request for itself. The requester can read their own requests. Active Cook/Admin users can read all requests and update workflow status. The Manage Recipes screen can use a pending/accepted request to prefill a new recipe and mark it fulfilled.
 
 ## Favorites
 
-`{recipeId, savedAt}`. The document ID equals the recipe ID, preventing duplicate favorites. A new favorite must reference a published recipe. Own deletes remain allowed when a recipe has become unavailable.
+`users/{uid}/favorites/{recipeId}` stores `{recipeId, savedAt}`. It is private to the active owner and new favorites must reference a published recipe.
 
 ## Meal plans
 
-`{date, slot, recipeId, recipeTitle, servings, updatedAt}`. Dates are local-calendar `YYYY-MM-DD` strings rather than UTC instants. Slots are breakfast/lunch/dinner/snack; servings are integer 1-12. The ID is `date_slot`, so saving a slot replaces that slot rather than silently creating duplicates.
+`users/{uid}/mealPlans/{YYYY-MM-DD_slot}` stores `{date, slot, recipeId, recipeTitle, servings, updatedAt}`. Slots are breakfast/lunch/dinner/snack and servings are 1-12.
 
-The title is a display snapshot. Current recipe data is read from the published catalogue. Rule date checks enforce shape/ranges, not every real calendar combination; the client date parser performs calendar validation. Client timestamps are not audit evidence.
+## Grocery data
 
-## Grocery contributions
+`grocerySources` stores ingredient contributions from manual entry, recipes, plans, and pantry deficits. `groceryChecks` stores checked state. Both are private to the active owner.
 
-`{title, recipeId, servings, updatedAt, ingredients}`. `recipeId` is null for a manual contribution. Ingredient quantities here already reflect the contribution's servings.
+## Pantry
 
-IDs have these meanings:
+`users/{uid}/pantryItems/{itemId}` stores `{ingredientId, name, quantity, unit, lowStockThreshold, expiryDate, note, updatedAt}`. Supported units are `pcs`, `g`, `kg`, `ml`, `l`, `tsp`, `tbsp`, and `cup`.
 
-- `recipe_<id>`: added directly from recipe details; re-adding updates instead of doubling.
-- `plan_<date>_<slot>`: imported from a meal-plan slot; repeated week sync replaces the same source.
-- `manual-<uuid>`: manual ingredient contribution.
-- `pantry_<recipeId>_missing`: grouped deficit created from a pantry recipe match; refreshing that recipe's missing items replaces the same contribution instead of doubling it.
+Recipe matching scales requested servings, aggregates pantry entries by ingredient ID, converts kg/g and l/ml where safe, and calculates measurable deficits for grocery handoff.
 
-Merged grocery rows are derived in memory. Compatible kg/g and l/ml are canonicalized; all other units require exact identity. Null amounts are not combined numerically with measured amounts. The row key is URL-safe Base64 of ingredient ID, canonical unit and amount/note type.
+## Blocking
 
-`groceryChecks` contains `{checked: true}`; unchecking deletes that key. Updating/removing a source deletes the checkmarks for affected ingredients. The source update/removal and checkmark resets are in the same batch.
+Blocking is represented in two places:
 
-Week sync removes outdated imported sources only for that selected week. It leaves manual sources, direct recipe sources and other weeks unchanged. Unavailable recipes block a sync instead of silently dropping their contribution.
+1. Firebase Authentication user is set `disabled=true` by a callable Cloud Function.
+2. `accounts/{uid}.status` becomes `blocked`.
 
+Firestore rules immediately deny that user's owner-scoped writes/reads even if an older Auth token remains temporarily valid. Blocking also revokes refresh tokens.
 
-## Pantry items
+## Trusted versus direct-client writes
 
-`users/{uid}/pantryItems/{itemId}` contains `{ingredientId, name, quantity, unit, lowStockThreshold, expiryDate, note, updatedAt}`.
+Direct Flutter writes are governed by `firestore.rules`. Privileged Authentication operations (list users, create another user, delete another user, block/unblock, change roles, approve Cook requests) run only in `functions/index.js` with Firebase Admin SDK after re-checking the caller's Admin role.
 
-`ingredientId` is the important link to recipe ingredients. The add/edit UI can select a known recipe ingredient so `rice` in the pantry matches `rice` in recipes. Custom names are normalized into an ID, but similarly spelled custom IDs are not guessed to be equivalent.
+The one-time `firebase/admin/bootstrap_admin.mjs` script is also trusted tooling and must be run only with protected Application Default Credentials/service-account credentials.
 
-`quantity` is nonnegative. Supported units are `pcs`, `g`, `kg`, `ml`, `l`, `tsp`, `tbsp`, and `cup`. A null low-stock threshold disables low-stock status. `expiryDate` is null or a local-calendar `YYYY-MM-DD` value; expiry is informational and does not delete stock automatically. `updatedAt` is a client-supplied epoch-millisecond value, not trusted audit evidence.
+## Device-local legacy keys
 
-Recipe matching scales the recipe to its requested servings, aggregates pantry entries with the same ingredient ID, and converts only kg/g and l/ml. It never guesses mass/volume conversions such as cups to grams. Nonnumeric recipe amounts such as “salt to taste” do not block readiness because stock sufficiency cannot be calculated precisely.
-
-A missing-ingredient grocery action writes only the measurable deficit in canonical units. It does not deduct the pantry after cooking and it does not mutate the recipe.
-
-## Rule validation boundary
-
-Rules enforce UID ownership, allowed top-level fields, bounded names/IDs, serving ranges, timestamp types, published references for favorites/meal plans, pantry field/unit/quantity bounds, and grocery ingredient list size 1-80. **Rules do not iterate and fully validate every nested grocery ingredient record.** Client deserialization/seed tooling validate nested content, but are not a substitute for server validation. A modified authenticated client can write malformed nested data within its own grocery documents, not another user's documents. It can disrupt its own view until the data is repaired.
-
-Before supporting shared lists, public submissions or privileged server processing, add stronger nested validation or a trusted write API. Do not describe this as a complete untrusted-input validation backend.
-
-## Device-local records
-
-- `savor.demo.session`: whether the explicitly labeled demo workspace is active.
-- `savor.documents.v1`: local demo document JSON.
-- `savor.theme`: theme choice.
-- `savor.cooking.<scope>.<recipeId>`: index, servings, completed and timer state.
-
-These preferences are not an encrypted vault. Signing out clears visible account state but does not erase all device storage. No password is stored in these preferences. Firebase SDK authentication persistence is managed by that SDK.
+The `savor.*` keys still present in source are intentional migration fallbacks from the old branding. Current Liza's Kitchen keys are used for new writes; the old keys remain readable so existing local demo/theme/cooking data is not lost after the rename.
