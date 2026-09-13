@@ -13,6 +13,7 @@ String userMessage(Object error) {
       'invalid-credential' || 'user-not-found' || 'wrong-password' =>
         'The email or password is incorrect.',
       'email-already-in-use' => 'An account already uses this email.',
+      'user-disabled' => 'This account has been blocked by an administrator.',
       'invalid-email' => 'Enter a valid email address.',
       'weak-password' => 'Use a stronger password with at least 8 characters.',
       'network-request-failed' || 'unavailable' =>
@@ -20,7 +21,7 @@ String userMessage(Object error) {
       'too-many-requests' => 'Too many attempts. Please try again later.',
       'requires-recent-login' =>
         'For security, sign out and sign in again before changing your email.',
-      'permission-denied' => 'You do not have access. Check your sign-in and Firebase rules.',
+      'permission-denied' => 'You do not have access. Confirm your account role and deploy the current Firestore rules.',
       'operation-not-allowed' => 'Enable Email/Password sign-in in Firebase Authentication.',
       'unauthorized-domain' =>
         'This web address is not authorized for Firebase Authentication. Add localhost in Firebase Authentication > Settings > Authorized domains.',

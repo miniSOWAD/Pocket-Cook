@@ -2,7 +2,7 @@
 
 ## Design
 
-Savor uses feature-based Flutter code with Provider/ChangeNotifier presentation state. Widgets render state and forward actions. Repositories own persistence. Pure calculation classes own serving arithmetic, grocery merging, pantry matching and timer deadline logic.
+Liza's Kitchen uses feature-based Flutter code with Provider/ChangeNotifier presentation state. Widgets render state and forward actions. Repositories own persistence. Pure calculation classes own serving arithmetic, grocery merging, pantry matching and timer deadline logic.
 
 ```text
 Screen / widget
@@ -35,7 +35,7 @@ The catalogue and authentication have distinct local/Firebase repositories becau
 
 `UserScopedNotifier` observes the authentication provider. A UID change cancels old subscriptions, increments a generation number, clears private state synchronously and binds the new user's streams. Late stream callbacks and operation results are ignored when their generation is stale.
 
-`SavorApp` replaces its Navigator key when leaving/replacing an authenticated session. This disposes old profile forms, grocery/pantry modals and other route-local snapshots. Guest-to-authenticated navigation is kept so a pending Save action can return to its recipe.
+`LizasKitchenApp` replaces its Navigator key when leaving/replacing an authenticated session. This disposes old profile forms, grocery/pantry modals and other route-local snapshots. Guest-to-authenticated navigation is kept so a pending Save action can return to its recipe.
 
 UI guards only handle navigation and prompts. Firestore rules enforce backend ownership; hiding a button is not authorization.
 

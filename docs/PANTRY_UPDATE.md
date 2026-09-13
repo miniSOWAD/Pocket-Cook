@@ -1,6 +1,6 @@
 # Pantry feature update
 
-This update adds the **My Pantry / My Kitchen** feature to Savor.
+This update adds the **My Pantry / My Kitchen** feature to Liza's Kitchen.
 
 ## Included
 
