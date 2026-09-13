@@ -4,6 +4,8 @@ import '../../../../app/router/app_routes.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/utils/input_validators.dart';
 import '../../../../core/widgets/common.dart';
+import '../../../accounts/models/app_role.dart';
+import '../../../accounts/presentation/providers/account_provider.dart';
 import '../../../auth/models/auth_user.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
 import '../../../auth/presentation/widgets/sign_in_prompt.dart';
@@ -185,6 +187,12 @@ class _EditableProfileState extends State<_EditableProfile> {
       return;
     }
 
+    final identitySynced = await context.read<AccountProvider>().syncIdentity();
+    if (!mounted) return;
+    if (!identitySynced) {
+      showMessage(context, 'Your profile was saved, but the public Cook identity could not be refreshed yet.');
+    }
+
     if (emailChanged) {
       final requested = await auth.requestEmailChange(requestedEmail);
       if (!mounted) return;
@@ -218,6 +226,7 @@ class _EditableProfileState extends State<_EditableProfile> {
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
     final profile = context.watch<ProfileProvider>();
+    final accountProvider = context.watch<AccountProvider>();
     final scheme = Theme.of(context).colorScheme;
     final busy = auth.busy || profile.busy;
 
@@ -226,6 +235,7 @@ class _EditableProfileState extends State<_EditableProfile> {
       children: [
         ErrorNotice(profile.errorMessage, onRetry: profile.retry),
         ErrorNotice(auth.errorMessage),
+        ErrorNotice(accountProvider.errorMessage, onRetry: accountProvider.retry),
         Container(
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
@@ -266,6 +276,24 @@ class _EditableProfileState extends State<_EditableProfile> {
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: scheme.onSurfaceVariant,
                         ),
+                  ),
+                  const SizedBox(height: 10),
+                  Consumer<AccountProvider>(
+                    builder: (context, account, child) => Chip(
+                      avatar: Icon(
+                        account.isAdmin
+                            ? Icons.admin_panel_settings_outlined
+                            : account.isCook
+                                ? Icons.restaurant_menu_rounded
+                                : account.isVisitor
+                                    ? Icons.person_outline_rounded
+                                    : account.loading
+                                        ? Icons.hourglass_top_rounded
+                                        : Icons.warning_amber_rounded,
+                        size: 16,
+                      ),
+                      label: Text(account.roleLabel),
+                    ),
                   ),
                   const SizedBox(height: 12),
                   Text(

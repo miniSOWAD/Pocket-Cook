@@ -1,11 +1,11 @@
 {
-    "name": "Savor",
-    "short_name": "Savor",
+    "name": "Liza's Kitchen",
+    "short_name": "Liza's Kitchen",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#FFF9F4",
+    "theme_color": "#F3BAC8",
+    "description": "Recipes, cooks, pantry, meal planning, and a little everyday kitchen magic.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

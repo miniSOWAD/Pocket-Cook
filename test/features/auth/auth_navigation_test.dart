@@ -5,6 +5,10 @@ import 'package:recipe_app/app/app_providers.dart';
 import 'package:recipe_app/app/dependencies.dart';
 import 'package:recipe_app/core/storage/key_value_store.dart';
 import 'package:recipe_app/core/storage/local_document_store.dart';
+import 'package:recipe_app/features/accounts/data/local_account_repository.dart';
+import 'package:recipe_app/features/admin/data/demo_admin_repository.dart';
+import 'package:recipe_app/features/recipe_management/data/local_recipe_management_repository.dart';
+import 'package:recipe_app/features/requests/data/local_request_repository.dart';
 
 import '../../fakes/fake_auth_repository.dart';
 import '../../fakes/fake_recipe_repository.dart';
@@ -18,6 +22,10 @@ void main() {
       recipes: FakeRecipeRepository(const []),
       documents: documents,
       local: storage,
+      accounts: LocalAccountRepository(documents),
+      admin: const DemoAdminRepository(),
+      requests: LocalRequestRepository(documents),
+      recipeManagement: const LocalRecipeManagementRepository(),
     );
     await tester.pumpWidget(
       AppProviders(

@@ -34,6 +34,14 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
             ClipRRect(borderRadius: BorderRadius.circular(26), child: AspectRatio(aspectRatio: 1.65, child: RecipeImage(recipe: recipe))),
             const SizedBox(height: 25), Eyebrow(recipe.categoryId), const SizedBox(height: 10),
             Text(recipe.title, style: Theme.of(context).textTheme.headlineMedium),
+            const SizedBox(height: 8),
+            Text(
+              'Cook: ${recipe.cookName}',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
             const SizedBox(height: 12), Text(recipe.description, style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: 18), Wrap(spacing: 10, runSpacing: 8, children: [
               Chip(avatar: const Icon(Icons.schedule_rounded, size: 17), label: Text('${recipe.totalMinutes} min total')),

@@ -13,7 +13,7 @@ void replaceInFile(String path, String Function(String content) update) {
 void main() {
   if (!File('pubspec.yaml').existsSync()) throw StateError('Run this script from the project root.');
   replaceInFile('android/app/src/main/AndroidManifest.xml', (content) {
-    var result = content.replaceAll('android:label="recipe_app"', 'android:label="Savor"');
+    var result = content.replaceAll('android:label="recipe_app"', 'android:label="Liza\'s Kitchen"');
     if (!result.contains('android.permission.INTERNET')) {
       result = result.replaceFirst(RegExp(r'<application\b'),
           '<uses-permission android:name="android.permission.INTERNET"/>\n    <application');
@@ -33,12 +33,12 @@ void main() {
       RegExp(r"^\s*#?\s*platform :ios, '[0-9.]+'", multiLine: true), "platform :ios, '15.0'"));
   replaceInFile('ios/Runner/Info.plist', (content) => content.replaceFirst(
       RegExp(r'(<key>CFBundleDisplayName</key>\s*<string>)[^<]*(</string>)'),
-      '<key>CFBundleDisplayName</key>\n\t<string>Savor</string>'));
-  replaceInFile('web/manifest.json', (content) => content.replaceAll('"recipe_app"', '"Savor"'));
-  replaceInFile('web/index.html', (content) => content.replaceAll('<title>recipe_app</title>', '<title>Savor</title>'));
+      "<key>CFBundleDisplayName</key>\n\t<string>Liza\'s Kitchen</string>"));
+  replaceInFile('web/manifest.json', (content) => content.replaceAll('"recipe_app"', '"Liza\'s Kitchen"'));
+  replaceInFile('web/index.html', (content) => content.replaceAll('<title>recipe_app</title>', "<title>Liza\'s Kitchen</title>"));
   final generatedTest = File('test/widget_test.dart');
   if (generatedTest.existsSync() && generatedTest.readAsStringSync().contains('Counter increments smoke test')) {
     generatedTest.deleteSync();
   }
-  stdout.writeln('Configured Savor display names, Android internet permission, Android minimum, and iOS 15+.');
+  stdout.writeln("Configured Liza\'s Kitchen display names, Android internet permission, Android minimum, and iOS 15+.");
 }

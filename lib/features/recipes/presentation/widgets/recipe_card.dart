@@ -125,6 +125,15 @@ class RecipeCard extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ),
+                    Text(
+                      'Cook: ${recipe.cookName}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: scheme.primary,
+                            fontWeight: FontWeight.w700,
+                          ),
+                    ),
                     const SizedBox(height: 9),
                     Row(
                       children: [
