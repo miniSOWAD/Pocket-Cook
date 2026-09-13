@@ -9,9 +9,9 @@ void main() {
     tester.view.physicalSize = const Size(390, 844); tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize); addTearDown(tester.view.resetDevicePixelRatio);
     final dependencies = AppDependencies.demo(MemoryKeyValueStore());
-    await tester.pumpWidget(AppProviders(dependencies: dependencies, child: const SavorApp()));
+    await tester.pumpWidget(AppProviders(dependencies: dependencies, child: const LizasKitchenApp()));
     await tester.pumpAndSettle();
-    expect(find.text('Savor'), findsOneWidget); expect(find.text('LOCAL DEMO'), findsOneWidget);
+    expect(find.text("Liza's Kitchen"), findsOneWidget); expect(find.text('LOCAL DEMO'), findsOneWidget);
     expect(find.byType(NavigationBar), findsOneWidget); expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink()); await dependencies.dispose();
   });
@@ -20,16 +20,16 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize); addTearDown(tester.view.resetDevicePixelRatio);
     final storage = MemoryKeyValueStore(); await storage.write('savor.theme', 'dark');
     final dependencies = AppDependencies.demo(storage);
-    await tester.pumpWidget(AppProviders(dependencies: dependencies, child: const SavorApp()));
+    await tester.pumpWidget(AppProviders(dependencies: dependencies, child: const LizasKitchenApp()));
     await tester.pumpAndSettle();
     expect(find.byType(NavigationRail), findsOneWidget);
-    expect(Theme.of(tester.element(find.text('Savor'))).brightness, Brightness.dark);
+    expect(Theme.of(tester.element(find.text("Liza's Kitchen"))).brightness, Brightness.dark);
     expect(tester.takeException(), isNull);
     await tester.pumpWidget(const SizedBox.shrink()); await dependencies.dispose();
   });
   testWidgets('saved page prompts guests rather than exposing a workspace', (tester) async {
     final dependencies = AppDependencies.demo(MemoryKeyValueStore());
-    await tester.pumpWidget(AppProviders(dependencies: dependencies, child: const SavorApp()));
+    await tester.pumpWidget(AppProviders(dependencies: dependencies, child: const LizasKitchenApp()));
     await tester.pumpAndSettle(); await tester.tap(find.text('Saved')); await tester.pumpAndSettle();
     expect(find.text('Make this kitchen yours'), findsOneWidget);
     expect(find.text('Enter demo workspace'), findsOneWidget);

@@ -50,6 +50,60 @@ class BrandMark extends StatelessWidget {
   }
 }
 
+
+class ProfileAvatar extends StatelessWidget {
+  const ProfileAvatar({
+    super.key,
+    this.photoUrl = '',
+    this.size = 42,
+    this.backgroundColor,
+  });
+
+  final String photoUrl;
+  final double size;
+  final Color? backgroundColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final fallback = Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: backgroundColor ?? scheme.primaryContainer,
+        border: Border.all(color: scheme.primary.withValues(alpha: 0.15)),
+      ),
+      alignment: Alignment.center,
+      child: Icon(
+        Icons.person_rounded,
+        size: size * 0.52,
+        color: scheme.primary,
+      ),
+    );
+
+    final url = photoUrl.trim();
+    if (url.isEmpty) return fallback;
+
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: scheme.primary.withValues(alpha: 0.18), width: 1.5),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Image.network(
+        url,
+        width: size,
+        height: size,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) => fallback,
+      ),
+    );
+  }
+}
+
 class AppButton extends StatelessWidget {
   const AppButton({super.key, required this.label, this.icon, this.onPressed, this.loading = false});
   final String label;

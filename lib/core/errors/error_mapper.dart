@@ -18,8 +18,12 @@ String userMessage(Object error) {
       'network-request-failed' || 'unavailable' =>
         'Check your internet connection and try again.',
       'too-many-requests' => 'Too many attempts. Please try again later.',
+      'requires-recent-login' =>
+        'For security, sign out and sign in again before changing your email.',
       'permission-denied' => 'You do not have access. Check your sign-in and Firebase rules.',
       'operation-not-allowed' => 'Enable Email/Password sign-in in Firebase Authentication.',
+      'unauthorized-domain' =>
+        'This web address is not authorized for Firebase Authentication. Add localhost in Firebase Authentication > Settings > Authorized domains.',
       'failed-precondition' => 'The database needs configuration. Check the setup guide.',
       _ => 'The service could not complete that action. Please try again.',
     };

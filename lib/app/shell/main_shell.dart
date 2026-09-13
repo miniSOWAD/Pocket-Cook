@@ -9,6 +9,9 @@ import '../../features/grocery_list/presentation/screens/grocery_list_screen.dar
 import '../../features/meal_planner/presentation/screens/meal_planner_screen.dart';
 import '../../features/pantry/presentation/screens/pantry_screen.dart';
 import '../../features/recipes/presentation/screens/home_screen.dart';
+import '../router/app_routes.dart';
+
+enum _ProfileMenuAction { profile, favourites, logout }
 
 class MainShell extends StatefulWidget {
   const MainShell({super.key});
@@ -27,6 +30,86 @@ class _MainShellState extends State<MainShell> {
     (label: 'Groceries', icon: Icons.shopping_bag_outlined, selected: Icons.shopping_bag_rounded),
     (label: 'Pantry', icon: Icons.kitchen_outlined, selected: Icons.kitchen_rounded),
   ];
+
+  Future<void> _handleProfileMenu(_ProfileMenuAction action) async {
+    switch (action) {
+      case _ProfileMenuAction.profile:
+        await Navigator.pushNamed(context, AppRoutes.profile);
+        break;
+      case _ProfileMenuAction.favourites:
+        if (mounted) setState(() => _index = 1);
+        break;
+      case _ProfileMenuAction.logout:
+        final auth = context.read<AuthProvider>();
+        final ok = await auth.signOut();
+        if (!mounted) return;
+        if (ok) {
+          setState(() => _index = 0);
+          showMessage(context, 'You have been logged out.');
+        } else {
+          showMessage(context, auth.errorMessage ?? 'Log out failed.');
+        }
+        break;
+    }
+  }
+
+  Widget _accountAction(BuildContext context) {
+    final auth = context.watch<AuthProvider>();
+    final user = auth.user;
+    if (user == null) {
+      return Padding(
+        padding: const EdgeInsets.only(right: 16),
+        child: FilledButton.tonalIcon(
+          onPressed: auth.busy ? null : () => Navigator.pushNamed(context, AppRoutes.login),
+          icon: const Icon(Icons.person_outline_rounded, size: 18),
+          label: const Text('Sign in'),
+        ),
+      );
+    }
+
+    final photoUrl = user.photoUrl;
+
+    return Padding(
+      padding: const EdgeInsets.only(right: 16),
+      child: PopupMenuButton<_ProfileMenuAction>(
+        tooltip: 'Account menu',
+        onSelected: _handleProfileMenu,
+        offset: const Offset(0, 52),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        itemBuilder: (context) => const [
+          PopupMenuItem(
+            value: _ProfileMenuAction.profile,
+            child: ListTile(
+              dense: true,
+              contentPadding: EdgeInsets.zero,
+              leading: Icon(Icons.person_outline_rounded),
+              title: Text('Profile'),
+            ),
+          ),
+          PopupMenuItem(
+            value: _ProfileMenuAction.favourites,
+            child: ListTile(
+              dense: true,
+              contentPadding: EdgeInsets.zero,
+              leading: Icon(Icons.favorite_border_rounded),
+              title: Text('Favourites'),
+            ),
+          ),
+          PopupMenuDivider(),
+          PopupMenuItem(
+            value: _ProfileMenuAction.logout,
+            child: ListTile(
+              dense: true,
+              contentPadding: EdgeInsets.zero,
+              leading: Icon(Icons.logout_rounded),
+              title: Text('Log out'),
+            ),
+          ),
+        ],
+        child: ProfileAvatar(photoUrl: photoUrl, size: 44),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,14 +168,7 @@ class _MainShellState extends State<MainShell> {
                 ),
               ),
             ),
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: IconButton.filledTonal(
-              tooltip: 'Your profile',
-              onPressed: () => Navigator.pushNamed(context, '/profile'),
-              icon: const Icon(Icons.person_outline_rounded),
-            ),
-          ),
+          _accountAction(context),
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),

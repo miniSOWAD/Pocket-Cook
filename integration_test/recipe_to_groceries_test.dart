@@ -13,7 +13,7 @@ void main() {
   testWidgets('browse, save, change servings, and add recipe ingredients', (tester) async {
     final dependencies = AppDependencies.demo(MemoryKeyValueStore());
     await dependencies.auth.enterDemo();
-    await tester.pumpWidget(AppProviders(dependencies: dependencies, child: const SavorApp()));
+    await tester.pumpWidget(AppProviders(dependencies: dependencies, child: const LizasKitchenApp()));
     await tester.pumpAndSettle();
     await tester.tap(find.byType(TextField).first); await tester.pumpAndSettle();
     await tester.enterText(find.byType(TextField).first, 'pasta'); await tester.pumpAndSettle();

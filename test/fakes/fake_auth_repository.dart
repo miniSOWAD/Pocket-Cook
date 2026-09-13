@@ -24,6 +24,28 @@ class FakeAuthRepository implements AuthRepository {
   @override
   Future<void> resetPassword(String email) async {}
   @override
+  Future<void> updateAccountProfile(String displayName, String photoUrl) async {
+    if (_user == null) return;
+    _user = AuthUser(
+      uid: _user!.uid,
+      name: displayName.trim(),
+      email: _user!.email,
+      photoUrl: photoUrl.trim(),
+    );
+    controller.add(_user);
+  }
+  @override
+  Future<void> requestEmailChange(String email) async {
+    if (_user == null) return;
+    _user = AuthUser(
+      uid: _user!.uid,
+      name: _user!.name,
+      email: email.trim(),
+      photoUrl: _user!.photoUrl,
+    );
+    controller.add(_user);
+  }
+  @override
   Future<void> signOut() async { setUser(null); }
   @override
   Future<void> dispose() => controller.close();

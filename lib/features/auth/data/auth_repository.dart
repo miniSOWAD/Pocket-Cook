@@ -1,4 +1,5 @@
 import '../models/auth_user.dart';
+
 abstract interface class AuthRepository {
   bool get isDemo;
   AuthUser? get currentUser;
@@ -7,6 +8,8 @@ abstract interface class AuthRepository {
   Future<void> signIn(String email, String password);
   Future<void> register(String name, String email, String password);
   Future<void> resetPassword(String email);
+  Future<void> updateAccountProfile(String displayName, String photoUrl);
+  Future<void> requestEmailChange(String email);
   Future<void> signOut();
   Future<void> dispose();
 }

@@ -149,7 +149,18 @@ class _AuthFormState extends State<AuthForm> {
     final ok = widget.register
         ? await auth.register(_name.text, _email.text, _password.text)
         : await auth.signIn(_email.text, _password.text);
-    if (mounted && ok) Navigator.pop(context, true);
+    if (!mounted) return;
+    if (ok) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+        AppRoutes.home,
+        (route) => false,
+      );
+      return;
+    }
+    showMessage(
+      context,
+      auth.errorMessage ?? (widget.register ? 'Sign up failed.' : 'Sign in failed.'),
+    );
   }
 
   @override
@@ -272,7 +283,7 @@ class _AuthFormState extends State<AuthForm> {
                 ),
               const SizedBox(height: 12),
               AppButton(
-                label: widget.register ? 'Create my account' : 'Sign in',
+                label: widget.register ? 'Sign up' : 'Sign in',
                 icon: widget.register ? Icons.favorite_outline_rounded : Icons.arrow_forward_rounded,
                 loading: auth.busy,
                 onPressed: _submit,
@@ -284,16 +295,20 @@ class _AuthFormState extends State<AuthForm> {
                     : () async {
                         auth.clearError();
                         if (widget.register) {
-                          Navigator.pop(context, false);
+                          Navigator.pop(context);
                           return;
                         }
-                        final registered = await Navigator.pushNamed<bool>(context, AppRoutes.register);
-                        if (context.mounted && registered == true) Navigator.pop(context, true);
+                        // This router creates MaterialPageRoute<dynamic>. Requesting a
+                        // bool result here makes Flutter Web cast that route to
+                        // Route<bool?> before it can open the sign-up page, which throws.
+                        // Registration already redirects to the home page on success, so
+                        // no typed route result is needed here.
+                        await Navigator.pushNamed(context, AppRoutes.register);
                       },
                 child: Text(
                   widget.register
                       ? 'Already have an account? Sign in'
-                      : 'New to the kitchen? Create an account',
+                      : 'No account? Sign up',
                 ),
               ),
             ],
