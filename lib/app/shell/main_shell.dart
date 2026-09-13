@@ -3,15 +3,28 @@ import 'package:provider/provider.dart';
 import '../../core/config/app_config.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/widgets/common.dart';
+import '../../features/accounts/models/app_role.dart';
+import '../../features/accounts/presentation/providers/account_provider.dart';
+import '../../features/accounts/presentation/screens/cooks_screen.dart';
 import '../../features/auth/presentation/providers/auth_provider.dart';
 import '../../features/favorites/presentation/screens/favorites_screen.dart';
 import '../../features/grocery_list/presentation/screens/grocery_list_screen.dart';
 import '../../features/meal_planner/presentation/screens/meal_planner_screen.dart';
 import '../../features/pantry/presentation/screens/pantry_screen.dart';
 import '../../features/recipes/presentation/screens/home_screen.dart';
+import '../../features/requests/presentation/providers/request_provider.dart';
 import '../router/app_routes.dart';
 
-enum _ProfileMenuAction { profile, favourites, logout }
+enum _ProfileMenuAction {
+  profile,
+  favourites,
+  requestRecipe,
+  becomeCook,
+  manageUsers,
+  cookRequests,
+  manageRecipes,
+  logout,
+}
 
 class MainShell extends StatefulWidget {
   const MainShell({super.key});
@@ -29,7 +42,51 @@ class _MainShellState extends State<MainShell> {
     (label: 'Plan', icon: Icons.calendar_month_outlined, selected: Icons.calendar_month_rounded),
     (label: 'Groceries', icon: Icons.shopping_bag_outlined, selected: Icons.shopping_bag_rounded),
     (label: 'Pantry', icon: Icons.kitchen_outlined, selected: Icons.kitchen_rounded),
+    (label: 'Cooks', icon: Icons.groups_outlined, selected: Icons.groups_rounded),
   ];
+
+  Future<void> _becomeCook() async {
+    final requests = context.read<RequestProvider>();
+    if (requests.cookApplication?.isPending == true) {
+      showMessage(context, 'Your Cook request is already waiting for Admin review.');
+      return;
+    }
+    final controller = TextEditingController();
+    final message = await showDialog<String>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Become a Cook'),
+        content: SizedBox(
+          width: 460,
+          child: TextField(
+            controller: controller,
+            minLines: 3,
+            maxLines: 5,
+            maxLength: 400,
+            decoration: const InputDecoration(
+              labelText: 'A note for the Admin (optional)',
+              hintText: 'Tell us a little about what you love to cook.',
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(dialogContext), child: const Text('Cancel')),
+          FilledButton(
+            onPressed: () => Navigator.pop(dialogContext, controller.text.trim()),
+            child: const Text('Send request'),
+          ),
+        ],
+      ),
+    );
+    controller.dispose();
+    if (message == null || !mounted) return;
+    final ok = await requests.becomeCook(message);
+    if (!mounted) return;
+    showMessage(
+      context,
+      ok ? 'Your Cook request was sent to the Admin.' : requests.errorMessage ?? 'Could not send the Cook request.',
+    );
+  }
 
   Future<void> _handleProfileMenu(_ProfileMenuAction action) async {
     switch (action) {
@@ -38,6 +95,21 @@ class _MainShellState extends State<MainShell> {
         break;
       case _ProfileMenuAction.favourites:
         if (mounted) setState(() => _index = 1);
+        break;
+      case _ProfileMenuAction.requestRecipe:
+        await Navigator.pushNamed(context, AppRoutes.requestRecipe);
+        break;
+      case _ProfileMenuAction.becomeCook:
+        await _becomeCook();
+        break;
+      case _ProfileMenuAction.manageUsers:
+        await Navigator.pushNamed(context, AppRoutes.manageUsers);
+        break;
+      case _ProfileMenuAction.cookRequests:
+        await Navigator.pushNamed(context, AppRoutes.cookRequests);
+        break;
+      case _ProfileMenuAction.manageRecipes:
+        await Navigator.pushNamed(context, AppRoutes.manageRecipes);
         break;
       case _ProfileMenuAction.logout:
         final auth = context.read<AuthProvider>();
@@ -53,8 +125,133 @@ class _MainShellState extends State<MainShell> {
     }
   }
 
+  List<PopupMenuEntry<_ProfileMenuAction>> _menuItems(BuildContext context) {
+    final account = context.read<AccountProvider>();
+    final items = <PopupMenuEntry<_ProfileMenuAction>>[
+      const PopupMenuItem(
+        value: _ProfileMenuAction.profile,
+        child: ListTile(
+          dense: true,
+          contentPadding: EdgeInsets.zero,
+          leading: Icon(Icons.person_outline_rounded),
+          title: Text('Profile'),
+        ),
+      ),
+    ];
+
+    if (account.isBlocked) {
+      items.addAll(const [
+        PopupMenuDivider(),
+        PopupMenuItem(
+          value: _ProfileMenuAction.logout,
+          child: ListTile(
+            dense: true,
+            contentPadding: EdgeInsets.zero,
+            leading: Icon(Icons.logout_rounded),
+            title: Text('Log out'),
+          ),
+        ),
+      ]);
+      return items;
+    }
+
+    if (!account.roleReady) {
+      items.addAll([
+        const PopupMenuDivider(),
+        PopupMenuItem<_ProfileMenuAction>(
+          enabled: false,
+          child: ListTile(
+            dense: true,
+            contentPadding: EdgeInsets.zero,
+            leading: Icon(account.loading ? Icons.hourglass_top_rounded : Icons.warning_amber_rounded),
+            title: Text(account.loading ? 'Loading account role...' : 'Account role unavailable'),
+            subtitle: account.errorMessage == null ? null : Text(account.errorMessage!),
+          ),
+        ),
+        const PopupMenuDivider(),
+        const PopupMenuItem(
+          value: _ProfileMenuAction.logout,
+          child: ListTile(
+            dense: true,
+            contentPadding: EdgeInsets.zero,
+            leading: Icon(Icons.logout_rounded),
+            title: Text('Log out'),
+          ),
+        ),
+      ]);
+      return items;
+    }
+
+    items.add(const PopupMenuItem(
+      value: _ProfileMenuAction.favourites,
+      child: ListTile(
+        dense: true,
+        contentPadding: EdgeInsets.zero,
+        leading: Icon(Icons.favorite_border_rounded),
+        title: Text('Favourites'),
+      ),
+    ));
+
+    if (account.isAdmin) {
+      items.addAll(const [
+        PopupMenuDivider(),
+        PopupMenuItem(
+          value: _ProfileMenuAction.manageUsers,
+          child: ListTile(dense: true, contentPadding: EdgeInsets.zero, leading: Icon(Icons.manage_accounts_outlined), title: Text('Manage users')),
+        ),
+        PopupMenuItem(
+          value: _ProfileMenuAction.cookRequests,
+          child: ListTile(dense: true, contentPadding: EdgeInsets.zero, leading: Icon(Icons.mark_email_unread_outlined), title: Text('Cook Requests')),
+        ),
+        PopupMenuItem(
+          value: _ProfileMenuAction.manageRecipes,
+          child: ListTile(dense: true, contentPadding: EdgeInsets.zero, leading: Icon(Icons.menu_book_outlined), title: Text('Manage Recipes')),
+        ),
+      ]);
+    } else if (account.isCook) {
+      items.addAll(const [
+        PopupMenuDivider(),
+        PopupMenuItem(
+          value: _ProfileMenuAction.requestRecipe,
+          child: ListTile(dense: true, contentPadding: EdgeInsets.zero, leading: Icon(Icons.outgoing_mail), title: Text('Request Recipe')),
+        ),
+        PopupMenuItem(
+          value: _ProfileMenuAction.manageRecipes,
+          child: ListTile(dense: true, contentPadding: EdgeInsets.zero, leading: Icon(Icons.menu_book_outlined), title: Text('Manage Recipes')),
+        ),
+      ]);
+    } else if (account.isVisitor) {
+      items.addAll(const [
+        PopupMenuDivider(),
+        PopupMenuItem(
+          value: _ProfileMenuAction.requestRecipe,
+          child: ListTile(dense: true, contentPadding: EdgeInsets.zero, leading: Icon(Icons.outgoing_mail), title: Text('Request Recipe')),
+        ),
+        PopupMenuItem(
+          value: _ProfileMenuAction.becomeCook,
+          child: ListTile(dense: true, contentPadding: EdgeInsets.zero, leading: Icon(Icons.restaurant_menu_rounded), title: Text('Become Cook')),
+        ),
+      ]);
+    }
+
+    items.addAll(const [
+      PopupMenuDivider(),
+      PopupMenuItem(
+        value: _ProfileMenuAction.logout,
+        child: ListTile(
+          dense: true,
+          contentPadding: EdgeInsets.zero,
+          leading: Icon(Icons.logout_rounded),
+          title: Text('Log out'),
+        ),
+      ),
+    ]);
+    return items;
+  }
+
   Widget _accountAction(BuildContext context) {
     final auth = context.watch<AuthProvider>();
+    final account = context.watch<AccountProvider>();
     final user = auth.user;
     if (user == null) {
       return Padding(
@@ -67,46 +264,39 @@ class _MainShellState extends State<MainShell> {
       );
     }
 
-    final photoUrl = user.photoUrl;
-
     return Padding(
       padding: const EdgeInsets.only(right: 16),
       child: PopupMenuButton<_ProfileMenuAction>(
-        tooltip: 'Account menu',
+        tooltip: '${account.roleLabel} account menu',
         onSelected: _handleProfileMenu,
         offset: const Offset(0, 52),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        itemBuilder: (context) => const [
-          PopupMenuItem(
-            value: _ProfileMenuAction.profile,
-            child: ListTile(
-              dense: true,
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.person_outline_rounded),
-              title: Text('Profile'),
-            ),
-          ),
-          PopupMenuItem(
-            value: _ProfileMenuAction.favourites,
-            child: ListTile(
-              dense: true,
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.favorite_border_rounded),
-              title: Text('Favourites'),
-            ),
-          ),
-          PopupMenuDivider(),
-          PopupMenuItem(
-            value: _ProfileMenuAction.logout,
-            child: ListTile(
-              dense: true,
-              contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.logout_rounded),
-              title: Text('Log out'),
-            ),
-          ),
-        ],
-        child: ProfileAvatar(photoUrl: photoUrl, size: 44),
+        itemBuilder: _menuItems,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            ProfileAvatar(photoUrl: user.photoUrl, size: 44),
+            if (account.isAdmin || account.isCook)
+              Positioned(
+                right: -2,
+                bottom: -2,
+                child: Container(
+                  width: 18,
+                  height: 18,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: account.isAdmin ? Theme.of(context).colorScheme.primary : AppTheme.dustyRose,
+                    border: Border.all(color: Theme.of(context).colorScheme.surface, width: 2),
+                  ),
+                  child: Icon(
+                    account.isAdmin ? Icons.admin_panel_settings_rounded : Icons.restaurant_rounded,
+                    size: 10,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -115,17 +305,30 @@ class _MainShellState extends State<MainShell> {
   Widget build(BuildContext context) {
     final wide = MediaQuery.sizeOf(context).width >= 1000;
     final auth = context.watch<AuthProvider>();
+    final account = context.watch<AccountProvider>();
     final scheme = Theme.of(context).colorScheme;
-    final body = IndexedStack(
-      index: _index,
-      children: const [
-        HomeScreen(),
-        FavoritesScreen(),
-        MealPlannerScreen(),
-        GroceryListScreen(),
-        PantryScreen(),
-      ],
-    );
+
+    final body = account.isBlocked && auth.user != null
+        ? const Center(
+            child: Padding(
+              padding: EdgeInsets.all(24),
+              child: EmptyStateView(
+                title: 'This account is blocked',
+                message: 'An Admin has disabled this account. Contact the site administrator if you think this is a mistake.',
+              ),
+            ),
+          )
+        : IndexedStack(
+            index: _index,
+            children: const [
+              HomeScreen(),
+              FavoritesScreen(),
+              MealPlannerScreen(),
+              GroceryListScreen(),
+              PantryScreen(),
+              CooksScreen(),
+            ],
+          );
 
     return Scaffold(
       appBar: AppBar(
@@ -141,13 +344,10 @@ class _MainShellState extends State<MainShell> {
           children: [
             Text(
               "Liza's Kitchen",
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontSize: 23,
-                    letterSpacing: -0.7,
-                  ),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 23, letterSpacing: -0.7),
             ),
             Text(
-              'made with a little love',
+              auth.user == null ? 'made with a little love' : '${account.roleLabel} · made with a little love',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: scheme.primary,
                     fontSize: 11,
@@ -204,7 +404,7 @@ class _MainShellState extends State<MainShell> {
                       extended: true,
                       minExtendedWidth: 204,
                       groupAlignment: -0.75,
-                      onDestinationSelected: (index) => setState(() => _index = index),
+                      onDestinationSelected: account.isBlocked ? null : (index) => setState(() => _index = index),
                       destinations: [
                         for (final destination in _destinations)
                           NavigationRailDestination(
@@ -237,7 +437,7 @@ class _MainShellState extends State<MainShell> {
               ),
               child: NavigationBar(
                 selectedIndex: _index,
-                onDestinationSelected: (index) => setState(() => _index = index),
+                onDestinationSelected: account.isBlocked ? null : (index) => setState(() => _index = index),
                 destinations: [
                   for (final destination in _destinations)
                     NavigationDestination(

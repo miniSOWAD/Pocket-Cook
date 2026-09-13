@@ -9,4 +9,8 @@ abstract final class AppRoutes {
   static const profile = '/profile';
   static const editProfile = '/edit-profile';
   static const settings = '/settings';
+  static const requestRecipe = '/request-recipe';
+  static const manageUsers = '/manage-users';
+  static const cookRequests = '/cook-requests';
+  static const manageRecipes = '/manage-recipes';
 }
