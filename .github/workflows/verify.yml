@@ -1,4 +1,4 @@
-name: Verify Savor
+name: Verify Liza's Kitchen
 on: [push, pull_request]
 jobs:
   flutter:

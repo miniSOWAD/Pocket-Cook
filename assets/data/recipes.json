@@ -98,7 +98,11 @@
         "instruction": "Divide the quinoa and vegetables between bowls. Add the chickpeas, drizzle with dressing, and serve.",
         "timerSeconds": 0
       }
-    ]
+    ],
+    "createdByUid": "system",
+    "cookName": "Liza's Kitchen",
+    "createdAt": 0,
+    "updatedAt": 0
   },
   {
     "id": "tomato-basil-pasta",
@@ -191,7 +195,11 @@
         "instruction": "Toss the pasta with the sauce. Add a splash of reserved water to loosen it, then fold in torn basil. Season and finish with cheese if using.",
         "timerSeconds": 0
       }
-    ]
+    ],
+    "createdByUid": "system",
+    "cookName": "Liza's Kitchen",
+    "createdAt": 0,
+    "updatedAt": 0
   },
   {
     "id": "avocado-egg-toast",
@@ -283,7 +291,11 @@
         "instruction": "Spread the avocado on the toast, add the cooked eggs, and finish with chili flakes.",
         "timerSeconds": 0
       }
-    ]
+    ],
+    "createdByUid": "system",
+    "cookName": "Liza's Kitchen",
+    "createdAt": 0,
+    "updatedAt": 0
   },
   {
     "id": "banana-oat-pancakes",
@@ -376,7 +388,11 @@
         "instruction": "Serve the pancakes warm with the berries. Add a spoonful of yogurt or a drizzle of syrup if you like.",
         "timerSeconds": 0
       }
-    ]
+    ],
+    "createdByUid": "system",
+    "cookName": "Liza's Kitchen",
+    "createdAt": 0,
+    "updatedAt": 0
   },
   {
     "id": "chickpea-coconut-curry",
@@ -476,7 +492,11 @@
         "instruction": "Fold in the spinach and stir until wilted. Season to taste and serve with cooked rice if desired.",
         "timerSeconds": 0
       }
-    ]
+    ],
+    "createdByUid": "system",
+    "cookName": "Liza's Kitchen",
+    "createdAt": 0,
+    "updatedAt": 0
   },
   {
     "id": "citrus-chicken-rice",
@@ -569,7 +589,11 @@
         "instruction": "Whisk the lemon juice and olive oil together. Divide the rice, chicken, and vegetables between bowls and spoon over the dressing.",
         "timerSeconds": 0
       }
-    ]
+    ],
+    "createdByUid": "system",
+    "cookName": "Liza's Kitchen",
+    "createdAt": 0,
+    "updatedAt": 0
   },
   {
     "id": "roasted-tomato-soup",
@@ -662,7 +686,11 @@
         "instruction": "Stir in the cream, rewarm gently if needed, and top with torn basil. Taste before adding any salt.",
         "timerSeconds": 0
       }
-    ]
+    ],
+    "createdByUid": "system",
+    "cookName": "Liza's Kitchen",
+    "createdAt": 0,
+    "updatedAt": 0
   },
   {
     "id": "berry-yogurt-cup",
@@ -729,7 +757,11 @@
         "instruction": "Drizzle with honey to taste. Serve promptly so the granola keeps its crunch.",
         "timerSeconds": 0
       }
-    ]
+    ],
+    "createdByUid": "system",
+    "cookName": "Liza's Kitchen",
+    "createdAt": 0,
+    "updatedAt": 0
   },
   {
     "id": "salmon-lemon-bagel",
@@ -810,7 +842,11 @@
         "instruction": "Spread cream cheese over the bagels. Add cucumber and salmon, then finish with lemon juice and dill.",
         "timerSeconds": 0
       }
-    ]
+    ],
+    "createdByUid": "system",
+    "cookName": "Liza's Kitchen",
+    "createdAt": 0,
+    "updatedAt": 0
   },
   {
     "id": "rainbow-hummus-wrap",
@@ -891,7 +927,11 @@
         "instruction": "Fold in the sides and roll each tortilla firmly around the filling. Slice in half to serve.",
         "timerSeconds": 0
       }
-    ]
+    ],
+    "createdByUid": "system",
+    "cookName": "Liza's Kitchen",
+    "createdAt": 0,
+    "updatedAt": 0
   },
   {
     "id": "mango-lime-smoothie",
@@ -965,7 +1005,11 @@
         "instruction": "Taste, adjust the lime if needed, and pour into glasses. Serve immediately.",
         "timerSeconds": 0
       }
-    ]
+    ],
+    "createdByUid": "system",
+    "cookName": "Liza's Kitchen",
+    "createdAt": 0,
+    "updatedAt": 0
   },
   {
     "id": "lemon-herb-couscous",
@@ -1046,7 +1090,11 @@
         "instruction": "Fluff the couscous with a fork. Stir in tomatoes, parsley, lemon juice, and olive oil. Taste and adjust the seasoning.",
         "timerSeconds": 0
       }
-    ]
+    ],
+    "createdByUid": "system",
+    "cookName": "Liza's Kitchen",
+    "createdAt": 0,
+    "updatedAt": 0
   },
   {
     "id": "cocoa-oat-bites",
@@ -1120,6 +1168,10 @@
         "instruction": "Chill the bites until firm and store covered in the refrigerator. This recipe contains peanuts.",
         "timerSeconds": 1200
       }
-    ]
+    ],
+    "createdByUid": "system",
+    "cookName": "Liza's Kitchen",
+    "createdAt": 0,
+    "updatedAt": 0
   }
 ]
