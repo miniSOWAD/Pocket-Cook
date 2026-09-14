@@ -9,11 +9,15 @@ abstract final class AppTheme {
   static const cyan = Color(0xFF18C8D7);
   static const deepCyan = Color(0xFF087F91);
   static const brightCyan = Color(0xFF27D8E6);
-  static const lightBlue = Color(0xFFDDF5FF);
-  static const paleCyan = Color(0xFFEAFBFD);
-  static const skyMist = Color(0xFFF2FAFF);
-  static const lightOrange = Color(0xFFFFB56B);
-  static const orangeWash = Color(0xFFFFE7CC);
+  // Main light palette: three visibly different soft surfaces.
+  static const lightCyan = Color(0xFFDDF8FC);
+  static const lightIndigo = Color(0xFFE7E8FF);
+  static const lightestOrange = Color(0xFFFFF0DD);
+  static const lightBlue = Color(0xFFE8F6FF);
+  static const paleCyan = Color(0xFFECFBFD);
+  static const skyMist = Color(0xFFF4FBFE);
+  static const lightOrange = Color(0xFFFFB66F);
+  static const orangeWash = lightestOrange;
   static const snow = Color(0xFFFCFEFF);
   static const ink = Color(0xFF173A45);
   static const mutedInk = Color(0xFF5E7780);
@@ -27,14 +31,14 @@ abstract final class AppTheme {
     ).copyWith(
       primary: dark ? const Color(0xFF55DFE8) : deepCyan,
       onPrimary: dark ? const Color(0xFF00363D) : Colors.white,
-      primaryContainer: dark ? const Color(0xFF0B535F) : lightBlue,
+      primaryContainer: dark ? const Color(0xFF0B535F) : lightCyan,
       onPrimaryContainer: dark ? const Color(0xFFD8FAFF) : ink,
       secondary: dark ? const Color(0xFFFFC485) : lightOrange,
       onSecondary: dark ? const Color(0xFF4E2B00) : const Color(0xFF5A2E00),
       secondaryContainer: dark ? const Color(0xFF674015) : orangeWash,
       onSecondaryContainer: dark ? const Color(0xFFFFE7C8) : ink,
-      tertiary: dark ? const Color(0xFF89CFFF) : const Color(0xFF4AA8E8),
-      tertiaryContainer: dark ? const Color(0xFF244E69) : const Color(0xFFE4F4FF),
+      tertiary: dark ? const Color(0xFFAEB6FF) : const Color(0xFF6D72D8),
+      tertiaryContainer: dark ? const Color(0xFF35385F) : lightIndigo,
       surface: dark ? const Color(0xFF11272D) : snow,
       onSurface: dark ? const Color(0xFFEAF9FC) : ink,
       onSurfaceVariant: dark ? const Color(0xFFB8D3DA) : mutedInk,
@@ -48,7 +52,7 @@ abstract final class AppTheme {
       brightness: brightness,
     );
     final headingColor = dark ? const Color(0xFFE9FCFF) : ink;
-    final background = dark ? const Color(0xFF0A1C21) : const Color(0xFFF5FCFF);
+    final background = dark ? const Color(0xFF0A1C21) : const Color(0xFFF1FAFC);
 
     return base.copyWith(
       scaffoldBackgroundColor: background,
@@ -105,7 +109,7 @@ abstract final class AppTheme {
         ),
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor: background,
+        backgroundColor: dark ? const Color(0xFF102B31) : lightCyan,
         foregroundColor: scheme.onSurface,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
@@ -193,7 +197,7 @@ abstract final class AppTheme {
         height: 72,
         backgroundColor: dark ? const Color(0xFF11272D) : snow,
         surfaceTintColor: Colors.transparent,
-        indicatorColor: dark ? const Color(0xFF0B535F) : lightBlue,
+        indicatorColor: dark ? const Color(0xFF0B535F) : lightIndigo,
         indicatorShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         elevation: 0,
         labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
@@ -205,7 +209,7 @@ abstract final class AppTheme {
       ),
       navigationRailTheme: NavigationRailThemeData(
         backgroundColor: Colors.transparent,
-        indicatorColor: dark ? const Color(0xFF0B535F) : lightBlue,
+        indicatorColor: dark ? const Color(0xFF0B535F) : lightIndigo,
         indicatorShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         selectedIconTheme: IconThemeData(color: scheme.primary),
         selectedLabelTextStyle: TextStyle(color: scheme.primary, fontWeight: FontWeight.w800),

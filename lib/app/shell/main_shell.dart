@@ -279,7 +279,13 @@ class _MainShellState extends State<MainShell> {
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            ProfileAvatar(photoUrl: user.photoUrl, size: 44),
+            ProfileAvatar(
+              photoUrl: user.photoUrl,
+              size: 44,
+              backgroundColor: Theme.of(context).brightness == Brightness.dark
+                  ? const Color(0xFF253E48)
+                  : AppTheme.lightIndigo,
+            ),
             if (account.isAdmin || account.isCook)
               Positioned(
                 right: -2,
@@ -340,13 +346,52 @@ class _MainShellState extends State<MainShell> {
     return Scaffold(
       extendBody: !wide,
       appBar: AppBar(
-        toolbarHeight: 72,
-        leadingWidth: 68,
+        toolbarHeight: 78,
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: dark
+                ? const LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [Color(0xFF113139), Color(0xFF252A49), Color(0xFF3D3023)],
+                  )
+                : const LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    stops: [0.0, 0.58, 1.0],
+                    colors: [
+                      AppTheme.lightCyan,
+                      AppTheme.lightIndigo,
+                      AppTheme.lightestOrange,
+                    ],
+                  ),
+            border: Border(
+              bottom: BorderSide(
+                color: dark ? const Color(0xFF41636C) : const Color(0xFFCADDE8),
+                width: 1,
+              ),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: dark
+                    ? Colors.black.withValues(alpha: 0.18)
+                    : AppTheme.deepCyan.withValues(alpha: 0.09),
+                blurRadius: 18,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+        ),
+        leadingWidth: 72,
         leading: const Padding(
           padding: EdgeInsets.only(left: 18, top: 10, bottom: 10),
           child: BrandMark(compact: true),
         ),
-        titleSpacing: 6,
+        titleSpacing: 8,
         title: wide
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -441,23 +486,46 @@ class _MainShellState extends State<MainShell> {
               top: false,
               minimum: const EdgeInsets.fromLTRB(12, 0, 12, 10),
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(26),
+                borderRadius: BorderRadius.circular(28),
                 child: BackdropFilter(
-                  filter: ui.ImageFilter.blur(sigmaX: 22, sigmaY: 22),
+                  filter: ui.ImageFilter.blur(sigmaX: 32, sigmaY: 32),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: scheme.surface.withValues(alpha: dark ? 0.72 : 0.78),
-                      borderRadius: BorderRadius.circular(26),
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: dark
+                            ? [
+                                Colors.white.withValues(alpha: 0.10),
+                                const Color(0xFF1B5A65).withValues(alpha: 0.20),
+                                const Color(0xFF343A73).withValues(alpha: 0.15),
+                              ]
+                            : [
+                                Colors.white.withValues(alpha: 0.42),
+                                AppTheme.lightCyan.withValues(alpha: 0.28),
+                                AppTheme.lightIndigo.withValues(alpha: 0.24),
+                                AppTheme.lightestOrange.withValues(alpha: 0.18),
+                              ],
+                      ),
+                      borderRadius: BorderRadius.circular(28),
                       border: Border.all(
                         color: dark
-                            ? Colors.white.withValues(alpha: 0.10)
-                            : Colors.white.withValues(alpha: 0.72),
+                            ? Colors.white.withValues(alpha: 0.16)
+                            : Colors.white.withValues(alpha: 0.62),
+                        width: 1.15,
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: AppTheme.deepCyan.withValues(alpha: 0.12),
-                          blurRadius: 30,
-                          offset: const Offset(0, 10),
+                          color: AppTheme.deepCyan.withValues(alpha: dark ? 0.16 : 0.10),
+                          blurRadius: 34,
+                          spreadRadius: -6,
+                          offset: const Offset(0, 12),
+                        ),
+                        BoxShadow(
+                          color: Colors.white.withValues(alpha: dark ? 0.04 : 0.42),
+                          blurRadius: 8,
+                          spreadRadius: -3,
+                          offset: const Offset(0, -2),
                         ),
                       ],
                     ),
@@ -465,7 +533,9 @@ class _MainShellState extends State<MainShell> {
                       height: 70,
                       backgroundColor: Colors.transparent,
                       surfaceTintColor: Colors.transparent,
-                      indicatorColor: scheme.primary.withValues(alpha: 0.15),
+                      indicatorColor: dark
+                          ? AppTheme.lightIndigo.withValues(alpha: 0.18)
+                          : Colors.white.withValues(alpha: 0.58),
                       selectedIndex: _index,
                       labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
                       onDestinationSelected: account.isBlocked
