@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../core/widgets/common.dart';
 import '../../features/accounts/presentation/providers/account_provider.dart';
 import '../../features/admin/presentation/screens/admin_requests_screen.dart';
@@ -25,96 +26,154 @@ import '../../features/requests/presentation/screens/request_recipe_screen.dart'
 import '../../features/settings/presentation/screens/settings_screen.dart';
 import '../dependencies.dart';
 import '../shell/main_shell.dart';
+import '../shell/pocket_cook_navigation.dart';
 import 'app_routes.dart';
 
 abstract final class AppRouter {
+  static Widget _withGlobalNavigation(Widget child) =>
+      GlobalPocketCookNavigationFrame(child: child);
+
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     return MaterialPageRoute<dynamic>(
       settings: settings,
       builder: (context) {
         switch (settings.name) {
           case AppRoutes.home:
-            return const MainShell();
+            final initialIndex = settings.arguments is int
+                ? settings.arguments as int
+                : 0;
+            return MainShell(initialIndex: initialIndex);
+
           case AppRoutes.login:
-            return const LoginScreen();
+            return _withGlobalNavigation(const LoginScreen());
+
           case AppRoutes.register:
-            return const RegisterScreen();
+            return _withGlobalNavigation(const RegisterScreen());
+
           case AppRoutes.forgotPassword:
-            return const ForgotPasswordScreen();
+            return _withGlobalNavigation(const ForgotPasswordScreen());
+
           case AppRoutes.search:
-            return ChangeNotifierProvider(
-              create: (_) => RecipeSearchProvider(
-                context.read<RecipeCatalogProvider>(),
-                initialCategory: settings.arguments is String ? settings.arguments as String : null,
+            return _withGlobalNavigation(
+              ChangeNotifierProvider(
+                create: (_) => RecipeSearchProvider(
+                  context.read<RecipeCatalogProvider>(),
+                  initialCategory: settings.arguments is String
+                      ? settings.arguments as String
+                      : null,
+                ),
+                child: const RecipeSearchScreen(),
               ),
-              child: const RecipeSearchScreen(),
             );
+
           case AppRoutes.recipe:
             final recipe = settings.arguments;
             if (recipe is Recipe) {
-              return ChangeNotifierProvider(
-                create: (_) => RecipeDetailProvider(recipe),
-                child: const RecipeDetailScreen(),
+              return _withGlobalNavigation(
+                ChangeNotifierProvider(
+                  create: (_) => RecipeDetailProvider(recipe),
+                  child: const RecipeDetailScreen(),
+                ),
               );
             }
             break;
+
           case AppRoutes.cooking:
             final arguments = settings.arguments;
-            if (arguments is CookingArguments && arguments.recipe.steps.isNotEmpty) {
-              return ChangeNotifierProvider(
-                create: (_) => CookingProvider(
-                  context.read<AppDependencies>().cooking,
-                  arguments.recipe,
-                  context.read<AuthProvider>().user?.uid ?? 'guest',
-                  arguments.servings,
+            if (arguments is CookingArguments &&
+                arguments.recipe.steps.isNotEmpty) {
+              return _withGlobalNavigation(
+                ChangeNotifierProvider(
+                  create: (_) => CookingProvider(
+                    context.read<AppDependencies>().cooking,
+                    arguments.recipe,
+                    context.read<AuthProvider>().user?.uid ?? 'guest',
+                    arguments.servings,
+                  ),
+                  child: const CookingScreen(),
                 ),
-                child: const CookingScreen(),
               );
             }
             break;
+
           case AppRoutes.profile:
-            return Scaffold(
-              appBar: AppBar(title: const Text('Your profile')),
-              body: const SafeArea(child: ProfileScreen()),
+            return _withGlobalNavigation(
+              Scaffold(
+                appBar: AppBar(title: const Text('Your profile')),
+                body: const SafeArea(child: ProfileScreen()),
+              ),
             );
+
           case AppRoutes.editProfile:
-            return const EditProfileScreen();
+            return _withGlobalNavigation(const EditProfileScreen());
+
           case AppRoutes.settings:
-            return const SettingsScreen();
+            return _withGlobalNavigation(const SettingsScreen());
+
           case AppRoutes.requestRecipe:
-            return const RequestRecipeScreen();
+            return _withGlobalNavigation(const RequestRecipeScreen());
+
           case AppRoutes.manageUsers:
-            if (context.read<AccountProvider>().isAdmin) return const ManageUsersScreen();
-            return const _PermissionDenied(message: 'Only Admin accounts can manage users.');
+            if (context.read<AccountProvider>().isAdmin) {
+              return _withGlobalNavigation(const ManageUsersScreen());
+            }
+            return _withGlobalNavigation(
+              const _PermissionDenied(
+                message: 'Only Admin accounts can manage users.',
+              ),
+            );
+
           case AppRoutes.cookRequests:
             if (context.read<AccountProvider>().isAdmin) {
-              return ChangeNotifierProvider(
-                create: (_) => StaffRequestsProvider(context.read<AppDependencies>().requests),
-                child: const AdminRequestsScreen(),
+              return _withGlobalNavigation(
+                ChangeNotifierProvider(
+                  create: (_) => StaffRequestsProvider(
+                    context.read<AppDependencies>().requests,
+                  ),
+                  child: const AdminRequestsScreen(),
+                ),
               );
             }
-            return const _PermissionDenied(message: 'Only Admin accounts can review Cook requests.');
+            return _withGlobalNavigation(
+              const _PermissionDenied(
+                message: 'Only Admin accounts can review Cook requests.',
+              ),
+            );
+
           case AppRoutes.manageRecipes:
             if (context.read<AccountProvider>().canManageRecipes) {
-              return MultiProvider(
-                providers: [
-                  ChangeNotifierProvider(
-                    create: (_) => RecipeManagementProvider(context.read<AppDependencies>().recipeManagement),
-                  ),
-                  ChangeNotifierProvider(
-                    create: (_) => StaffRequestsProvider(context.read<AppDependencies>().requests),
-                  ),
-                ],
-                child: const ManageRecipesScreen(),
+              return _withGlobalNavigation(
+                MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider(
+                      create: (_) => RecipeManagementProvider(
+                        context.read<AppDependencies>().recipeManagement,
+                      ),
+                    ),
+                    ChangeNotifierProvider(
+                      create: (_) => StaffRequestsProvider(
+                        context.read<AppDependencies>().requests,
+                      ),
+                    ),
+                  ],
+                  child: const ManageRecipesScreen(),
+                ),
               );
             }
-            return const _PermissionDenied(message: 'Only active Cooks and Admins can manage recipes.');
+            return _withGlobalNavigation(
+              const _PermissionDenied(
+                message: 'Only active Cooks and Admins can manage recipes.',
+              ),
+            );
         }
-        return Scaffold(
-          appBar: AppBar(title: const Text("Pocket Cook")),
-          body: const EmptyStateView(
-            title: 'That page is not available',
-            message: 'Go back and choose a recipe from the cookbook.',
+
+        return _withGlobalNavigation(
+          Scaffold(
+            appBar: AppBar(title: const Text('Pocket Cook')),
+            body: const EmptyStateView(
+              title: 'That page is not available',
+              message: 'Go back and choose a recipe from the cookbook.',
+            ),
           ),
         );
       },
@@ -124,6 +183,7 @@ abstract final class AppRouter {
 
 class _PermissionDenied extends StatelessWidget {
   const _PermissionDenied({required this.message});
+
   final String message;
 
   @override
@@ -133,7 +193,10 @@ class _PermissionDenied extends StatelessWidget {
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(24),
-              child: EmptyStateView(title: 'You do not have access', message: message),
+              child: EmptyStateView(
+                title: 'You do not have access',
+                message: message,
+              ),
             ),
           ),
         ),

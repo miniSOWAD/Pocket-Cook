@@ -185,3 +185,14 @@ flutter build web --release
 Do not ship a service-account key, Admin password, or Firebase Admin credentials in the Flutter app. Firestore rules enforce role permissions for direct database access, while privileged Authentication management occurs only in Cloud Functions.
 
 The Android application ID and iOS bundle identifier are intentionally left aligned with the existing Firebase app registrations so the current Firebase connection is not broken by the Pocket Cook rebrand. Their user-visible display names are Pocket Cook.
+
+## Global navigation update
+
+The glass primary navigation is now available on every named app route, including
+recipe details, cooking, profile, settings, authentication, request flows and
+Admin/Cook management pages. The home dashboard also includes a compact Kitchen
+snapshot with recipe, saved, pantry, weekly-plan and grocery counts.
+
+For adding another Admin such as **Md Mahruf**, see
+`docs/GLOBAL_NAV_AND_SECOND_ADMIN.md`. Admin credentials are intentionally never
+hardcoded in the Flutter client.

@@ -1,5 +1,3 @@
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/config/app_config.dart';
@@ -17,6 +15,7 @@ import '../../features/pantry/presentation/screens/pantry_screen.dart';
 import '../../features/recipes/presentation/screens/home_screen.dart';
 import '../../features/requests/presentation/providers/request_provider.dart';
 import '../router/app_routes.dart';
+import 'pocket_cook_navigation.dart';
 
 enum _ProfileMenuAction {
   profile,
@@ -30,24 +29,30 @@ enum _ProfileMenuAction {
 }
 
 class MainShell extends StatefulWidget {
-  const MainShell({super.key});
+  const MainShell({super.key, this.initialIndex = 0});
+
+  final int initialIndex;
 
   @override
   State<MainShell> createState() => _MainShellState();
 }
 
 class _MainShellState extends State<MainShell> {
-  int _index = 0;
+  late int _index;
 
-  static const _destinations = [
-    (label: 'Home', icon: Icons.home_outlined, selected: Icons.home_rounded),
-    (label: 'Saved', icon: Icons.favorite_border_rounded, selected: Icons.favorite_rounded),
-    (label: 'Plan', icon: Icons.calendar_month_outlined, selected: Icons.calendar_month_rounded),
-    (label: 'Groceries', icon: Icons.shopping_bag_outlined, selected: Icons.shopping_bag_rounded),
-    (label: 'Pantry', icon: Icons.kitchen_outlined, selected: Icons.kitchen_rounded),
-    (label: 'Make ur plate', icon: Icons.ramen_dining_outlined, selected: Icons.ramen_dining_rounded),
-    (label: 'Cooks', icon: Icons.groups_outlined, selected: Icons.groups_rounded),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _index = widget.initialIndex.clamp(0, pocketCookDestinations.length - 1).toInt();
+  }
+
+  @override
+  void didUpdateWidget(covariant MainShell oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.initialIndex != widget.initialIndex) {
+      _index = widget.initialIndex.clamp(0, pocketCookDestinations.length - 1).toInt();
+    }
+  }
 
   Future<void> _becomeCook() async {
     final requests = context.read<RequestProvider>();
@@ -465,10 +470,10 @@ class _MainShellState extends State<MainShell> {
                           ? null
                           : (index) => setState(() => _index = index),
                       destinations: [
-                        for (final destination in _destinations)
+                        for (final destination in pocketCookDestinations)
                           NavigationRailDestination(
                             icon: Icon(destination.icon),
-                            selectedIcon: Icon(destination.selected),
+                            selectedIcon: Icon(destination.selectedIcon),
                             label: Text(destination.label),
                           ),
                       ],
@@ -482,77 +487,12 @@ class _MainShellState extends State<MainShell> {
       ),
       bottomNavigationBar: wide
           ? null
-          : SafeArea(
-              top: false,
-              minimum: const EdgeInsets.fromLTRB(12, 0, 12, 10),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(28),
-                child: BackdropFilter(
-                  filter: ui.ImageFilter.blur(sigmaX: 32, sigmaY: 32),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: dark
-                            ? [
-                                Colors.white.withValues(alpha: 0.10),
-                                const Color(0xFF1B5A65).withValues(alpha: 0.20),
-                                const Color(0xFF343A73).withValues(alpha: 0.15),
-                              ]
-                            : [
-                                Colors.white.withValues(alpha: 0.42),
-                                AppTheme.lightCyan.withValues(alpha: 0.28),
-                                AppTheme.lightIndigo.withValues(alpha: 0.24),
-                                AppTheme.lightestOrange.withValues(alpha: 0.18),
-                              ],
-                      ),
-                      borderRadius: BorderRadius.circular(28),
-                      border: Border.all(
-                        color: dark
-                            ? Colors.white.withValues(alpha: 0.16)
-                            : Colors.white.withValues(alpha: 0.62),
-                        width: 1.15,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppTheme.deepCyan.withValues(alpha: dark ? 0.16 : 0.10),
-                          blurRadius: 34,
-                          spreadRadius: -6,
-                          offset: const Offset(0, 12),
-                        ),
-                        BoxShadow(
-                          color: Colors.white.withValues(alpha: dark ? 0.04 : 0.42),
-                          blurRadius: 8,
-                          spreadRadius: -3,
-                          offset: const Offset(0, -2),
-                        ),
-                      ],
-                    ),
-                    child: NavigationBar(
-                      height: 70,
-                      backgroundColor: Colors.transparent,
-                      surfaceTintColor: Colors.transparent,
-                      indicatorColor: dark
-                          ? AppTheme.lightIndigo.withValues(alpha: 0.18)
-                          : Colors.white.withValues(alpha: 0.58),
-                      selectedIndex: _index,
-                      labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-                      onDestinationSelected: account.isBlocked
-                          ? null
-                          : (index) => setState(() => _index = index),
-                      destinations: [
-                        for (final destination in _destinations)
-                          NavigationDestination(
-                            icon: Icon(destination.icon),
-                            selectedIcon: Icon(destination.selected),
-                            label: destination.label,
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+          : PocketCookGlassNavigationBar(
+              selectedIndex: _index,
+              compactLabels: true,
+              onDestinationSelected: account.isBlocked
+                  ? null
+                  : (index) => setState(() => _index = index),
             ),
     );
   }

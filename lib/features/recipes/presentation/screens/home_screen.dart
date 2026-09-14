@@ -6,6 +6,10 @@ import '../../../../core/theme/app_theme.dart';
 import '../../../../core/widgets/common.dart';
 import '../../../accounts/presentation/providers/account_provider.dart';
 import '../../../auth/presentation/providers/auth_provider.dart';
+import '../../../favorites/presentation/providers/favorites_provider.dart';
+import '../../../grocery_list/presentation/providers/grocery_provider.dart';
+import '../../../meal_planner/presentation/providers/meal_plan_provider.dart';
+import '../../../pantry/presentation/providers/pantry_provider.dart';
 import '../../../profile/presentation/providers/profile_provider.dart';
 import '../../models/recipe.dart';
 import '../../models/recipe_category.dart';
@@ -42,6 +46,11 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final catalog = context.watch<RecipeCatalogProvider>();
     final auth = context.watch<AuthProvider>();
+    final account = context.watch<AccountProvider>();
+    final favorites = context.watch<FavoritesProvider>();
+    final groceries = context.watch<GroceryProvider>();
+    final mealPlans = context.watch<MealPlanProvider>();
+    final pantry = context.watch<PantryProvider>();
     final name = _displayName(context);
     final recipes = [...catalog.recipes]
       ..sort((a, b) => a.featured == b.featured
@@ -50,6 +59,13 @@ class HomeScreen extends StatelessWidget {
               ? -1
               : 1);
     final narrow = MediaQuery.sizeOf(context).width < 680;
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final weekStart = today.subtract(Duration(days: today.weekday - 1));
+    final plannedThisWeek = mealPlans.forWeek(weekStart).length;
+    final openGroceries = groceries.items.where((item) => !item.checked).length;
+    final quickRecipes = recipes.where((recipe) => recipe.totalMinutes <= 30).length;
+    final vegetarianRecipes = recipes.where((recipe) => recipe.vegetarian).length;
 
     return SingleChildScrollView(
       key: const PageStorageKey('home-dashboard'),
@@ -70,6 +86,7 @@ class HomeScreen extends StatelessWidget {
                 name: name,
                 signedIn: auth.user != null,
                 recipeCount: recipes.length,
+                roleLabel: account.roleLabel,
               ),
               const SizedBox(height: 22),
               _HomeHero(
@@ -79,6 +96,19 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 18),
               _SearchBar(
                 onTap: () => Navigator.pushNamed(context, AppRoutes.search),
+              ),
+              const SizedBox(height: 24),
+              _KitchenSnapshot(
+                signedIn: auth.user != null,
+                recipeCount: recipes.length,
+                categoryCount: catalog.categories.length,
+                quickRecipeCount: quickRecipes,
+                vegetarianCount: vegetarianRecipes,
+                savedCount: favorites.ids.length,
+                pantryCount: pantry.items.length,
+                lowStockCount: pantry.lowStock.length,
+                plannedCount: plannedThisWeek,
+                groceryOpenCount: openGroceries,
               ),
               const SizedBox(height: 28),
               ErrorNotice(catalog.errorMessage, onRetry: catalog.load),
@@ -130,11 +160,13 @@ class _WelcomeHeader extends StatelessWidget {
     required this.name,
     required this.signedIn,
     required this.recipeCount,
+    required this.roleLabel,
   });
 
   final String? name;
   final bool signedIn;
   final int recipeCount;
+  final String roleLabel;
 
   @override
   Widget build(BuildContext context) {
@@ -170,25 +202,260 @@ class _WelcomeHeader extends StatelessWidget {
                       color: scheme.onSurfaceVariant,
                     ),
               ),
+              const SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: [
+                  _HeaderInfoPill(
+                    icon: Icons.menu_book_outlined,
+                    text: '$recipeCount recipes',
+                  ),
+                  if (signedIn)
+                    _HeaderInfoPill(
+                      icon: Icons.verified_user_outlined,
+                      text: roleLabel,
+                    ),
+                  const _HeaderInfoPill(
+                    icon: Icons.dashboard_customize_outlined,
+                    text: 'Smart kitchen tools',
+                  ),
+                ],
+              ),
             ],
           ),
         ),
-        if (MediaQuery.sizeOf(context).width >= 720)
+      ],
+    );
+  }
+}
+
+
+class _HeaderInfoPill extends StatelessWidget {
+  const _HeaderInfoPill({required this.icon, required this.text});
+
+  final IconData icon;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+      decoration: BoxDecoration(
+        color: scheme.surface.withValues(alpha: 0.74),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.9)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 14, color: scheme.primary),
+          const SizedBox(width: 6),
+          Text(
+            text,
+            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                  fontWeight: FontWeight.w800,
+                ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _KitchenSnapshot extends StatelessWidget {
+  const _KitchenSnapshot({
+    required this.signedIn,
+    required this.recipeCount,
+    required this.categoryCount,
+    required this.quickRecipeCount,
+    required this.vegetarianCount,
+    required this.savedCount,
+    required this.pantryCount,
+    required this.lowStockCount,
+    required this.plannedCount,
+    required this.groceryOpenCount,
+  });
+
+  final bool signedIn;
+  final int recipeCount;
+  final int categoryCount;
+  final int quickRecipeCount;
+  final int vegetarianCount;
+  final int savedCount;
+  final int pantryCount;
+  final int lowStockCount;
+  final int plannedCount;
+  final int groceryOpenCount;
+
+  @override
+  Widget build(BuildContext context) {
+    final items = <({IconData icon, String value, String label, String detail, Color tint})>[
+      (
+        icon: Icons.menu_book_outlined,
+        value: '$recipeCount',
+        label: 'Recipe library',
+        detail: '$categoryCount categories',
+        tint: AppTheme.lightCyan,
+      ),
+      (
+        icon: Icons.timer_outlined,
+        value: '$quickRecipeCount',
+        label: 'Quick meals',
+        detail: '30 min or less',
+        tint: AppTheme.lightIndigo,
+      ),
+      (
+        icon: Icons.eco_outlined,
+        value: '$vegetarianCount',
+        label: 'Vegetarian',
+        detail: 'Plant-forward ideas',
+        tint: AppTheme.lightestOrange,
+      ),
+      if (signedIn) ...[
+        (
+          icon: Icons.favorite_border_rounded,
+          value: '$savedCount',
+          label: 'Saved recipes',
+          detail: 'Your favourites',
+          tint: AppTheme.lightIndigo,
+        ),
+        (
+          icon: Icons.kitchen_outlined,
+          value: '$pantryCount',
+          label: 'Pantry items',
+          detail: lowStockCount == 0 ? 'Stock looks good' : '$lowStockCount running low',
+          tint: AppTheme.lightCyan,
+        ),
+        (
+          icon: Icons.calendar_month_outlined,
+          value: '$plannedCount',
+          label: 'Meals planned',
+          detail: 'This week',
+          tint: AppTheme.lightestOrange,
+        ),
+        (
+          icon: Icons.shopping_bag_outlined,
+          value: '$groceryOpenCount',
+          label: 'To buy',
+          detail: 'Unchecked groceries',
+          tint: AppTheme.lightCyan,
+        ),
+      ] else
+        (
+          icon: Icons.inventory_2_outlined,
+          value: '$categoryCount',
+          label: 'Meal groups',
+          detail: 'Browse by category',
+          tint: AppTheme.lightCyan,
+        ),
+    ];
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SectionHeading(
+          'Kitchen snapshot',
+          subtitle: 'Useful numbers at a glance before you decide what to cook.',
+        ),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final columns = constraints.maxWidth >= 900
+                ? 4
+                : constraints.maxWidth >= 560
+                    ? 3
+                    : 2;
+            final ratio = columns == 2 ? 1.70 : 1.92;
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: items.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: columns,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                childAspectRatio: ratio,
+              ),
+              itemBuilder: (context, index) => _SnapshotCard(item: items[index]),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _SnapshotCard extends StatelessWidget {
+  const _SnapshotCard({required this.item});
+
+  final ({IconData icon, String value, String label, String detail, Color tint}) item;
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    return Container(
+      padding: const EdgeInsets.all(13),
+      decoration: BoxDecoration(
+        color: item.tint.withValues(
+          alpha: Theme.of(context).brightness == Brightness.dark ? 0.10 : 0.64,
+        ),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.82)),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            width: 36,
+            height: 36,
             decoration: BoxDecoration(
-              color: scheme.primaryContainer.withValues(alpha: 0.65),
-              borderRadius: BorderRadius.circular(14),
+              color: scheme.surface.withValues(alpha: 0.72),
+              borderRadius: BorderRadius.circular(12),
             ),
-            child: Text(
-              '$recipeCount recipes available',
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                    color: scheme.primary,
-                    fontWeight: FontWeight.w800,
-                  ),
+            child: Icon(item.icon, size: 19, color: scheme.primary),
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      item.value,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontSize: 22,
+                            height: 1,
+                          ),
+                    ),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: Text(
+                        item.label,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              fontWeight: FontWeight.w800,
+                            ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  item.detail,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 11),
+                ),
+              ],
             ),
           ),
-      ],
+        ],
+      ),
     );
   }
 }
