@@ -4,15 +4,15 @@
 
 | Check | Result |
 | --- | --- |
-| Offline Dart source/import structure check | **146 Dart files passed** |
+| Offline Dart source/import structure check | **151 Dart files passed** |
 | JSON and bundled recipe image references | Passed |
-| Seed validation | **13 recipes, 6 categories passed** |
+| Seed validation | **15 recipes, 6 categories passed** |
 | Node seed tests | **16 passed, 0 failed** |
 | Seed dry run | Passed; no database writes |
 | Cloud Functions JavaScript syntax (`node --check`) | Passed |
 | Admin bootstrap JavaScript syntax (`node --check`) | Passed |
 | Firestore rules-test JavaScript syntax (`node --check`) | Passed |
-| Platform display-name search | Liza's Kitchen applied to Android/iOS/web; old `savor.*` strings remain only as intentional legacy storage keys |
+| Platform display-name search | Pocket Cook applied to Android/iOS/web user-visible branding |
 
 ## Included but not executed here
 

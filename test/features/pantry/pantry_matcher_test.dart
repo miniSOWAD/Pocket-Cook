@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_app/features/pantry/logic/pantry_matcher.dart';
-import 'package:recipe_app/features/pantry/models/pantry_item.dart';
-import 'package:recipe_app/features/pantry/models/pantry_match_result.dart';
-import 'package:recipe_app/features/recipes/models/ingredient.dart';
-import 'package:recipe_app/features/recipes/models/recipe.dart';
-import 'package:recipe_app/features/recipes/models/recipe_step.dart';
+import 'package:pocket_cook/features/pantry/logic/pantry_matcher.dart';
+import 'package:pocket_cook/features/pantry/models/pantry_item.dart';
+import 'package:pocket_cook/features/pantry/models/pantry_match_result.dart';
+import 'package:pocket_cook/features/recipes/models/ingredient.dart';
+import 'package:pocket_cook/features/recipes/models/recipe.dart';
+import 'package:pocket_cook/features/recipes/models/recipe_step.dart';
 
 Recipe recipeWith(List<Ingredient> ingredients) => Recipe(id: 'test', title: 'Test meal', description: 'Test',
   categoryId: 'dinner', prepMinutes: 5, cookMinutes: 10, baseServings: 2, ingredients: ingredients,

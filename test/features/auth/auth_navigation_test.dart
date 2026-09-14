@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_app/app/app.dart';
-import 'package:recipe_app/app/app_providers.dart';
-import 'package:recipe_app/app/dependencies.dart';
-import 'package:recipe_app/core/storage/key_value_store.dart';
-import 'package:recipe_app/core/storage/local_document_store.dart';
-import 'package:recipe_app/features/accounts/data/local_account_repository.dart';
-import 'package:recipe_app/features/admin/data/demo_admin_repository.dart';
-import 'package:recipe_app/features/recipe_management/data/local_recipe_management_repository.dart';
-import 'package:recipe_app/features/requests/data/local_request_repository.dart';
+import 'package:pocket_cook/app/app.dart';
+import 'package:pocket_cook/app/app_providers.dart';
+import 'package:pocket_cook/app/dependencies.dart';
+import 'package:pocket_cook/core/storage/key_value_store.dart';
+import 'package:pocket_cook/core/storage/local_document_store.dart';
+import 'package:pocket_cook/features/accounts/data/local_account_repository.dart';
+import 'package:pocket_cook/features/admin/data/demo_admin_repository.dart';
+import 'package:pocket_cook/features/recipe_management/data/local_recipe_management_repository.dart';
+import 'package:pocket_cook/features/requests/data/local_request_repository.dart';
 
 import '../../fakes/fake_auth_repository.dart';
 import '../../fakes/fake_recipe_repository.dart';
@@ -30,7 +30,7 @@ void main() {
     await tester.pumpWidget(
       AppProviders(
         dependencies: dependencies,
-        child: const LizasKitchenApp(),
+        child: const PocketCookApp(),
       ),
     );
     await tester.pumpAndSettle();
@@ -42,12 +42,12 @@ void main() {
 
     await tester.tap(find.text('Sign in').first);
     await tester.pumpAndSettle();
-    expect(find.text('Welcome back, lovely.'), findsOneWidget);
+    expect(find.text('Welcome back to Pocket Cook.'), findsOneWidget);
 
     await tester.tap(find.text('No account? Sign up'));
     await tester.pumpAndSettle();
 
-    expect(find.text('A lovely new beginning.'), findsOneWidget);
+    expect(find.text('Create your Pocket Cook account.'), findsOneWidget);
     expect(find.text('Already have an account? Sign in'), findsOneWidget);
     expect(tester.takeException(), isNull);
 

@@ -73,7 +73,7 @@ const recipe = (overrides = {}) => ({
   isPublished: true,
   tags: ['test'],
   createdByUid: 'system',
-  cookName: "Liza's Kitchen",
+  cookName: "Pocket Cook",
   createdAt: 1,
   updatedAt: 1,
   ...overrides,

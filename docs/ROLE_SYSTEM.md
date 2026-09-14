@@ -1,6 +1,6 @@
-# Liza's Kitchen role system
+# Pocket Cook role system
 
-Liza's Kitchen has three database-backed roles stored in `accounts/{uid}.role`:
+Pocket Cook has three database-backed roles stored in `accounts/{uid}.role`:
 
 - `admin` - user management, Cook-request approval, recipe-request review, and full recipe management.
 - `cook` - recipe requests and full recipe management.
@@ -79,10 +79,10 @@ Do not put an Admin password in Flutter/Dart source code. The included one-time 
 From `firebase/` after `npm install`:
 
 ```powershell
-$env:GOOGLE_APPLICATION_CREDENTIALS="C:\FirebaseKeys\liza-admin-sdk.json"
+$env:GOOGLE_APPLICATION_CREDENTIALS="C:\FirebaseKeys\pocket-cook-admin-sdk.json"
 $env:ADMIN_EMAIL="your-admin@example.com"
 $env:ADMIN_PASSWORD="replace-with-your-password"
-$env:ADMIN_NAME="Liza Kitchen Admin"
+$env:ADMIN_NAME="Pocket Cook Admin"
 npm run bootstrap:admin -- --project cook-book-b23be
 Remove-Item Env:ADMIN_EMAIL, Env:ADMIN_PASSWORD, Env:ADMIN_NAME, Env:GOOGLE_APPLICATION_CREDENTIALS
 ```

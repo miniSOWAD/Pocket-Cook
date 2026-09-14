@@ -1,4 +1,4 @@
-# Firebase setup for Liza's Kitchen
+# Firebase setup for Pocket Cook
 
 The checked-in Firebase client configuration points at project `cook-book-b23be`. If you move the app to another Firebase project, rerun `flutterfire configure` and use that new project ID in all commands below.
 
@@ -42,24 +42,26 @@ Download a service-account key from Firebase Console -> Project settings -> Serv
 
 ```powershell
 cd firebase
-$env:GOOGLE_APPLICATION_CREDENTIALS="C:\FirebaseKeys\liza-admin-sdk.json"
+$env:GOOGLE_APPLICATION_CREDENTIALS="C:\FirebaseKeys\pocket-cook-admin-sdk.json"
 $env:ADMIN_EMAIL="YOUR_DESIRED_ADMIN_EMAIL"
 $env:ADMIN_PASSWORD="YOUR_DESIRED_ADMIN_PASSWORD"
-$env:ADMIN_NAME="Liza Kitchen Admin"
-npm run bootstrap:admin -- --project cook-book-b23be
+$env:ADMIN_NAME="Pocket Cook Admin"
+node admin/bootstrap_admin.mjs --project cook-book-b23be
 Remove-Item Env:ADMIN_EMAIL, Env:ADMIN_PASSWORD, Env:ADMIN_NAME, Env:GOOGLE_APPLICATION_CREDENTIALS
 cd ..
 ```
 
 The script is idempotent: if that email already exists in Firebase Authentication, it updates that account and assigns the Admin role instead of creating a duplicate.
 
-## 5. Seed recipes (if needed)
+The recipe seed command below uses `--replace-system-recipes`: it removes obsolete system-seeded recipes while preserving recipes created by real Cooks/Admins.
+
+## 5. Replace/seed the Pocket Cook catalog (if needed)
 
 ```powershell
 cd firebase
 node scripts/seed_firestore.mjs --dry-run
-$env:GOOGLE_APPLICATION_CREDENTIALS="C:\FirebaseKeys\liza-admin-sdk.json"
-node scripts/seed_firestore.mjs --project cook-book-b23be --confirm-project cook-book-b23be
+$env:GOOGLE_APPLICATION_CREDENTIALS="C:\FirebaseKeys\pocket-cook-admin-sdk.json"
+node scripts/seed_firestore.mjs --project cook-book-b23be --confirm-project cook-book-b23be --replace-system-recipes
 Remove-Item Env:GOOGLE_APPLICATION_CREDENTIALS
 cd ..
 ```

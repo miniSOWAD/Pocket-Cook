@@ -12,7 +12,7 @@ class CooksScreen extends StatelessWidget {
     final directory = context.watch<CookDirectoryProvider>();
     return FeaturePage(
       title: 'Meet the cooks.',
-      subtitle: 'The people creating and caring for recipes inside Liza’s Kitchen.',
+      subtitle: 'The people creating and caring for recipes inside Pocket Cook.',
       eyebrow: 'Kitchen community',
       pageKey: 'cooks',
       child: directory.loading

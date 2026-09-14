@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_app/features/pantry/models/pantry_item.dart';
+import 'package:pocket_cook/features/pantry/models/pantry_item.dart';
 
 void main() {
   test('pantry item round trips through json', () {

@@ -23,13 +23,13 @@ class BrandMark extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [AppTheme.softPink, AppTheme.cream],
+          colors: [AppTheme.lightBlue, AppTheme.orangeWash],
         ),
         borderRadius: BorderRadius.circular(compact ? 14 : 21),
         border: Border.all(color: scheme.primary.withValues(alpha: 0.16)),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.dustyRose.withValues(alpha: 0.10),
+            color: AppTheme.lightOrange.withValues(alpha: 0.10),
             blurRadius: 18,
             offset: const Offset(0, 7),
           ),
@@ -42,7 +42,7 @@ class BrandMark extends StatelessWidget {
           Positioned(
             right: compact ? 5 : 8,
             top: compact ? 4 : 7,
-            child: Icon(Icons.favorite_rounded, color: AppTheme.dustyRose, size: compact ? 9 : 12),
+            child: Icon(Icons.local_fire_department_rounded, color: AppTheme.lightOrange, size: compact ? 10 : 13),
           ),
         ],
       ),
@@ -161,7 +161,7 @@ class FeaturePage extends StatelessWidget {
             top: narrow ? 190 : 150,
             child: _DecorativeBlob(
               size: narrow ? 110 : 140,
-              color: AppTheme.cream.withValues(alpha: 0.52),
+              color: AppTheme.orangeWash.withValues(alpha: 0.52),
             ),
           ),
           Align(
@@ -333,7 +333,7 @@ class SurfaceCard extends StatelessWidget {
         border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.85)),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.dustyRose.withValues(alpha: Theme.of(context).brightness == Brightness.dark ? 0.02 : 0.07),
+            color: AppTheme.lightOrange.withValues(alpha: Theme.of(context).brightness == Brightness.dark ? 0.02 : 0.07),
             blurRadius: 24,
             offset: const Offset(0, 9),
           ),
@@ -361,7 +361,7 @@ class InfoBanner extends StatelessWidget {
           end: Alignment.bottomRight,
           colors: dark
               ? [scheme.primaryContainer.withValues(alpha: 0.70), scheme.secondaryContainer.withValues(alpha: 0.45)]
-              : [AppTheme.softPink.withValues(alpha: 0.82), AppTheme.softCream],
+              : [AppTheme.lightBlue.withValues(alpha: 0.82), AppTheme.skyMist],
         ),
         borderRadius: BorderRadius.circular(22),
         border: Border.all(color: scheme.primary.withValues(alpha: 0.10)),
@@ -439,7 +439,7 @@ class LoadingView extends StatelessWidget {
             children: [
               const CircularProgressIndicator(),
               const SizedBox(height: 15),
-              Text('Preparing something lovely…', style: Theme.of(context).textTheme.bodySmall),
+              Text('Getting your kitchen ready…', style: Theme.of(context).textTheme.bodySmall),
             ],
           ),
         ),
@@ -471,7 +471,7 @@ class EmptyStateView extends StatelessWidget {
                   width: 78,
                   height: 78,
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(colors: [AppTheme.softPink, AppTheme.cream]),
+                    gradient: const LinearGradient(colors: [AppTheme.lightBlue, AppTheme.orangeWash]),
                     borderRadius: BorderRadius.circular(28),
                   ),
                   child: Icon(icon, size: 32, color: Theme.of(context).colorScheme.primary),
@@ -506,7 +506,7 @@ Future<bool> confirmAction(
     await showDialog<bool>(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        icon: const Icon(Icons.favorite_outline_rounded),
+        icon: const Icon(Icons.check_circle_outline_rounded),
         title: Text(title),
         content: Text(message),
         actions: [

@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_app/features/recipes/models/ingredient.dart';
-import 'package:recipe_app/features/grocery_list/models/grocery_source.dart';
-import 'package:recipe_app/features/grocery_list/logic/ingredient_merger.dart';
+import 'package:pocket_cook/features/recipes/models/ingredient.dart';
+import 'package:pocket_cook/features/grocery_list/models/grocery_source.dart';
+import 'package:pocket_cook/features/grocery_list/logic/ingredient_merger.dart';
 GrocerySource source(String id, List<Ingredient> ingredients) => GrocerySource(id: id, title: id,
   servings: 2, ingredients: ingredients, updatedAt: 1);
 void main() {

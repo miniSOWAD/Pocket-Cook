@@ -10,6 +10,7 @@ import '../../features/auth/presentation/providers/auth_provider.dart';
 import '../../features/favorites/presentation/screens/favorites_screen.dart';
 import '../../features/grocery_list/presentation/screens/grocery_list_screen.dart';
 import '../../features/meal_planner/presentation/screens/meal_planner_screen.dart';
+import '../../features/make_plate/presentation/screens/make_plate_screen.dart';
 import '../../features/pantry/presentation/screens/pantry_screen.dart';
 import '../../features/recipes/presentation/screens/home_screen.dart';
 import '../../features/requests/presentation/providers/request_provider.dart';
@@ -42,6 +43,7 @@ class _MainShellState extends State<MainShell> {
     (label: 'Plan', icon: Icons.calendar_month_outlined, selected: Icons.calendar_month_rounded),
     (label: 'Groceries', icon: Icons.shopping_bag_outlined, selected: Icons.shopping_bag_rounded),
     (label: 'Pantry', icon: Icons.kitchen_outlined, selected: Icons.kitchen_rounded),
+    (label: 'Make ur plate', icon: Icons.ramen_dining_outlined, selected: Icons.ramen_dining_rounded),
     (label: 'Cooks', icon: Icons.groups_outlined, selected: Icons.groups_rounded),
   ];
 
@@ -285,7 +287,7 @@ class _MainShellState extends State<MainShell> {
                   height: 18,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: account.isAdmin ? Theme.of(context).colorScheme.primary : AppTheme.dustyRose,
+                    color: account.isAdmin ? Theme.of(context).colorScheme.primary : AppTheme.lightOrange,
                     border: Border.all(color: Theme.of(context).colorScheme.surface, width: 2),
                   ),
                   child: Icon(
@@ -326,6 +328,7 @@ class _MainShellState extends State<MainShell> {
               MealPlannerScreen(),
               GroceryListScreen(),
               PantryScreen(),
+              MakePlateScreen(),
               CooksScreen(),
             ],
           );
@@ -343,11 +346,11 @@ class _MainShellState extends State<MainShell> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Liza's Kitchen",
+              "Pocket Cook",
               style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 23, letterSpacing: -0.7),
             ),
             Text(
-              auth.user == null ? 'made with a little love' : '${account.roleLabel} · made with a little love',
+              auth.user == null ? 'cook smart, waste less' : '${account.roleLabel} · cook smart, waste less',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     color: scheme.primary,
                     fontSize: 11,
@@ -393,7 +396,7 @@ class _MainShellState extends State<MainShell> {
                       border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.8)),
                       boxShadow: [
                         BoxShadow(
-                          color: AppTheme.dustyRose.withValues(alpha: 0.06),
+                          color: AppTheme.lightOrange.withValues(alpha: 0.06),
                           blurRadius: 24,
                           offset: const Offset(0, 8),
                         ),
@@ -429,7 +432,7 @@ class _MainShellState extends State<MainShell> {
                 border: Border(top: BorderSide(color: scheme.outlineVariant.withValues(alpha: 0.72))),
                 boxShadow: [
                   BoxShadow(
-                    color: AppTheme.dustyRose.withValues(alpha: 0.08),
+                    color: AppTheme.lightOrange.withValues(alpha: 0.08),
                     blurRadius: 22,
                     offset: const Offset(0, -6),
                   ),

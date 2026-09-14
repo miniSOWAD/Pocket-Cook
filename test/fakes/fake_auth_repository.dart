@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:recipe_app/features/auth/data/auth_repository.dart';
-import 'package:recipe_app/features/auth/models/auth_user.dart';
+import 'package:pocket_cook/features/auth/data/auth_repository.dart';
+import 'package:pocket_cook/features/auth/models/auth_user.dart';
 class FakeAuthRepository implements AuthRepository {
   FakeAuthRepository([this._user]);
   AuthUser? _user;

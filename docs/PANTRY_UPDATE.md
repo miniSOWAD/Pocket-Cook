@@ -1,6 +1,6 @@
 # Pantry feature update
 
-This update adds the **My Pantry / My Kitchen** feature to Liza's Kitchen.
+This update adds the **My Pantry / My Kitchen** feature to Pocket Cook.
 
 ## Included
 

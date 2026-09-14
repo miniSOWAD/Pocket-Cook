@@ -1,70 +1,532 @@
 [
   {
-    "id": "green-goddess-bowl",
-    "title": "Green goddess bowl",
-    "categoryId": "lunch",
-    "imageAsset": "assets/images/recipes/bowl.png",
+    "id": "chicken-fried-rice",
+    "title": "Chicken fried rice",
+    "categoryId": "dinner",
+    "imageAsset": "assets/images/recipes/rice.png",
     "imageUrl": "",
-    "description": "Fluffy quinoa, crisp greens, and chickpeas with a bright lemon dressing. A colorful bowl for an unhurried lunch.",
+    "description": "A fast one-pan dinner with tender chicken, fluffy rice, egg, and colorful vegetables.",
     "prepMinutes": 10,
     "cookMinutes": 15,
+    "baseServings": 2,
+    "difficulty": "Easy",
+    "vegetarian": false,
+    "featured": true,
+    "isPublished": true,
+    "tags": [
+      "chicken",
+      "rice",
+      "quick",
+      "one-pan"
+    ],
+    "ingredients": [
+      {
+        "id": "cooked-rice",
+        "name": "Cooked rice",
+        "quantity": 400,
+        "unit": "g",
+        "note": "cold rice works best"
+      },
+      {
+        "id": "chicken",
+        "name": "Chicken",
+        "quantity": 250,
+        "unit": "g",
+        "note": "diced"
+      },
+      {
+        "id": "egg",
+        "name": "Egg",
+        "quantity": 2,
+        "unit": "pcs",
+        "note": ""
+      },
+      {
+        "id": "carrot",
+        "name": "Carrot",
+        "quantity": 1,
+        "unit": "pcs",
+        "note": "diced"
+      },
+      {
+        "id": "peas",
+        "name": "Peas",
+        "quantity": 100,
+        "unit": "g",
+        "note": ""
+      },
+      {
+        "id": "soy-sauce",
+        "name": "Soy sauce",
+        "quantity": 2,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "cooking-oil",
+        "name": "Cooking oil",
+        "quantity": 1,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "spring-onion",
+        "name": "Spring onion",
+        "quantity": 2,
+        "unit": "pcs",
+        "note": "sliced"
+      },
+      {
+        "id": "salt",
+        "name": "Salt",
+        "quantity": null,
+        "unit": "",
+        "note": "to taste"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Cook the chicken",
+        "instruction": "Heat half the oil in a large pan and cook the diced chicken until browned and cooked through.",
+        "timerSeconds": 480
+      },
+      {
+        "title": "Scramble the eggs",
+        "instruction": "Push the chicken aside, add the eggs, and scramble until just set.",
+        "timerSeconds": 120
+      },
+      {
+        "title": "Fry the rice",
+        "instruction": "Add rice, carrot, peas, remaining oil, and soy sauce. Stir-fry over high heat until hot.",
+        "timerSeconds": 300
+      },
+      {
+        "title": "Finish",
+        "instruction": "Fold in spring onion, season to taste, and serve immediately.",
+        "timerSeconds": 0
+      }
+    ],
+    "createdByUid": "system",
+    "cookName": "Pocket Cook",
+    "createdAt": 0,
+    "updatedAt": 0
+  },
+  {
+    "id": "garlic-butter-noodles",
+    "title": "Garlic butter noodles",
+    "categoryId": "lunch",
+    "imageAsset": "assets/images/recipes/pasta.png",
+    "imageUrl": "",
+    "description": "Silky noodles tossed with garlic, butter, chili, and a squeeze of lemon for a speedy comfort meal.",
+    "prepMinutes": 5,
+    "cookMinutes": 12,
     "baseServings": 2,
     "difficulty": "Easy",
     "vegetarian": true,
     "featured": true,
     "isPublished": true,
     "tags": [
-      "fresh",
-      "quinoa",
-      "chickpea",
+      "noodles",
+      "garlic",
+      "quick",
       "vegetarian"
     ],
     "ingredients": [
       {
-        "id": "quinoa",
-        "name": "Quinoa",
-        "quantity": 150,
+        "id": "noodles",
+        "name": "Noodles",
+        "quantity": 220,
+        "unit": "g",
+        "note": ""
+      },
+      {
+        "id": "butter",
+        "name": "Butter",
+        "quantity": 2,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "garlic",
+        "name": "Garlic",
+        "quantity": 4,
+        "unit": "pcs",
+        "note": "cloves, minced"
+      },
+      {
+        "id": "chili-flakes",
+        "name": "Chili flakes",
+        "quantity": 1,
+        "unit": "tsp",
+        "note": ""
+      },
+      {
+        "id": "soy-sauce",
+        "name": "Soy sauce",
+        "quantity": 1,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "lemon-juice",
+        "name": "Lemon juice",
+        "quantity": 1,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "spring-onion",
+        "name": "Spring onion",
+        "quantity": 2,
+        "unit": "pcs",
+        "note": "sliced"
+      },
+      {
+        "id": "salt",
+        "name": "Salt",
+        "quantity": null,
+        "unit": "",
+        "note": "to taste"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Boil the noodles",
+        "instruction": "Cook the noodles until just tender, then drain and reserve a splash of cooking water.",
+        "timerSeconds": 480
+      },
+      {
+        "title": "Build the sauce",
+        "instruction": "Melt butter over medium-low heat. Add garlic and chili flakes and cook until fragrant.",
+        "timerSeconds": 90
+      },
+      {
+        "title": "Toss",
+        "instruction": "Add noodles, soy sauce, lemon juice, and a splash of cooking water. Toss until glossy.",
+        "timerSeconds": 120
+      },
+      {
+        "title": "Serve",
+        "instruction": "Top with spring onion and serve hot.",
+        "timerSeconds": 0
+      }
+    ],
+    "createdByUid": "system",
+    "cookName": "Pocket Cook",
+    "createdAt": 0,
+    "updatedAt": 0
+  },
+  {
+    "id": "beef-potato-curry",
+    "title": "Beef & potato curry",
+    "categoryId": "dinner",
+    "imageAsset": "assets/images/recipes/curry.png",
+    "imageUrl": "",
+    "description": "A hearty curry with tender beef, soft potatoes, tomato, and warming spices.",
+    "prepMinutes": 20,
+    "cookMinutes": 55,
+    "baseServings": 4,
+    "difficulty": "Medium",
+    "vegetarian": false,
+    "featured": true,
+    "isPublished": true,
+    "tags": [
+      "beef",
+      "potato",
+      "curry",
+      "comfort"
+    ],
+    "ingredients": [
+      {
+        "id": "beef",
+        "name": "Beef",
+        "quantity": 600,
+        "unit": "g",
+        "note": "cubed"
+      },
+      {
+        "id": "potato",
+        "name": "Potato",
+        "quantity": 500,
+        "unit": "g",
+        "note": "cubed"
+      },
+      {
+        "id": "onion",
+        "name": "Onion",
+        "quantity": 2,
+        "unit": "pcs",
+        "note": "sliced"
+      },
+      {
+        "id": "tomato",
+        "name": "Tomato",
+        "quantity": 2,
+        "unit": "pcs",
+        "note": "chopped"
+      },
+      {
+        "id": "garlic",
+        "name": "Garlic",
+        "quantity": 4,
+        "unit": "pcs",
+        "note": "cloves, minced"
+      },
+      {
+        "id": "ginger",
+        "name": "Ginger",
+        "quantity": 1,
+        "unit": "tbsp",
+        "note": "grated"
+      },
+      {
+        "id": "curry-powder",
+        "name": "Curry powder",
+        "quantity": 2,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "cooking-oil",
+        "name": "Cooking oil",
+        "quantity": 2,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "water",
+        "name": "Water",
+        "quantity": 2,
+        "unit": "cup",
+        "note": ""
+      },
+      {
+        "id": "salt",
+        "name": "Salt",
+        "quantity": null,
+        "unit": "",
+        "note": "to taste"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Brown the beef",
+        "instruction": "Heat oil in a heavy pot and brown the beef in batches.",
+        "timerSeconds": 480
+      },
+      {
+        "title": "Build the base",
+        "instruction": "Add onion, garlic, ginger, tomato, and curry powder. Cook until softened and fragrant.",
+        "timerSeconds": 420
+      },
+      {
+        "title": "Simmer",
+        "instruction": "Add water, cover, and simmer until the beef begins to tenderize.",
+        "timerSeconds": 1800
+      },
+      {
+        "title": "Add potatoes",
+        "instruction": "Add potatoes and continue cooking until both beef and potatoes are tender.",
+        "timerSeconds": 1200
+      }
+    ],
+    "createdByUid": "system",
+    "cookName": "Pocket Cook",
+    "createdAt": 0,
+    "updatedAt": 0
+  },
+  {
+    "id": "vegetable-khichuri",
+    "title": "Vegetable khichuri",
+    "categoryId": "lunch",
+    "imageAsset": "assets/images/recipes/bowl.png",
+    "imageUrl": "",
+    "description": "Rice and red lentils cooked together with vegetables and gentle spices for a comforting one-pot meal.",
+    "prepMinutes": 12,
+    "cookMinutes": 30,
+    "baseServings": 4,
+    "difficulty": "Easy",
+    "vegetarian": true,
+    "featured": false,
+    "isPublished": true,
+    "tags": [
+      "rice",
+      "lentil",
+      "vegetarian",
+      "one-pot"
+    ],
+    "ingredients": [
+      {
+        "id": "rice",
+        "name": "Rice",
+        "quantity": 250,
         "unit": "g",
         "note": "rinsed"
       },
       {
-        "id": "chickpeas",
-        "name": "Chickpeas",
-        "quantity": 240,
+        "id": "red-lentils",
+        "name": "Red lentils",
+        "quantity": 180,
         "unit": "g",
-        "note": "canned, drained"
+        "note": "rinsed"
+      },
+      {
+        "id": "potato",
+        "name": "Potato",
+        "quantity": 2,
+        "unit": "pcs",
+        "note": "cubed"
+      },
+      {
+        "id": "carrot",
+        "name": "Carrot",
+        "quantity": 1,
+        "unit": "pcs",
+        "note": "sliced"
+      },
+      {
+        "id": "peas",
+        "name": "Peas",
+        "quantity": 120,
+        "unit": "g",
+        "note": ""
+      },
+      {
+        "id": "onion",
+        "name": "Onion",
+        "quantity": 1,
+        "unit": "pcs",
+        "note": "sliced"
+      },
+      {
+        "id": "turmeric",
+        "name": "Turmeric",
+        "quantity": 1,
+        "unit": "tsp",
+        "note": ""
+      },
+      {
+        "id": "cumin",
+        "name": "Cumin",
+        "quantity": 1,
+        "unit": "tsp",
+        "note": ""
+      },
+      {
+        "id": "cooking-oil",
+        "name": "Cooking oil",
+        "quantity": 1,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "water",
+        "name": "Water",
+        "quantity": 4,
+        "unit": "cup",
+        "note": ""
+      },
+      {
+        "id": "salt",
+        "name": "Salt",
+        "quantity": null,
+        "unit": "",
+        "note": "to taste"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Start the base",
+        "instruction": "Warm oil in a pot and cook the onion with cumin until lightly golden.",
+        "timerSeconds": 240
+      },
+      {
+        "title": "Toast the grains",
+        "instruction": "Add rice, lentils, turmeric, potato, and carrot. Stir for one minute.",
+        "timerSeconds": 60
+      },
+      {
+        "title": "Simmer",
+        "instruction": "Pour in water and cook gently until the rice and lentils are soft.",
+        "timerSeconds": 1200
+      },
+      {
+        "title": "Finish with peas",
+        "instruction": "Stir in peas and cook until tender. Adjust seasoning and serve.",
+        "timerSeconds": 300
+      }
+    ],
+    "createdByUid": "system",
+    "cookName": "Pocket Cook",
+    "createdAt": 0,
+    "updatedAt": 0
+  },
+  {
+    "id": "egg-paratha-roll",
+    "title": "Egg paratha roll",
+    "categoryId": "breakfast",
+    "imageAsset": "assets/images/recipes/wrap.png",
+    "imageUrl": "",
+    "description": "A crisp paratha wrapped around a masala egg filling, tomato, and cucumber.",
+    "prepMinutes": 8,
+    "cookMinutes": 10,
+    "baseServings": 2,
+    "difficulty": "Easy",
+    "vegetarian": false,
+    "featured": false,
+    "isPublished": true,
+    "tags": [
+      "egg",
+      "paratha",
+      "breakfast",
+      "quick"
+    ],
+    "ingredients": [
+      {
+        "id": "paratha",
+        "name": "Paratha",
+        "quantity": 2,
+        "unit": "pcs",
+        "note": ""
+      },
+      {
+        "id": "egg",
+        "name": "Egg",
+        "quantity": 3,
+        "unit": "pcs",
+        "note": ""
+      },
+      {
+        "id": "onion",
+        "name": "Onion",
+        "quantity": 1,
+        "unit": "pcs",
+        "note": "finely sliced"
+      },
+      {
+        "id": "tomato",
+        "name": "Tomato",
+        "quantity": 1,
+        "unit": "pcs",
+        "note": "sliced"
       },
       {
         "id": "cucumber",
         "name": "Cucumber",
         "quantity": 1,
         "unit": "pcs",
-        "note": "diced"
+        "note": "sliced"
       },
       {
-        "id": "avocado",
-        "name": "Avocado",
+        "id": "green-chili",
+        "name": "Green chili",
         "quantity": 1,
         "unit": "pcs",
-        "note": ""
+        "note": "finely chopped"
       },
       {
-        "id": "cherry-tomatoes",
-        "name": "Cherry tomatoes",
-        "quantity": 150,
-        "unit": "g",
-        "note": ""
-      },
-      {
-        "id": "lemon-juice",
-        "name": "Lemon juice",
-        "quantity": 2,
-        "unit": "tbsp",
-        "note": ""
-      },
-      {
-        "id": "olive-oil",
-        "name": "Olive oil",
+        "id": "cooking-oil",
+        "name": "Cooking oil",
         "quantity": 1,
         "unit": "tbsp",
         "note": ""
@@ -79,63 +541,283 @@
     ],
     "steps": [
       {
-        "title": "Cook the quinoa",
-        "instruction": "Cook the rinsed quinoa in water following the package directions. When tender, drain any excess water and let it rest.",
-        "timerSeconds": 900
+        "title": "Cook the parathas",
+        "instruction": "Cook the parathas on a hot pan until golden on both sides.",
+        "timerSeconds": 300
       },
       {
-        "title": "Prepare the greens",
-        "instruction": "Slice the cucumber, halve the cherry tomatoes, and cut the avocado. Rinse and drain the canned chickpeas.",
-        "timerSeconds": 0
+        "title": "Make the egg filling",
+        "instruction": "Beat eggs with onion, green chili, and salt, then scramble in the same pan.",
+        "timerSeconds": 240
       },
       {
-        "title": "Make it bright",
-        "instruction": "Whisk the lemon juice and olive oil together with salt to taste.",
-        "timerSeconds": 0
+        "title": "Build the rolls",
+        "instruction": "Divide egg, tomato, and cucumber between the parathas.",
+        "timerSeconds": 60
       },
       {
-        "title": "Build your bowl",
-        "instruction": "Divide the quinoa and vegetables between bowls. Add the chickpeas, drizzle with dressing, and serve.",
+        "title": "Roll and serve",
+        "instruction": "Roll tightly, slice if desired, and serve warm.",
         "timerSeconds": 0
       }
     ],
     "createdByUid": "system",
-    "cookName": "Liza's Kitchen",
+    "cookName": "Pocket Cook",
     "createdAt": 0,
     "updatedAt": 0
   },
   {
-    "id": "tomato-basil-pasta",
-    "title": "Tomato & basil pasta",
-    "categoryId": "dinner",
-    "imageAsset": "assets/images/recipes/pasta.png",
+    "id": "masala-omelette",
+    "title": "Masala omelette",
+    "categoryId": "breakfast",
+    "imageAsset": "assets/images/recipes/toast.png",
     "imageUrl": "",
-    "description": "A simple tomato sauce, plenty of basil, and a little pasta water turn everyday ingredients into a comforting dinner.",
-    "prepMinutes": 5,
-    "cookMinutes": 20,
+    "description": "Fluffy eggs folded with onion, tomato, chili, and coriander for a bold five-minute breakfast.",
+    "prepMinutes": 7,
+    "cookMinutes": 6,
     "baseServings": 2,
     "difficulty": "Easy",
-    "vegetarian": true,
-    "featured": true,
+    "vegetarian": false,
+    "featured": false,
     "isPublished": true,
     "tags": [
-      "pasta",
+      "egg",
+      "breakfast",
       "quick",
-      "comfort"
+      "spicy"
     ],
     "ingredients": [
       {
-        "id": "pasta",
-        "name": "Pasta",
-        "quantity": 200,
+        "id": "egg",
+        "name": "Egg",
+        "quantity": 4,
+        "unit": "pcs",
+        "note": ""
+      },
+      {
+        "id": "onion",
+        "name": "Onion",
+        "quantity": 1,
+        "unit": "pcs",
+        "note": "finely chopped"
+      },
+      {
+        "id": "tomato",
+        "name": "Tomato",
+        "quantity": 1,
+        "unit": "pcs",
+        "note": "finely chopped"
+      },
+      {
+        "id": "green-chili",
+        "name": "Green chili",
+        "quantity": 1,
+        "unit": "pcs",
+        "note": "chopped"
+      },
+      {
+        "id": "coriander",
+        "name": "Coriander",
+        "quantity": 15,
+        "unit": "g",
+        "note": "chopped"
+      },
+      {
+        "id": "cooking-oil",
+        "name": "Cooking oil",
+        "quantity": 1,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "salt",
+        "name": "Salt",
+        "quantity": null,
+        "unit": "",
+        "note": "to taste"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Mix",
+        "instruction": "Beat eggs with onion, tomato, chili, coriander, and salt.",
+        "timerSeconds": 60
+      },
+      {
+        "title": "Cook the first side",
+        "instruction": "Heat oil in a nonstick pan, pour in the egg mixture, and cook until almost set.",
+        "timerSeconds": 180
+      },
+      {
+        "title": "Fold",
+        "instruction": "Fold the omelette and cook for another minute.",
+        "timerSeconds": 60
+      }
+    ],
+    "createdByUid": "system",
+    "cookName": "Pocket Cook",
+    "createdAt": 0,
+    "updatedAt": 0
+  },
+  {
+    "id": "chickpea-tomato-curry",
+    "title": "Chickpea tomato curry",
+    "categoryId": "dinner",
+    "imageAsset": "assets/images/recipes/curry.png",
+    "imageUrl": "",
+    "description": "A pantry-friendly chickpea curry simmered with tomato, onion, garlic, and cumin.",
+    "prepMinutes": 10,
+    "cookMinutes": 22,
+    "baseServings": 3,
+    "difficulty": "Easy",
+    "vegetarian": true,
+    "featured": false,
+    "isPublished": true,
+    "tags": [
+      "chickpea",
+      "tomato",
+      "vegan",
+      "curry"
+    ],
+    "ingredients": [
+      {
+        "id": "chickpeas",
+        "name": "Chickpeas",
+        "quantity": 480,
+        "unit": "g",
+        "note": "cooked or canned, drained"
+      },
+      {
+        "id": "tomato",
+        "name": "Tomato",
+        "quantity": 3,
+        "unit": "pcs",
+        "note": "chopped"
+      },
+      {
+        "id": "onion",
+        "name": "Onion",
+        "quantity": 1,
+        "unit": "pcs",
+        "note": "diced"
+      },
+      {
+        "id": "garlic",
+        "name": "Garlic",
+        "quantity": 3,
+        "unit": "pcs",
+        "note": "cloves, minced"
+      },
+      {
+        "id": "cumin",
+        "name": "Cumin",
+        "quantity": 1,
+        "unit": "tsp",
+        "note": ""
+      },
+      {
+        "id": "turmeric",
+        "name": "Turmeric",
+        "quantity": 1,
+        "unit": "tsp",
+        "note": ""
+      },
+      {
+        "id": "cooking-oil",
+        "name": "Cooking oil",
+        "quantity": 1,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "water",
+        "name": "Water",
+        "quantity": 1,
+        "unit": "cup",
+        "note": ""
+      },
+      {
+        "id": "coriander",
+        "name": "Coriander",
+        "quantity": 15,
+        "unit": "g",
+        "note": "chopped"
+      },
+      {
+        "id": "salt",
+        "name": "Salt",
+        "quantity": null,
+        "unit": "",
+        "note": "to taste"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Soften the aromatics",
+        "instruction": "Cook onion and garlic in oil until soft.",
+        "timerSeconds": 300
+      },
+      {
+        "title": "Cook the spices",
+        "instruction": "Add cumin and turmeric, stirring for 30 seconds.",
+        "timerSeconds": 30
+      },
+      {
+        "title": "Simmer",
+        "instruction": "Add tomato, chickpeas, and water. Simmer until thick and saucy.",
+        "timerSeconds": 900
+      },
+      {
+        "title": "Finish",
+        "instruction": "Stir through coriander and serve.",
+        "timerSeconds": 0
+      }
+    ],
+    "createdByUid": "system",
+    "cookName": "Pocket Cook",
+    "createdAt": 0,
+    "updatedAt": 0
+  },
+  {
+    "id": "lemon-fish-rice",
+    "title": "Lemon fish with rice",
+    "categoryId": "dinner",
+    "imageAsset": "assets/images/recipes/rice.png",
+    "imageUrl": "",
+    "description": "Pan-seared fish with lemon, garlic, and fluffy rice for a clean, satisfying dinner.",
+    "prepMinutes": 10,
+    "cookMinutes": 20,
+    "baseServings": 2,
+    "difficulty": "Medium",
+    "vegetarian": false,
+    "featured": false,
+    "isPublished": true,
+    "tags": [
+      "fish",
+      "rice",
+      "lemon",
+      "high-protein"
+    ],
+    "ingredients": [
+      {
+        "id": "white-fish",
+        "name": "White fish fillet",
+        "quantity": 300,
         "unit": "g",
         "note": ""
       },
       {
-        "id": "canned-tomatoes",
-        "name": "Canned tomatoes",
-        "quantity": 400,
+        "id": "rice",
+        "name": "Rice",
+        "quantity": 180,
         "unit": "g",
+        "note": "rinsed"
+      },
+      {
+        "id": "lemon-juice",
+        "name": "Lemon juice",
+        "quantity": 2,
+        "unit": "tbsp",
         "note": ""
       },
       {
@@ -146,25 +828,25 @@
         "note": "cloves, minced"
       },
       {
-        "id": "olive-oil",
-        "name": "Olive oil",
+        "id": "butter",
+        "name": "Butter",
         "quantity": 1,
         "unit": "tbsp",
         "note": ""
       },
       {
-        "id": "basil",
-        "name": "Basil",
-        "quantity": 10,
-        "unit": "g",
+        "id": "cooking-oil",
+        "name": "Cooking oil",
+        "quantity": 1,
+        "unit": "tbsp",
         "note": ""
       },
       {
-        "id": "hard-cheese",
-        "name": "Vegetarian hard cheese",
-        "quantity": 30,
+        "id": "coriander",
+        "name": "Coriander",
+        "quantity": 10,
         "unit": "g",
-        "note": "optional, grated"
+        "note": "chopped"
       },
       {
         "id": "salt",
@@ -176,264 +858,65 @@
     ],
     "steps": [
       {
-        "title": "Start the sauce",
-        "instruction": "Warm olive oil in a pan over medium-low heat. Add the garlic and stir until fragrant, without letting it brown.",
-        "timerSeconds": 60
+        "title": "Cook the rice",
+        "instruction": "Cook rice until fluffy and keep warm.",
+        "timerSeconds": 900
       },
       {
-        "title": "Let it simmer",
-        "instruction": "Add the tomatoes. Break them up with a spoon and simmer gently, stirring occasionally.",
-        "timerSeconds": 720
-      },
-      {
-        "title": "Cook the pasta",
-        "instruction": "Cook the pasta in boiling water according to its package directions. Reserve a mug of cooking water before draining.",
+        "title": "Season the fish",
+        "instruction": "Pat the fish dry and season with salt, garlic, and half the lemon juice.",
         "timerSeconds": 0
       },
       {
-        "title": "Bring it together",
-        "instruction": "Toss the pasta with the sauce. Add a splash of reserved water to loosen it, then fold in torn basil. Season and finish with cheese if using.",
+        "title": "Sear",
+        "instruction": "Heat oil and sear the fish until opaque and lightly golden.",
+        "timerSeconds": 480
+      },
+      {
+        "title": "Finish",
+        "instruction": "Add butter and remaining lemon juice to the pan, spoon over the fish, and serve with rice.",
         "timerSeconds": 0
       }
     ],
     "createdByUid": "system",
-    "cookName": "Liza's Kitchen",
+    "cookName": "Pocket Cook",
     "createdAt": 0,
     "updatedAt": 0
   },
   {
-    "id": "avocado-egg-toast",
-    "title": "Avocado & egg toast",
-    "categoryId": "breakfast",
-    "imageAsset": "assets/images/recipes/toast.png",
+    "id": "cheesy-potato-skillet",
+    "title": "Cheesy potato skillet",
+    "categoryId": "snacks",
+    "imageAsset": "assets/images/recipes/bites.png",
     "imageUrl": "",
-    "description": "Golden toast, lemony avocado, and a fully set egg. A savory breakfast with very little fuss.",
-    "prepMinutes": 5,
-    "cookMinutes": 8,
-    "baseServings": 2,
+    "description": "Golden potatoes finished with melted cheese and spring onion in one skillet.",
+    "prepMinutes": 10,
+    "cookMinutes": 25,
+    "baseServings": 3,
     "difficulty": "Easy",
     "vegetarian": true,
     "featured": false,
     "isPublished": true,
     "tags": [
-      "breakfast",
-      "quick"
+      "potato",
+      "cheese",
+      "snack",
+      "skillet"
     ],
     "ingredients": [
       {
-        "id": "bread",
-        "name": "Bread",
-        "quantity": 2,
-        "unit": "pcs",
-        "note": "slices"
-      },
-      {
-        "id": "avocado",
-        "name": "Avocado",
-        "quantity": 1,
-        "unit": "pcs",
-        "note": ""
-      },
-      {
-        "id": "eggs",
-        "name": "Eggs",
-        "quantity": 2,
-        "unit": "pcs",
-        "note": ""
-      },
-      {
-        "id": "lemon-juice",
-        "name": "Lemon juice",
-        "quantity": 1,
-        "unit": "tbsp",
-        "note": ""
-      },
-      {
-        "id": "olive-oil",
-        "name": "Olive oil",
-        "quantity": 1,
-        "unit": "tsp",
-        "note": ""
-      },
-      {
-        "id": "chili-flakes",
-        "name": "Chili flakes",
-        "quantity": 0.25,
-        "unit": "tsp",
-        "note": ""
-      },
-      {
-        "id": "salt",
-        "name": "Salt",
-        "quantity": null,
-        "unit": "",
-        "note": ""
-      }
-    ],
-    "steps": [
-      {
-        "title": "Toast the bread",
-        "instruction": "Toast the bread until golden and crisp.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Mash the avocado",
-        "instruction": "Mash avocado with lemon juice and salt to taste.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Cook the eggs",
-        "instruction": "Heat the oil in a nonstick pan. Add the eggs and cook until both the whites and yolks are set. Adjust the heat as needed.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Top and enjoy",
-        "instruction": "Spread the avocado on the toast, add the cooked eggs, and finish with chili flakes.",
-        "timerSeconds": 0
-      }
-    ],
-    "createdByUid": "system",
-    "cookName": "Liza's Kitchen",
-    "createdAt": 0,
-    "updatedAt": 0
-  },
-  {
-    "id": "banana-oat-pancakes",
-    "title": "Banana oat pancakes",
-    "categoryId": "breakfast",
-    "imageAsset": "assets/images/recipes/pancakes.png",
-    "imageUrl": "",
-    "description": "Soft little pancakes made with oats and ripe banana. Serve them with fruit and a spoonful of yogurt.",
-    "prepMinutes": 10,
-    "cookMinutes": 12,
-    "baseServings": 2,
-    "difficulty": "Easy",
-    "vegetarian": true,
-    "featured": true,
-    "isPublished": true,
-    "tags": [
-      "breakfast",
-      "oats",
-      "sweet"
-    ],
-    "ingredients": [
-      {
-        "id": "rolled-oats",
-        "name": "Rolled oats",
-        "quantity": 100,
+        "id": "potato",
+        "name": "Potato",
+        "quantity": 600,
         "unit": "g",
-        "note": ""
+        "note": "small cubes"
       },
       {
-        "id": "banana",
-        "name": "Banana",
-        "quantity": 1,
-        "unit": "pcs",
-        "note": "ripe"
-      },
-      {
-        "id": "eggs",
-        "name": "Eggs",
-        "quantity": 1,
-        "unit": "pcs",
-        "note": ""
-      },
-      {
-        "id": "milk",
-        "name": "Milk",
-        "quantity": 120,
-        "unit": "ml",
-        "note": ""
-      },
-      {
-        "id": "baking-powder",
-        "name": "Baking powder",
-        "quantity": 1,
-        "unit": "tsp",
-        "note": ""
-      },
-      {
-        "id": "cooking-oil",
-        "name": "Cooking oil",
-        "quantity": 1,
-        "unit": "tsp",
-        "note": ""
-      },
-      {
-        "id": "berries",
-        "name": "Berries",
-        "quantity": 100,
+        "id": "cheese",
+        "name": "Cheese",
+        "quantity": 150,
         "unit": "g",
-        "note": ""
-      }
-    ],
-    "steps": [
-      {
-        "title": "Blend the batter",
-        "instruction": "Blend the oats into a coarse flour. Add the banana, egg, milk, and baking powder; blend until smooth.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Let it rest",
-        "instruction": "Let the batter thicken while you heat a nonstick pan over medium-low heat.",
-        "timerSeconds": 300
-      },
-      {
-        "title": "Cook small pancakes",
-        "instruction": "Lightly oil the pan. Add small spoonfuls of batter. Flip when bubbles form and the edges set, then cook the other side until the centers are cooked through.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Make a stack",
-        "instruction": "Serve the pancakes warm with the berries. Add a spoonful of yogurt or a drizzle of syrup if you like.",
-        "timerSeconds": 0
-      }
-    ],
-    "createdByUid": "system",
-    "cookName": "Liza's Kitchen",
-    "createdAt": 0,
-    "updatedAt": 0
-  },
-  {
-    "id": "chickpea-coconut-curry",
-    "title": "Chickpea coconut curry",
-    "categoryId": "dinner",
-    "imageAsset": "assets/images/recipes/curry.png",
-    "imageUrl": "",
-    "description": "Chickpeas and spinach in a gently spiced coconut sauce. A satisfying one-pan dinner to spoon over rice.",
-    "prepMinutes": 10,
-    "cookMinutes": 25,
-    "baseServings": 2,
-    "difficulty": "Easy",
-    "vegetarian": true,
-    "featured": true,
-    "isPublished": true,
-    "tags": [
-      "curry",
-      "one-pan",
-      "coconut"
-    ],
-    "ingredients": [
-      {
-        "id": "chickpeas",
-        "name": "Chickpeas",
-        "quantity": 400,
-        "unit": "g",
-        "note": "canned, drained"
-      },
-      {
-        "id": "coconut-milk",
-        "name": "Coconut milk",
-        "quantity": 200,
-        "unit": "ml",
-        "note": ""
-      },
-      {
-        "id": "canned-tomatoes",
-        "name": "Canned tomatoes",
-        "quantity": 200,
-        "unit": "g",
-        "note": ""
+        "note": "grated"
       },
       {
         "id": "onion",
@@ -443,22 +926,623 @@
         "note": "diced"
       },
       {
-        "id": "curry-powder",
-        "name": "Curry powder",
+        "id": "cooking-oil",
+        "name": "Cooking oil",
         "quantity": 2,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "paprika",
+        "name": "Paprika",
+        "quantity": 1,
         "unit": "tsp",
         "note": ""
       },
       {
-        "id": "spinach",
-        "name": "Spinach",
+        "id": "spring-onion",
+        "name": "Spring onion",
+        "quantity": 2,
+        "unit": "pcs",
+        "note": "sliced"
+      },
+      {
+        "id": "salt",
+        "name": "Salt",
+        "quantity": null,
+        "unit": "",
+        "note": "to taste"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Cook the potatoes",
+        "instruction": "Heat oil and cook the potatoes and onion, covered, until nearly tender.",
+        "timerSeconds": 900
+      },
+      {
+        "title": "Crisp",
+        "instruction": "Remove the lid, add paprika, and cook until the potatoes are golden.",
+        "timerSeconds": 420
+      },
+      {
+        "title": "Melt the cheese",
+        "instruction": "Scatter cheese over the top, cover briefly, and let it melt.",
+        "timerSeconds": 120
+      },
+      {
+        "title": "Finish",
+        "instruction": "Top with spring onion and serve.",
+        "timerSeconds": 0
+      }
+    ],
+    "createdByUid": "system",
+    "cookName": "Pocket Cook",
+    "createdAt": 0,
+    "updatedAt": 0
+  },
+  {
+    "id": "apple-cinnamon-french-toast",
+    "title": "Apple cinnamon French toast",
+    "categoryId": "breakfast",
+    "imageAsset": "assets/images/recipes/pancakes.png",
+    "imageUrl": "",
+    "description": "Custardy French toast topped with quick cinnamon apples and a drizzle of honey.",
+    "prepMinutes": 10,
+    "cookMinutes": 12,
+    "baseServings": 2,
+    "difficulty": "Easy",
+    "vegetarian": true,
+    "featured": false,
+    "isPublished": true,
+    "tags": [
+      "bread",
+      "apple",
+      "breakfast",
+      "sweet"
+    ],
+    "ingredients": [
+      {
+        "id": "bread",
+        "name": "Bread",
+        "quantity": 4,
+        "unit": "pcs",
+        "note": "thick slices"
+      },
+      {
+        "id": "egg",
+        "name": "Egg",
+        "quantity": 2,
+        "unit": "pcs",
+        "note": ""
+      },
+      {
+        "id": "milk",
+        "name": "Milk",
+        "quantity": 180,
+        "unit": "ml",
+        "note": ""
+      },
+      {
+        "id": "apple",
+        "name": "Apple",
+        "quantity": 1,
+        "unit": "pcs",
+        "note": "thinly sliced"
+      },
+      {
+        "id": "cinnamon",
+        "name": "Cinnamon",
+        "quantity": 1,
+        "unit": "tsp",
+        "note": ""
+      },
+      {
+        "id": "butter",
+        "name": "Butter",
+        "quantity": 1,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "honey",
+        "name": "Honey",
+        "quantity": 1,
+        "unit": "tbsp",
+        "note": ""
+      }
+    ],
+    "steps": [
+      {
+        "title": "Cook the apples",
+        "instruction": "Melt half the butter and cook apple with cinnamon until just tender.",
+        "timerSeconds": 300
+      },
+      {
+        "title": "Make the custard",
+        "instruction": "Whisk eggs and milk in a shallow bowl.",
+        "timerSeconds": 0
+      },
+      {
+        "title": "Toast",
+        "instruction": "Dip bread in the custard and cook in the remaining butter until golden on both sides.",
+        "timerSeconds": 360
+      },
+      {
+        "title": "Serve",
+        "instruction": "Top with warm apples and honey.",
+        "timerSeconds": 0
+      }
+    ],
+    "createdByUid": "system",
+    "cookName": "Pocket Cook",
+    "createdAt": 0,
+    "updatedAt": 0
+  },
+  {
+    "id": "strawberry-lassi",
+    "title": "Strawberry lassi",
+    "categoryId": "drinks",
+    "imageAsset": "assets/images/recipes/smoothie.png",
+    "imageUrl": "",
+    "description": "A cold yogurt drink blended with strawberries, milk, and honey.",
+    "prepMinutes": 5,
+    "cookMinutes": 0,
+    "baseServings": 2,
+    "difficulty": "Easy",
+    "vegetarian": true,
+    "featured": false,
+    "isPublished": true,
+    "tags": [
+      "strawberry",
+      "yogurt",
+      "drink",
+      "quick"
+    ],
+    "ingredients": [
+      {
+        "id": "strawberries",
+        "name": "Strawberries",
+        "quantity": 200,
+        "unit": "g",
+        "note": "hulled"
+      },
+      {
+        "id": "yogurt",
+        "name": "Yogurt",
+        "quantity": 250,
+        "unit": "g",
+        "note": ""
+      },
+      {
+        "id": "milk",
+        "name": "Milk",
+        "quantity": 150,
+        "unit": "ml",
+        "note": ""
+      },
+      {
+        "id": "honey",
+        "name": "Honey",
+        "quantity": 1,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "ice",
+        "name": "Ice",
+        "quantity": 1,
+        "unit": "cup",
+        "note": ""
+      }
+    ],
+    "steps": [
+      {
+        "title": "Blend",
+        "instruction": "Blend strawberries, yogurt, milk, honey, and ice until completely smooth.",
+        "timerSeconds": 60
+      },
+      {
+        "title": "Serve",
+        "instruction": "Pour into cold glasses and serve immediately.",
+        "timerSeconds": 0
+      }
+    ],
+    "createdByUid": "system",
+    "cookName": "Pocket Cook",
+    "createdAt": 0,
+    "updatedAt": 0
+  },
+  {
+    "id": "chocolate-mug-cake",
+    "title": "Chocolate mug cake",
+    "categoryId": "dessert",
+    "imageAsset": "assets/images/recipes/bites.png",
+    "imageUrl": "",
+    "description": "A quick single-serve chocolate cake mixed and cooked right in a mug.",
+    "prepMinutes": 5,
+    "cookMinutes": 2,
+    "baseServings": 1,
+    "difficulty": "Easy",
+    "vegetarian": true,
+    "featured": false,
+    "isPublished": true,
+    "tags": [
+      "chocolate",
+      "dessert",
+      "quick",
+      "mug-cake"
+    ],
+    "ingredients": [
+      {
+        "id": "flour",
+        "name": "Flour",
+        "quantity": 4,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "cocoa-powder",
+        "name": "Cocoa powder",
+        "quantity": 2,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "sugar",
+        "name": "Sugar",
+        "quantity": 2,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "milk",
+        "name": "Milk",
+        "quantity": 3,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "cooking-oil",
+        "name": "Cooking oil",
+        "quantity": 1,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "baking-powder",
+        "name": "Baking powder",
+        "quantity": 1,
+        "unit": "tsp",
+        "note": ""
+      }
+    ],
+    "steps": [
+      {
+        "title": "Mix the dry ingredients",
+        "instruction": "Stir flour, cocoa powder, sugar, and baking powder together in a large microwave-safe mug.",
+        "timerSeconds": 0
+      },
+      {
+        "title": "Add the wet ingredients",
+        "instruction": "Stir in milk and oil until smooth.",
+        "timerSeconds": 0
+      },
+      {
+        "title": "Cook",
+        "instruction": "Microwave until risen and just set. Let it stand briefly before eating.",
+        "timerSeconds": 90
+      }
+    ],
+    "createdByUid": "system",
+    "cookName": "Pocket Cook",
+    "createdAt": 0,
+    "updatedAt": 0
+  },
+  {
+    "id": "crispy-chicken-wrap",
+    "title": "Crispy chicken wrap",
+    "categoryId": "lunch",
+    "imageAsset": "assets/images/recipes/wrap.png",
+    "imageUrl": "",
+    "description": "Crunchy chicken, fresh salad, and a creamy yogurt sauce wrapped for an easy lunch.",
+    "prepMinutes": 15,
+    "cookMinutes": 15,
+    "baseServings": 2,
+    "difficulty": "Medium",
+    "vegetarian": false,
+    "featured": true,
+    "isPublished": true,
+    "tags": [
+      "chicken",
+      "wrap",
+      "lunch",
+      "crispy"
+    ],
+    "ingredients": [
+      {
+        "id": "chicken",
+        "name": "Chicken",
+        "quantity": 300,
+        "unit": "g",
+        "note": "thin strips"
+      },
+      {
+        "id": "flour",
+        "name": "Flour",
+        "quantity": 80,
+        "unit": "g",
+        "note": ""
+      },
+      {
+        "id": "egg",
+        "name": "Egg",
+        "quantity": 1,
+        "unit": "pcs",
+        "note": ""
+      },
+      {
+        "id": "tortilla",
+        "name": "Tortilla",
+        "quantity": 2,
+        "unit": "pcs",
+        "note": ""
+      },
+      {
+        "id": "lettuce",
+        "name": "Lettuce",
+        "quantity": 80,
+        "unit": "g",
+        "note": "shredded"
+      },
+      {
+        "id": "tomato",
+        "name": "Tomato",
+        "quantity": 1,
+        "unit": "pcs",
+        "note": "sliced"
+      },
+      {
+        "id": "yogurt",
+        "name": "Yogurt",
         "quantity": 100,
         "unit": "g",
         "note": ""
       },
       {
-        "id": "olive-oil",
-        "name": "Olive oil",
+        "id": "lemon-juice",
+        "name": "Lemon juice",
+        "quantity": 1,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "cooking-oil",
+        "name": "Cooking oil",
+        "quantity": 2,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "salt",
+        "name": "Salt",
+        "quantity": null,
+        "unit": "",
+        "note": "to taste"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Coat the chicken",
+        "instruction": "Dip chicken strips in beaten egg, then coat with seasoned flour.",
+        "timerSeconds": 0
+      },
+      {
+        "title": "Cook until crisp",
+        "instruction": "Shallow-fry the chicken in oil until golden and fully cooked.",
+        "timerSeconds": 600
+      },
+      {
+        "title": "Mix the sauce",
+        "instruction": "Stir yogurt and lemon juice together.",
+        "timerSeconds": 0
+      },
+      {
+        "title": "Wrap",
+        "instruction": "Fill tortillas with lettuce, tomato, crispy chicken, and yogurt sauce, then roll tightly.",
+        "timerSeconds": 0
+      }
+    ],
+    "createdByUid": "system",
+    "cookName": "Pocket Cook",
+    "createdAt": 0,
+    "updatedAt": 0
+  },
+  {
+    "id": "red-lentil-dal",
+    "title": "Red lentil dal",
+    "categoryId": "dinner",
+    "imageAsset": "assets/images/recipes/soup.png",
+    "imageUrl": "",
+    "description": "Simple red lentils simmered with onion, tomato, garlic, turmeric, and cumin.",
+    "prepMinutes": 8,
+    "cookMinutes": 28,
+    "baseServings": 4,
+    "difficulty": "Easy",
+    "vegetarian": true,
+    "featured": false,
+    "isPublished": true,
+    "tags": [
+      "lentil",
+      "dal",
+      "vegetarian",
+      "budget"
+    ],
+    "ingredients": [
+      {
+        "id": "red-lentils",
+        "name": "Red lentils",
+        "quantity": 250,
+        "unit": "g",
+        "note": "rinsed"
+      },
+      {
+        "id": "onion",
+        "name": "Onion",
+        "quantity": 1,
+        "unit": "pcs",
+        "note": "diced"
+      },
+      {
+        "id": "tomato",
+        "name": "Tomato",
+        "quantity": 2,
+        "unit": "pcs",
+        "note": "chopped"
+      },
+      {
+        "id": "garlic",
+        "name": "Garlic",
+        "quantity": 3,
+        "unit": "pcs",
+        "note": "cloves, minced"
+      },
+      {
+        "id": "turmeric",
+        "name": "Turmeric",
+        "quantity": 1,
+        "unit": "tsp",
+        "note": ""
+      },
+      {
+        "id": "cumin",
+        "name": "Cumin",
+        "quantity": 1,
+        "unit": "tsp",
+        "note": ""
+      },
+      {
+        "id": "cooking-oil",
+        "name": "Cooking oil",
+        "quantity": 1,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "water",
+        "name": "Water",
+        "quantity": 4,
+        "unit": "cup",
+        "note": ""
+      },
+      {
+        "id": "coriander",
+        "name": "Coriander",
+        "quantity": 10,
+        "unit": "g",
+        "note": ""
+      },
+      {
+        "id": "salt",
+        "name": "Salt",
+        "quantity": null,
+        "unit": "",
+        "note": "to taste"
+      }
+    ],
+    "steps": [
+      {
+        "title": "Start the aromatics",
+        "instruction": "Cook onion and garlic in oil until soft.",
+        "timerSeconds": 300
+      },
+      {
+        "title": "Add tomato and spice",
+        "instruction": "Add tomato, turmeric, and cumin and cook until the tomato breaks down.",
+        "timerSeconds": 300
+      },
+      {
+        "title": "Simmer the lentils",
+        "instruction": "Add lentils and water. Simmer until creamy and tender.",
+        "timerSeconds": 1200
+      },
+      {
+        "title": "Finish",
+        "instruction": "Season and top with coriander.",
+        "timerSeconds": 0
+      }
+    ],
+    "createdByUid": "system",
+    "cookName": "Pocket Cook",
+    "createdAt": 0,
+    "updatedAt": 0
+  },
+  {
+    "id": "spicy-tuna-pasta",
+    "title": "Spicy tuna pasta",
+    "categoryId": "lunch",
+    "imageAsset": "assets/images/recipes/pasta.png",
+    "imageUrl": "",
+    "description": "A fast tomato pasta with tuna, garlic, chili, and a bright squeeze of lemon.",
+    "prepMinutes": 8,
+    "cookMinutes": 18,
+    "baseServings": 3,
+    "difficulty": "Easy",
+    "vegetarian": false,
+    "featured": false,
+    "isPublished": true,
+    "tags": [
+      "tuna",
+      "pasta",
+      "quick",
+      "pantry"
+    ],
+    "ingredients": [
+      {
+        "id": "pasta",
+        "name": "Pasta",
+        "quantity": 280,
+        "unit": "g",
+        "note": ""
+      },
+      {
+        "id": "tuna",
+        "name": "Tuna",
+        "quantity": 240,
+        "unit": "g",
+        "note": "drained"
+      },
+      {
+        "id": "tomato",
+        "name": "Tomato",
+        "quantity": 3,
+        "unit": "pcs",
+        "note": "chopped"
+      },
+      {
+        "id": "garlic",
+        "name": "Garlic",
+        "quantity": 3,
+        "unit": "pcs",
+        "note": "cloves, minced"
+      },
+      {
+        "id": "chili-flakes",
+        "name": "Chili flakes",
+        "quantity": 1,
+        "unit": "tsp",
+        "note": ""
+      },
+      {
+        "id": "cooking-oil",
+        "name": "Cooking oil",
+        "quantity": 1,
+        "unit": "tbsp",
+        "note": ""
+      },
+      {
+        "id": "lemon-juice",
+        "name": "Lemon juice",
         "quantity": 1,
         "unit": "tbsp",
         "note": ""
@@ -468,709 +1552,33 @@
         "name": "Salt",
         "quantity": null,
         "unit": "",
-        "note": ""
+        "note": "to taste"
       }
     ],
     "steps": [
       {
-        "title": "Soften the onion",
-        "instruction": "Warm the oil in a large pan. Cook the onion over medium heat until softened, stirring regularly.",
-        "timerSeconds": 300
+        "title": "Cook the pasta",
+        "instruction": "Boil pasta until al dente and reserve a little cooking water.",
+        "timerSeconds": 600
       },
       {
-        "title": "Add the spice",
-        "instruction": "Stir in curry powder, then add the tomatoes and cook briefly until fragrant.",
+        "title": "Make the sauce",
+        "instruction": "Cook garlic and chili flakes in oil, then add tomato and simmer until saucy.",
+        "timerSeconds": 420
+      },
+      {
+        "title": "Add tuna",
+        "instruction": "Fold in the tuna and warm it through.",
         "timerSeconds": 120
       },
       {
-        "title": "Simmer gently",
-        "instruction": "Add the chickpeas and coconut milk. Bring to a gentle simmer and stir occasionally until the sauce has thickened slightly.",
-        "timerSeconds": 900
-      },
-      {
-        "title": "Finish with greens",
-        "instruction": "Fold in the spinach and stir until wilted. Season to taste and serve with cooked rice if desired.",
+        "title": "Toss and finish",
+        "instruction": "Add the pasta, lemon juice, and enough reserved water to coat everything.",
         "timerSeconds": 0
       }
     ],
     "createdByUid": "system",
-    "cookName": "Liza's Kitchen",
-    "createdAt": 0,
-    "updatedAt": 0
-  },
-  {
-    "id": "citrus-chicken-rice",
-    "title": "Citrus chicken rice bowl",
-    "categoryId": "lunch",
-    "imageAsset": "assets/images/recipes/rice.png",
-    "imageUrl": "",
-    "description": "A bright rice bowl using ready-cooked chicken, cucumber, and a lemon-olive oil dressing. Start with safely stored, fully cooked chicken.",
-    "prepMinutes": 10,
-    "cookMinutes": 20,
-    "baseServings": 2,
-    "difficulty": "Easy",
-    "vegetarian": false,
-    "featured": false,
-    "isPublished": true,
-    "tags": [
-      "rice",
-      "chicken",
-      "lunch"
-    ],
-    "ingredients": [
-      {
-        "id": "rice",
-        "name": "Rice",
-        "quantity": 150,
-        "unit": "g",
-        "note": ""
-      },
-      {
-        "id": "cooked-chicken",
-        "name": "Ready-cooked chicken",
-        "quantity": 200,
-        "unit": "g",
-        "note": "ready to eat; follow storage and reheating instructions"
-      },
-      {
-        "id": "cucumber",
-        "name": "Cucumber",
-        "quantity": 1,
-        "unit": "pcs",
-        "note": ""
-      },
-      {
-        "id": "carrot",
-        "name": "Carrot",
-        "quantity": 1,
-        "unit": "pcs",
-        "note": "grated"
-      },
-      {
-        "id": "lemon-juice",
-        "name": "Lemon juice",
-        "quantity": 2,
-        "unit": "tbsp",
-        "note": ""
-      },
-      {
-        "id": "olive-oil",
-        "name": "Olive oil",
-        "quantity": 1,
-        "unit": "tbsp",
-        "note": ""
-      },
-      {
-        "id": "parsley",
-        "name": "Parsley",
-        "quantity": 10,
-        "unit": "g",
-        "note": ""
-      }
-    ],
-    "steps": [
-      {
-        "title": "Cook the rice",
-        "instruction": "Rinse and cook the rice according to the package instructions.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Prepare the toppings",
-        "instruction": "Dice the cucumber, grate the carrot, and chop the parsley.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Prepare the cooked chicken",
-        "instruction": "Prepare the ready-cooked chicken according to its package instructions. If reheating, follow the package guidance. This recipe does not start with raw chicken.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Dress and assemble",
-        "instruction": "Whisk the lemon juice and olive oil together. Divide the rice, chicken, and vegetables between bowls and spoon over the dressing.",
-        "timerSeconds": 0
-      }
-    ],
-    "createdByUid": "system",
-    "cookName": "Liza's Kitchen",
-    "createdAt": 0,
-    "updatedAt": 0
-  },
-  {
-    "id": "roasted-tomato-soup",
-    "title": "Roasted tomato soup",
-    "categoryId": "dinner",
-    "imageAsset": "assets/images/recipes/soup.png",
-    "imageUrl": "",
-    "description": "Roasted tomatoes, a little garlic, and a swirl of cream. Comfort in a bowl, especially with a slice of toast.",
-    "prepMinutes": 10,
-    "cookMinutes": 35,
-    "baseServings": 2,
-    "difficulty": "Easy",
-    "vegetarian": true,
-    "featured": false,
-    "isPublished": true,
-    "tags": [
-      "soup",
-      "comfort",
-      "tomato"
-    ],
-    "ingredients": [
-      {
-        "id": "tomatoes",
-        "name": "Tomatoes",
-        "quantity": 600,
-        "unit": "g",
-        "note": "halved"
-      },
-      {
-        "id": "onion",
-        "name": "Onion",
-        "quantity": 1,
-        "unit": "pcs",
-        "note": "quartered"
-      },
-      {
-        "id": "garlic",
-        "name": "Garlic",
-        "quantity": 3,
-        "unit": "pcs",
-        "note": "cloves, peeled"
-      },
-      {
-        "id": "olive-oil",
-        "name": "Olive oil",
-        "quantity": 1,
-        "unit": "tbsp",
-        "note": ""
-      },
-      {
-        "id": "vegetable-stock",
-        "name": "Vegetable stock",
-        "quantity": 400,
-        "unit": "ml",
-        "note": ""
-      },
-      {
-        "id": "cream",
-        "name": "Cream",
-        "quantity": 2,
-        "unit": "tbsp",
-        "note": ""
-      },
-      {
-        "id": "basil",
-        "name": "Basil",
-        "quantity": 10,
-        "unit": "g",
-        "note": ""
-      }
-    ],
-    "steps": [
-      {
-        "title": "Roast the vegetables",
-        "instruction": "Heat the oven to 200 C. Put tomatoes, onion, and garlic on a tray and toss with olive oil. Roast until soft and lightly browned.",
-        "timerSeconds": 1800
-      },
-      {
-        "title": "Add the stock",
-        "instruction": "Transfer the roasted vegetables and their juices to a saucepan. Add vegetable stock and simmer gently.",
-        "timerSeconds": 300
-      },
-      {
-        "title": "Blend carefully",
-        "instruction": "Let the soup cool slightly, then blend carefully with a stick blender. Do not seal steaming hot soup in a closed blender.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Finish the bowl",
-        "instruction": "Stir in the cream, rewarm gently if needed, and top with torn basil. Taste before adding any salt.",
-        "timerSeconds": 0
-      }
-    ],
-    "createdByUid": "system",
-    "cookName": "Liza's Kitchen",
-    "createdAt": 0,
-    "updatedAt": 0
-  },
-  {
-    "id": "berry-yogurt-cup",
-    "title": "Berry yogurt crunch",
-    "categoryId": "dessert",
-    "imageAsset": "assets/images/recipes/yogurt.png",
-    "imageUrl": "",
-    "description": "Creamy yogurt, berries, and a crunchy oat topping. An easy, no-cook finish to a meal.",
-    "prepMinutes": 8,
-    "cookMinutes": 0,
-    "baseServings": 2,
-    "difficulty": "Easy",
-    "vegetarian": true,
-    "featured": false,
-    "isPublished": true,
-    "tags": [
-      "no-cook",
-      "berries",
-      "dessert"
-    ],
-    "ingredients": [
-      {
-        "id": "yogurt",
-        "name": "Yogurt",
-        "quantity": 300,
-        "unit": "g",
-        "note": ""
-      },
-      {
-        "id": "berries",
-        "name": "Berries",
-        "quantity": 150,
-        "unit": "g",
-        "note": ""
-      },
-      {
-        "id": "granola",
-        "name": "Granola",
-        "quantity": 60,
-        "unit": "g",
-        "note": ""
-      },
-      {
-        "id": "honey",
-        "name": "Honey",
-        "quantity": 2,
-        "unit": "tsp",
-        "note": ""
-      }
-    ],
-    "steps": [
-      {
-        "title": "Prepare the fruit",
-        "instruction": "Wash the berries and cut any larger strawberries into small pieces.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Layer the cups",
-        "instruction": "Spoon half the yogurt into two cups. Add half the berries and granola, then repeat the layers.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Finish just before serving",
-        "instruction": "Drizzle with honey to taste. Serve promptly so the granola keeps its crunch.",
-        "timerSeconds": 0
-      }
-    ],
-    "createdByUid": "system",
-    "cookName": "Liza's Kitchen",
-    "createdAt": 0,
-    "updatedAt": 0
-  },
-  {
-    "id": "salmon-lemon-bagel",
-    "title": "Salmon lemon bagel",
-    "categoryId": "breakfast",
-    "imageAsset": "assets/images/recipes/bagel.png",
-    "imageUrl": "",
-    "description": "A toasted bagel with cream cheese, ready-to-eat canned salmon, cucumber, and a squeeze of lemon.",
-    "prepMinutes": 8,
-    "cookMinutes": 3,
-    "baseServings": 2,
-    "difficulty": "Easy",
-    "vegetarian": false,
-    "featured": false,
-    "isPublished": true,
-    "tags": [
-      "fish",
-      "bagel",
-      "quick"
-    ],
-    "ingredients": [
-      {
-        "id": "bagel",
-        "name": "Bagel",
-        "quantity": 2,
-        "unit": "pcs",
-        "note": ""
-      },
-      {
-        "id": "canned-salmon",
-        "name": "Canned salmon",
-        "quantity": 160,
-        "unit": "g",
-        "note": "ready to eat, drained"
-      },
-      {
-        "id": "cream-cheese",
-        "name": "Cream cheese",
-        "quantity": 60,
-        "unit": "g",
-        "note": ""
-      },
-      {
-        "id": "cucumber",
-        "name": "Cucumber",
-        "quantity": 0.5,
-        "unit": "pcs",
-        "note": "thinly sliced"
-      },
-      {
-        "id": "lemon-juice",
-        "name": "Lemon juice",
-        "quantity": 1,
-        "unit": "tbsp",
-        "note": ""
-      },
-      {
-        "id": "dill",
-        "name": "Dill",
-        "quantity": 5,
-        "unit": "g",
-        "note": ""
-      }
-    ],
-    "steps": [
-      {
-        "title": "Toast the bagels",
-        "instruction": "Split and toast the bagels until the cut sides are golden.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Prepare the salmon",
-        "instruction": "Drain the ready-to-eat canned salmon and gently flake it. Check for and remove any bones you do not want to eat.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Build the layers",
-        "instruction": "Spread cream cheese over the bagels. Add cucumber and salmon, then finish with lemon juice and dill.",
-        "timerSeconds": 0
-      }
-    ],
-    "createdByUid": "system",
-    "cookName": "Liza's Kitchen",
-    "createdAt": 0,
-    "updatedAt": 0
-  },
-  {
-    "id": "rainbow-hummus-wrap",
-    "title": "Rainbow hummus wrap",
-    "categoryId": "lunch",
-    "imageAsset": "assets/images/recipes/wrap.png",
-    "imageUrl": "",
-    "description": "Crunchy vegetables and creamy hummus tucked into a soft tortilla. A colorful packed-lunch idea.",
-    "prepMinutes": 12,
-    "cookMinutes": 0,
-    "baseServings": 2,
-    "difficulty": "Easy",
-    "vegetarian": true,
-    "featured": false,
-    "isPublished": true,
-    "tags": [
-      "wrap",
-      "no-cook",
-      "vegetables"
-    ],
-    "ingredients": [
-      {
-        "id": "tortilla",
-        "name": "Tortilla",
-        "quantity": 2,
-        "unit": "pcs",
-        "note": ""
-      },
-      {
-        "id": "hummus",
-        "name": "Hummus",
-        "quantity": 100,
-        "unit": "g",
-        "note": ""
-      },
-      {
-        "id": "carrot",
-        "name": "Carrot",
-        "quantity": 1,
-        "unit": "pcs",
-        "note": "grated"
-      },
-      {
-        "id": "cucumber",
-        "name": "Cucumber",
-        "quantity": 0.5,
-        "unit": "pcs",
-        "note": "cut into sticks"
-      },
-      {
-        "id": "red-pepper",
-        "name": "Red pepper",
-        "quantity": 1,
-        "unit": "pcs",
-        "note": "sliced"
-      },
-      {
-        "id": "lettuce",
-        "name": "Lettuce",
-        "quantity": 40,
-        "unit": "g",
-        "note": ""
-      }
-    ],
-    "steps": [
-      {
-        "title": "Prepare the vegetables",
-        "instruction": "Wash and dry the vegetables. Grate the carrot and slice the pepper and cucumber.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Spread and layer",
-        "instruction": "Spread hummus over each tortilla, leaving a border. Layer the lettuce and other vegetables in the center.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Wrap it up",
-        "instruction": "Fold in the sides and roll each tortilla firmly around the filling. Slice in half to serve.",
-        "timerSeconds": 0
-      }
-    ],
-    "createdByUid": "system",
-    "cookName": "Liza's Kitchen",
-    "createdAt": 0,
-    "updatedAt": 0
-  },
-  {
-    "id": "mango-lime-smoothie",
-    "title": "Mango lime smoothie",
-    "categoryId": "drinks",
-    "imageAsset": "assets/images/recipes/smoothie.png",
-    "imageUrl": "",
-    "description": "A sunny blend of mango, yogurt, and lime. Add water gradually until it is just the way you like it.",
-    "prepMinutes": 5,
-    "cookMinutes": 0,
-    "baseServings": 2,
-    "difficulty": "Easy",
-    "vegetarian": true,
-    "featured": false,
-    "isPublished": true,
-    "tags": [
-      "mango",
-      "drink",
-      "no-cook"
-    ],
-    "ingredients": [
-      {
-        "id": "mango",
-        "name": "Mango",
-        "quantity": 300,
-        "unit": "g",
-        "note": "peeled, diced"
-      },
-      {
-        "id": "yogurt",
-        "name": "Yogurt",
-        "quantity": 150,
-        "unit": "g",
-        "note": ""
-      },
-      {
-        "id": "lime-juice",
-        "name": "Lime juice",
-        "quantity": 1,
-        "unit": "tbsp",
-        "note": ""
-      },
-      {
-        "id": "water",
-        "name": "Water",
-        "quantity": 150,
-        "unit": "ml",
-        "note": ""
-      },
-      {
-        "id": "ice",
-        "name": "Ice",
-        "quantity": 100,
-        "unit": "g",
-        "note": ""
-      }
-    ],
-    "steps": [
-      {
-        "title": "Load the blender",
-        "instruction": "Put the mango, yogurt, lime juice, and half the water into a blender.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Blend until smooth",
-        "instruction": "Blend until smooth. Add the ice and blend again if your blender supports crushing ice. Add more water as needed.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Pour and enjoy",
-        "instruction": "Taste, adjust the lime if needed, and pour into glasses. Serve immediately.",
-        "timerSeconds": 0
-      }
-    ],
-    "createdByUid": "system",
-    "cookName": "Liza's Kitchen",
-    "createdAt": 0,
-    "updatedAt": 0
-  },
-  {
-    "id": "lemon-herb-couscous",
-    "title": "Lemon herb couscous",
-    "categoryId": "lunch",
-    "imageAsset": "assets/images/recipes/couscous.png",
-    "imageUrl": "",
-    "description": "Fluffy couscous with parsley, tomatoes, and lemon. A simple side dish or a light lunch.",
-    "prepMinutes": 10,
-    "cookMinutes": 5,
-    "baseServings": 2,
-    "difficulty": "Easy",
-    "vegetarian": true,
-    "featured": false,
-    "isPublished": true,
-    "tags": [
-      "couscous",
-      "lemon",
-      "quick"
-    ],
-    "ingredients": [
-      {
-        "id": "couscous",
-        "name": "Couscous",
-        "quantity": 150,
-        "unit": "g",
-        "note": ""
-      },
-      {
-        "id": "vegetable-stock",
-        "name": "Vegetable stock",
-        "quantity": 180,
-        "unit": "ml",
-        "note": "hot; adjust to package ratio"
-      },
-      {
-        "id": "cherry-tomatoes",
-        "name": "Cherry tomatoes",
-        "quantity": 150,
-        "unit": "g",
-        "note": ""
-      },
-      {
-        "id": "parsley",
-        "name": "Parsley",
-        "quantity": 20,
-        "unit": "g",
-        "note": ""
-      },
-      {
-        "id": "lemon-juice",
-        "name": "Lemon juice",
-        "quantity": 2,
-        "unit": "tbsp",
-        "note": ""
-      },
-      {
-        "id": "olive-oil",
-        "name": "Olive oil",
-        "quantity": 1,
-        "unit": "tbsp",
-        "note": ""
-      }
-    ],
-    "steps": [
-      {
-        "title": "Hydrate the couscous",
-        "instruction": "Put couscous into a heatproof bowl. Add hot stock using the liquid ratio on your package and cover.",
-        "timerSeconds": 300
-      },
-      {
-        "title": "Chop the fresh ingredients",
-        "instruction": "Halve the tomatoes and finely chop the parsley.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Fluff and dress",
-        "instruction": "Fluff the couscous with a fork. Stir in tomatoes, parsley, lemon juice, and olive oil. Taste and adjust the seasoning.",
-        "timerSeconds": 0
-      }
-    ],
-    "createdByUid": "system",
-    "cookName": "Liza's Kitchen",
-    "createdAt": 0,
-    "updatedAt": 0
-  },
-  {
-    "id": "cocoa-oat-bites",
-    "title": "Cocoa oat bites",
-    "categoryId": "snacks",
-    "imageAsset": "assets/images/recipes/bites.png",
-    "imageUrl": "",
-    "description": "Small no-bake bites with oats, peanut butter, and cocoa. Keep them chilled until you are ready for a snack.",
-    "prepMinutes": 30,
-    "cookMinutes": 0,
-    "baseServings": 4,
-    "difficulty": "Easy",
-    "vegetarian": true,
-    "featured": false,
-    "isPublished": true,
-    "tags": [
-      "snack",
-      "no-bake",
-      "cocoa"
-    ],
-    "ingredients": [
-      {
-        "id": "rolled-oats",
-        "name": "Rolled oats",
-        "quantity": 100,
-        "unit": "g",
-        "note": ""
-      },
-      {
-        "id": "peanut-butter",
-        "name": "Peanut butter",
-        "quantity": 80,
-        "unit": "g",
-        "note": ""
-      },
-      {
-        "id": "honey",
-        "name": "Honey",
-        "quantity": 40,
-        "unit": "g",
-        "note": ""
-      },
-      {
-        "id": "cocoa",
-        "name": "Cocoa powder",
-        "quantity": 1,
-        "unit": "tbsp",
-        "note": ""
-      },
-      {
-        "id": "water",
-        "name": "Water",
-        "quantity": 1,
-        "unit": "tbsp",
-        "note": ""
-      }
-    ],
-    "steps": [
-      {
-        "title": "Mix the base",
-        "instruction": "Mix oats, peanut butter, honey, and cocoa in a bowl. Add a little water only if needed to bring the mixture together.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Shape the bites",
-        "instruction": "Use clean hands to roll the mixture into small balls. Place them on a lined plate.",
-        "timerSeconds": 0
-      },
-      {
-        "title": "Chill until firm",
-        "instruction": "Chill the bites until firm and store covered in the refrigerator. This recipe contains peanuts.",
-        "timerSeconds": 1200
-      }
-    ],
-    "createdByUid": "system",
-    "cookName": "Liza's Kitchen",
+    "cookName": "Pocket Cook",
     "createdAt": 0,
     "updatedAt": 0
   }

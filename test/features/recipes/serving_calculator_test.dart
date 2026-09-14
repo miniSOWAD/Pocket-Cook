@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_app/features/recipes/logic/serving_calculator.dart';
-import 'package:recipe_app/features/recipes/presentation/providers/recipe_detail_provider.dart';
-import 'package:recipe_app/core/utils/quantity_formatter.dart';
+import 'package:pocket_cook/features/recipes/logic/serving_calculator.dart';
+import 'package:pocket_cook/features/recipes/presentation/providers/recipe_detail_provider.dart';
+import 'package:pocket_cook/core/utils/quantity_formatter.dart';
 import '../../helpers/fixtures.dart';
 void main() {
   test('scales from two servings to five', () => expect(ServingCalculator.scale(200, 2, 5), 500));

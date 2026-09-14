@@ -27,7 +27,7 @@ class RecipeCard extends StatelessWidget {
         border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.9)),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.dustyRose.withValues(alpha: 0.07),
+            color: AppTheme.lightOrange.withValues(alpha: 0.07),
             blurRadius: 24,
             offset: const Offset(0, 9),
           ),
@@ -56,7 +56,7 @@ class RecipeCard extends StatelessWidget {
                             colors: [
                               Colors.transparent,
                               Colors.transparent,
-                              AppTheme.cocoa.withValues(alpha: 0.11),
+                              AppTheme.ink.withValues(alpha: 0.11),
                             ],
                           ),
                         ),
@@ -74,7 +74,7 @@ class RecipeCard extends StatelessWidget {
                           onPressed: onFavoritePressed,
                           icon: Icon(
                             isFavorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-                            color: isFavorite ? AppTheme.dustyRose : scheme.primary,
+                            color: isFavorite ? AppTheme.lightOrange : scheme.primary,
                             size: 21,
                           ),
                         ),
@@ -87,13 +87,13 @@ class RecipeCard extends StatelessWidget {
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                           decoration: BoxDecoration(
-                            color: AppTheme.offWhite.withValues(alpha: 0.94),
+                            color: AppTheme.snow.withValues(alpha: 0.94),
                             borderRadius: BorderRadius.circular(999),
                           ),
                           child: const Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.eco_rounded, size: 12, color: AppTheme.deepRose),
+                              Icon(Icons.eco_rounded, size: 12, color: AppTheme.deepCyan),
                               SizedBox(width: 5),
                               Text(
                                 'VEGETARIAN',
@@ -101,7 +101,7 @@ class RecipeCard extends StatelessWidget {
                                   fontSize: 9,
                                   fontWeight: FontWeight.w800,
                                   letterSpacing: 0.7,
-                                  color: AppTheme.deepRose,
+                                  color: AppTheme.deepCyan,
                                 ),
                               ),
                             ],

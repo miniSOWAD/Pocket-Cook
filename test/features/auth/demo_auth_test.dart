@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_app/core/storage/key_value_store.dart';
-import 'package:recipe_app/core/errors/app_exception.dart';
-import 'package:recipe_app/features/auth/data/demo_auth_repository.dart';
+import 'package:pocket_cook/core/storage/key_value_store.dart';
+import 'package:pocket_cook/core/errors/app_exception.dart';
+import 'package:pocket_cook/features/auth/data/demo_auth_repository.dart';
 void main() {
   test('demo access persists without storing passwords', () async {
     final storage = MemoryKeyValueStore(); final auth = DemoAuthRepository(storage);

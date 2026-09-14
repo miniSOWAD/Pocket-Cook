@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_app/features/accounts/models/app_account.dart';
-import 'package:recipe_app/features/accounts/models/app_role.dart';
+import 'package:pocket_cook/features/accounts/models/app_account.dart';
+import 'package:pocket_cook/features/accounts/models/app_role.dart';
 
 void main() {
   test('database roles parse to the expected permissions', () {

@@ -15,8 +15,8 @@ class LocalDocumentStore implements DocumentStore {
       _documents = parsed.map((key, value) => MapEntry(key, Map<String, dynamic>.from(value as Map)));
     }
   }
-  static const _storageKey = 'lizas_kitchen.documents.v1';
-  static const _legacyStorageKey = 'savor.documents.v1';
+  static const _storageKey = 'pocket_cook.documents.v1';
+  static const _legacyStorageKey = 'pocket_cook_legacy.documents.v1';
   final KeyValueStore _storage;
   Map<String, Json> _documents = {};
   final _changes = StreamController<void>.broadcast(sync: true);

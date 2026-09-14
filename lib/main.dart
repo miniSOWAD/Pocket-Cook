@@ -8,11 +8,11 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     final dependencies = await bootstrap();
-    runApp(AppProviders(dependencies: dependencies, child: const LizasKitchenApp()));
+    runApp(AppProviders(dependencies: dependencies, child: const PocketCookApp()));
   } catch (error) {
     // Deliberately do not silently fall back to demo after a Firebase failure.
     runApp(MaterialApp(theme: AppTheme.build(Brightness.light), home: Scaffold(
-      appBar: AppBar(title: const Text("Liza's Kitchen setup")),
+      appBar: AppBar(title: const Text("Pocket Cook setup")),
       body: Center(child: SingleChildScrollView(padding: const EdgeInsets.all(28),
         child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 600), child: Column(
           mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [

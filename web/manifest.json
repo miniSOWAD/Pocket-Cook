@@ -1,11 +1,11 @@
 {
-    "name": "Liza's Kitchen",
-    "short_name": "Liza's Kitchen",
+    "name": "Pocket Cook",
+    "short_name": "Pocket Cook",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#FFF9F4",
-    "theme_color": "#F3BAC8",
-    "description": "Recipes, cooks, pantry, meal planning, and a little everyday kitchen magic.",
+    "background_color": "#F5FCFF",
+    "theme_color": "#18C8D7",
+    "description": "Pocket Cook - recipes, pantry planning, cooks, and smart Make ur plate suggestions.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

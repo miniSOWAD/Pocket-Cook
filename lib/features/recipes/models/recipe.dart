@@ -20,7 +20,7 @@ class Recipe {
     this.tags = const [],
     this.isPublished = true,
     this.createdByUid = 'system',
-    this.cookName = "Liza's Kitchen",
+    this.cookName = "Pocket Cook",
     this.createdAt = 0,
     this.updatedAt = 0,
   });
@@ -63,7 +63,7 @@ class Recipe {
       steps: (json['steps'] as List)
           .map((item) => RecipeStep.fromJson(Map<String, dynamic>.from(item as Map)))
           .toList(),
-      imageAsset: json['imageAsset'] as String? ?? 'assets/images/recipes/green-goddess-bowl.png',
+      imageAsset: json['imageAsset'] as String? ?? 'assets/images/recipes/bowl.png',
       imageUrl: json['imageUrl'] as String? ?? '',
       difficulty: json['difficulty'] as String? ?? 'Easy',
       vegetarian: json['vegetarian'] as bool? ?? false,
@@ -73,7 +73,7 @@ class Recipe {
       createdByUid: json['createdByUid'] as String? ?? 'system',
       cookName: (json['cookName'] as String?)?.trim().isNotEmpty == true
           ? (json['cookName'] as String).trim()
-          : "Liza's Kitchen",
+          : "Pocket Cook",
       createdAt: (json['createdAt'] as num?)?.toInt() ?? 0,
       updatedAt: (json['updatedAt'] as num?)?.toInt() ?? 0,
     );

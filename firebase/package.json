@@ -1,5 +1,5 @@
 {
-  "name": "lizas-kitchen-firebase-tools",
+  "name": "pocket-cook-firebase-tools",
   "private": true,
   "type": "module",
   "engines": {
@@ -12,7 +12,8 @@
     "emulators": "firebase emulators:start --config ../firebase.json --project demo-recipe-app --only auth,firestore,functions",
     "test:rules": "firebase emulators:exec --config ../firebase.json --project demo-recipe-app --only firestore \"node --test rules_tests/firestore.rules.test.mjs\"",
     "bootstrap:admin": "node admin/bootstrap_admin.mjs",
-    "verify:admin": "node admin/verify_admin.mjs"
+    "verify:admin": "node admin/verify_admin.mjs",
+    "seed:replace": "node scripts/seed_firestore.mjs --replace-system-recipes"
   },
   "dependencies": {
     "firebase-admin": "^14.4.0"

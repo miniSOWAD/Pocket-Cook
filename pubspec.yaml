@@ -1,5 +1,5 @@
-name: recipe_app
-description: Liza's Kitchen - recipes, cooks, requests, groceries, pantry, and meal planning.
+name: pocket_cook
+description: Pocket Cook - recipes, pantry, groceries, meal planning, cooks, and Make ur plate suggestions.
 publish_to: none
 version: 1.0.0+1
 

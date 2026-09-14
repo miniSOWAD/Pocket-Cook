@@ -62,12 +62,13 @@ for folder in ['lib', 'test', 'integration_test', 'tool']:
         except ValueError as error: errors.append(str(error))
         for uri in re.findall(r"(?:import|export|part)\s+['\"]([^'\"]+)['\"]",text):
             if uri.startswith('dart:'): continue
-            if uri.startswith('package:recipe_app/'):
-                target=ROOT/'lib'/uri.removeprefix('package:recipe_app/')
+            if uri.startswith('package:pocket_cook/'):
+                target=ROOT/'lib'/uri.removeprefix('package:pocket_cook/')
             elif uri.startswith('package:'): continue
             else: target=file.parent/uri
             if not target.exists(): errors.append(f'{file.relative_to(ROOT)}: missing import {uri}')
 for file in ROOT.rglob('*.json'):
+    if any(part in {'node_modules', 'build', '.dart_tool', '.git'} for part in file.parts): continue
     try: json.loads(file.read_text())
     except (ValueError,UnicodeError) as error: errors.append(f'{file}: invalid JSON {error}')
 recipes=json.loads((ROOT/'assets/data/recipes.json').read_text())

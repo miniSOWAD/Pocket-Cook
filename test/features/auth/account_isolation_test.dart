@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_app/core/storage/key_value_store.dart';
-import 'package:recipe_app/core/storage/local_document_store.dart';
-import 'package:recipe_app/features/auth/presentation/providers/auth_provider.dart';
-import 'package:recipe_app/features/favorites/data/document_favorites_repository.dart';
-import 'package:recipe_app/features/favorites/presentation/providers/favorites_provider.dart';
+import 'package:pocket_cook/core/storage/key_value_store.dart';
+import 'package:pocket_cook/core/storage/local_document_store.dart';
+import 'package:pocket_cook/features/auth/presentation/providers/auth_provider.dart';
+import 'package:pocket_cook/features/favorites/data/document_favorites_repository.dart';
+import 'package:pocket_cook/features/favorites/presentation/providers/favorites_provider.dart';
 import '../../fakes/fake_auth_repository.dart';
 import '../../helpers/fixtures.dart';
 void main() {

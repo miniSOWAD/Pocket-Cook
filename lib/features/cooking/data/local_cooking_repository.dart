@@ -5,8 +5,8 @@ import 'cooking_repository.dart';
 class LocalCookingRepository implements CookingRepository {
   LocalCookingRepository(this.storage);
   final KeyValueStore storage;
-  String _key(String scope, String recipeId) => 'lizas_kitchen.cooking.$scope.$recipeId';
-  String _legacyKey(String scope, String recipeId) => 'savor.cooking.$scope.$recipeId';
+  String _key(String scope, String recipeId) => 'pocket_cook.cooking.$scope.$recipeId';
+  String _legacyKey(String scope, String recipeId) => 'pocket_cook_legacy.cooking.$scope.$recipeId';
   @override
   Map<String, dynamic>? read(String userScope, String recipeId) {
     final currentKey = _key(userScope, recipeId);

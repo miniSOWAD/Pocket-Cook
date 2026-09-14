@@ -19,7 +19,7 @@ class SettingsScreen extends StatelessWidget {
         child: FeaturePage(
           eyebrow: 'Make it yours',
           title: 'Just the way you like it.',
-          subtitle: "A few small touches to make Liza's Kitchen feel perfectly at home on your device.",
+          subtitle: "A few small touches to make Pocket Cook feel perfectly at home on your device.",
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -57,14 +57,14 @@ class SettingsScreen extends StatelessWidget {
                           switch (mode) {
                             ThemeMode.system => 'Follow device setting',
                             ThemeMode.light => 'Light & airy',
-                            ThemeMode.dark => 'Evening rose',
+                            ThemeMode.dark => 'Deep ocean',
                           },
                         ),
                         subtitle: Text(
                           switch (mode) {
                             ThemeMode.system => 'Match the appearance of your phone or computer',
-                            ThemeMode.light => 'Cream, off-white, and baby-pink surfaces',
-                            ThemeMode.dark => 'A deeper cocoa-and-rose version of the same palette',
+                            ThemeMode.light => 'Cyan, light-blue, and warm orange surfaces',
+                            ThemeMode.dark => 'Deep teal surfaces with cyan and warm orange accents',
                           },
                         ),
                         trailing: settings.themeMode == mode
@@ -105,8 +105,8 @@ class SettingsScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Liza's Kitchen", style: Theme.of(context).textTheme.titleMedium),
-                        Text('Version 1.0.0 · made with a little love', style: Theme.of(context).textTheme.bodySmall),
+                        Text("Pocket Cook", style: Theme.of(context).textTheme.titleMedium),
+                        Text('Version 1.0.0 · cook smart, waste less', style: Theme.of(context).textTheme.bodySmall),
                       ],
                     ),
                   ),
@@ -125,14 +125,14 @@ class _PalettePreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SurfaceCard(
-        tint: Theme.of(context).brightness == Brightness.dark ? null : AppTheme.offWhite,
+        tint: Theme.of(context).brightness == Brightness.dark ? null : AppTheme.snow,
         child: Row(
           children: [
-            const _Swatch(color: AppTheme.babyPink, label: 'Baby pink'),
+            const _Swatch(color: AppTheme.cyan, label: 'Cyan'),
             const SizedBox(width: 12),
-            const _Swatch(color: AppTheme.cream, label: 'Cream'),
+            const _Swatch(color: AppTheme.orangeWash, label: 'Light orange'),
             const SizedBox(width: 12),
-            const _Swatch(color: AppTheme.offWhite, label: 'Off white'),
+            const _Swatch(color: AppTheme.lightBlue, label: 'Light blue'),
           ],
         ),
       );
@@ -152,7 +152,7 @@ class _Swatch extends StatelessWidget {
               decoration: BoxDecoration(
                 color: color,
                 borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: AppTheme.line),
+                border: Border.all(color: AppTheme.lineBlue),
               ),
             ),
             const SizedBox(height: 8),

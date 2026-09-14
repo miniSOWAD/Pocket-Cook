@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_app/core/storage/key_value_store.dart';
-import 'package:recipe_app/core/storage/local_document_store.dart';
-import 'package:recipe_app/core/storage/document_store.dart';
+import 'package:pocket_cook/core/storage/key_value_store.dart';
+import 'package:pocket_cook/core/storage/local_document_store.dart';
+import 'package:pocket_cook/core/storage/document_store.dart';
 void main() {
   test('batches persist and can be read after reopening', () async {
     final storage = MemoryKeyValueStore(); final store = LocalDocumentStore(storage);

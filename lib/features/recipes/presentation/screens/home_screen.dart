@@ -28,9 +28,9 @@ class HomeScreen extends StatelessWidget {
 
     return FeaturePage(
       pageKey: 'discover',
-      eyebrow: name == null ? "Welcome to Liza's Kitchen" : 'Welcome, $name',
-      title: 'Something lovely\nis always cooking.',
-      subtitle: 'Thoughtful recipes, gentle planning, and a little everyday magic for your table.',
+      eyebrow: name == null ? 'Welcome to Pocket Cook' : 'Welcome, $name',
+      title: 'Cook smarter.\nWaste less.',
+      subtitle: 'Discover practical recipes, plan your meals, and turn the ingredients you already have into something delicious.',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -41,15 +41,15 @@ class HomeScreen extends StatelessWidget {
             const LoadingView()
           else if (recipes.isEmpty)
             const EmptyStateView(
-              title: 'A fresh page in your recipe journal',
+              title: 'Your cookbook is ready for recipes',
               message: 'No published recipes yet. In Firebase mode, run the seed script in the setup guide.',
             )
           else ...[
             _FeaturedRecipe(recipe: recipes.first),
             const SizedBox(height: 34),
             const SectionHeading(
-              'Choose by mood',
-              subtitle: 'A little shortcut to whatever you are craving.',
+              'Pick a category',
+              subtitle: 'Jump straight to the kind of food you want.',
             ),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -73,8 +73,8 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 34),
             SectionHeading(
-              'Made for today',
-              subtitle: 'Beautiful recipes worth slowing down for.',
+              'Fresh ideas for today',
+              subtitle: 'Quick inspiration for your next plate.',
               action: TextButton.icon(
                 onPressed: () => Navigator.pushNamed(context, AppRoutes.search),
                 icon: const Icon(Icons.arrow_forward_rounded, size: 17),
@@ -84,7 +84,7 @@ class HomeScreen extends StatelessWidget {
             RecipeGrid(recipes: recipes.take(8).toList()),
             const SizedBox(height: 28),
             const InfoBanner(
-              'Adjust servings, save your favorites, plan the week, and send ingredients straight to your grocery list.',
+              'Save favorites, plan the week, track your pantry, or use Make ur plate to cook from what you already have.',
               icon: Icons.favorite_outline_rounded,
             ),
           ],
@@ -171,14 +171,14 @@ class _FeaturedRecipe extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: Theme.of(context).brightness == Brightness.dark
-                    ? const [Color(0xFF6C3545), Color(0xFF4A2A34)]
-                    : const [Color(0xFFF7C8D5), Color(0xFFFFE9D2), Color(0xFFFFF7EE)],
+                    ? const [Color(0xFF0C5864), Color(0xFF123541)]
+                    : const [AppTheme.lightBlue, AppTheme.orangeWash, AppTheme.skyMist],
               ),
               borderRadius: BorderRadius.circular(32),
               border: Border.all(color: scheme.primary.withValues(alpha: 0.12)),
               boxShadow: [
                 BoxShadow(
-                  color: AppTheme.dustyRose.withValues(alpha: 0.12),
+                  color: AppTheme.lightOrange.withValues(alpha: 0.12),
                   blurRadius: 32,
                   offset: const Offset(0, 12),
                 ),
@@ -219,7 +219,7 @@ class _FeaturedRecipe extends StatelessWidget {
                                 border: Border.all(color: Colors.white.withValues(alpha: 0.7), width: 5),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: AppTheme.dustyRose.withValues(alpha: 0.15),
+                                    color: AppTheme.lightOrange.withValues(alpha: 0.15),
                                     blurRadius: 24,
                                     offset: const Offset(0, 10),
                                   ),
@@ -249,7 +249,7 @@ class _FeaturedCopy extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Eyebrow('Liza loves this one'),
+        const Eyebrow('Pocket Cook pick'),
         const SizedBox(height: 16),
         Text(
           recipe.title,
@@ -260,7 +260,7 @@ class _FeaturedCopy extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         Text(
-          '${recipe.totalMinutes} minutes · ${recipe.difficulty} · a cozy little favorite',
+          '${recipe.totalMinutes} minutes · ${recipe.difficulty} · ready when you are',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
         ),
         const SizedBox(height: 22),

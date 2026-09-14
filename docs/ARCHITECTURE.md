@@ -2,7 +2,7 @@
 
 ## Design
 
-Liza's Kitchen uses feature-based Flutter code with Provider/ChangeNotifier presentation state. Widgets render state and forward actions. Repositories own persistence. Pure calculation classes own serving arithmetic, grocery merging, pantry matching and timer deadline logic.
+Pocket Cook uses feature-based Flutter code with Provider/ChangeNotifier presentation state. Widgets render state and forward actions. Repositories own persistence. Pure calculation classes own serving arithmetic, grocery merging, pantry matching, Make ur plate matching, and timer deadline logic.
 
 ```text
 Screen / widget
@@ -27,6 +27,7 @@ The catalogue and authentication have distinct local/Firebase repositories becau
 | --- | --- |
 | Authentication and theme | App-wide |
 | Published recipe catalogue | App-wide |
+| Make ur plate ingredient input + suggestion state | Make ur plate screen only |
 | Favorites, profile, groceries, meal plans, pantry | Shared, strictly tied to current user UID |
 | Query/category/filter state | Search route |
 | Recipe serving selection | Individual detail route |
@@ -35,7 +36,7 @@ The catalogue and authentication have distinct local/Firebase repositories becau
 
 `UserScopedNotifier` observes the authentication provider. A UID change cancels old subscriptions, increments a generation number, clears private state synchronously and binds the new user's streams. Late stream callbacks and operation results are ignored when their generation is stale.
 
-`LizasKitchenApp` replaces its Navigator key when leaving/replacing an authenticated session. This disposes old profile forms, grocery/pantry modals and other route-local snapshots. Guest-to-authenticated navigation is kept so a pending Save action can return to its recipe.
+`PocketCookApp` replaces its Navigator key when leaving/replacing an authenticated session. This disposes old profile forms, grocery/pantry modals and other route-local snapshots. Guest-to-authenticated navigation is kept so a pending Save action can return to its recipe.
 
 UI guards only handle navigation and prompts. Firestore rules enforce backend ownership; hiding a button is not authorization.
 
@@ -51,10 +52,10 @@ Stream conversion validates basic record shape. A malformed remote record raises
 
 The `Recipe` model is the single recipe representation. Favorites store references, not copies. Grocery sources store scaled ingredient contributions, not editable duplicate recipes. Meal-plan entries store recipe IDs plus title snapshots for unavailable-recipe display.
 
-`ServingCalculator` always calculates from base recipe quantities. `IngredientMerger` and `PantryMatcher` use ingredient IDs and compatible canonical units, never labels alone or inferred cup/gram density.
+`ServingCalculator` always calculates from base recipe quantities. `IngredientMerger` and `PantryMatcher` use ingredient IDs and compatible canonical units. `MakePlateMatcher` accepts user-entered ingredient names, optionally checks compatible quantities, ranks recipe coverage, and stays local to the client because it needs no privileged backend access.
 
 ## Platform and dependencies
 
 Native/web scaffolding is generated with `flutter create` on the recipient's SDK. The package manifest targets Dart 3.9+, Provider, Firebase Core/Auth/Firestore, shared_preferences, and uuid. There is no generated dependency lockfile in the source archive because package resolution did not run here.
 
-Provider, repositories and pure functions are sufficient for this project's scale. There is deliberately no extra use-case layer, custom navigation framework, server deployment, or admin application without an implemented requirement.
+Provider, repositories and pure functions are sufficient for this project's scale. There is deliberately no extra use-case layer or custom navigation framework. Privileged Admin Authentication operations are isolated in the existing callable Cloud Functions backend.

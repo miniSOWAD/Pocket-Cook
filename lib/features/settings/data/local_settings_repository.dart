@@ -7,11 +7,11 @@ class LocalSettingsRepository implements SettingsRepository {
   final KeyValueStore storage;
   @override
   ThemeMode readTheme() {
-    final current = storage.read('lizas_kitchen.theme');
-    final name = current ?? storage.read('savor.theme');
-    if (current == null && name != null) unawaited(storage.write('lizas_kitchen.theme', name));
+    final current = storage.read('pocket_cook.theme');
+    final name = current ?? storage.read('pocket_cook_legacy.theme');
+    if (current == null && name != null) unawaited(storage.write('pocket_cook.theme', name));
     return ThemeMode.values.firstWhere((mode) => mode.name == name, orElse: () => ThemeMode.system);
   }
   @override
-  Future<void> saveTheme(ThemeMode mode) => storage.write('lizas_kitchen.theme', mode.name);
+  Future<void> saveTheme(ThemeMode mode) => storage.write('pocket_cook.theme', mode.name);
 }

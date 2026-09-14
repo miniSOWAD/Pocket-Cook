@@ -58,7 +58,7 @@ createdAt
 updatedAt
 ```
 
-Guests/Visitors can read only published recipes. Active Cooks and Admins can read drafts and can add, edit, publish/unpublish, and delete recipes. New recipes must attribute `createdByUid` and `cookName` to the signed-in Cook/Admin. Existing seed recipes are attributed to `system` / `Liza's Kitchen`.
+Guests/Visitors can read only published recipes. Active Cooks and Admins can read drafts and can add, edit, publish/unpublish, and delete recipes. New recipes must attribute `createdByUid` and `cookName` to the signed-in Cook/Admin. Existing seed recipes are attributed to `system` / `Pocket Cook`.
 
 The UI displays `Cook: <name>` on recipe cards/details and management screens.
 
@@ -128,6 +128,6 @@ Direct Flutter writes are governed by `firestore.rules`. Privileged Authenticati
 
 The one-time `firebase/admin/bootstrap_admin.mjs` script is also trusted tooling and must be run only with protected Application Default Credentials/service-account credentials.
 
-## Device-local legacy keys
+## Device-local storage keys
 
-The `savor.*` keys still present in source are intentional migration fallbacks from the old branding. Current Liza's Kitchen keys are used for new writes; the old keys remain readable so existing local demo/theme/cooking data is not lost after the rename.
+Current local demo/theme/cooking state uses the `pocket_cook.*` namespace. The temporary `pocket_cook_legacy.*` fallback namespace is reserved only for local migration compatibility and is not part of Firebase data or authorization.

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_app/features/cooking/logic/cooking_timer.dart';
+import 'package:pocket_cook/features/cooking/logic/cooking_timer.dart';
 void main() {
   late DateTime now;
   late CookingTimer timer;

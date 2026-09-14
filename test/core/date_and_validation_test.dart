@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_app/core/utils/date_formatter.dart';
-import 'package:recipe_app/core/utils/input_validators.dart';
+import 'package:pocket_cook/core/utils/date_formatter.dart';
+import 'package:pocket_cook/core/utils/input_validators.dart';
 void main() {
   test('weeks start on Monday', () => expect(weekStart(DateTime(2026, 9, 13)), DateTime(2026, 9, 7)));
   test('calendar addition crosses the year boundary', () => expect(dateKey(addCalendarDays(DateTime(2026, 12, 31), 1)), '2027-01-01'));

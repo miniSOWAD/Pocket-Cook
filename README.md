@@ -1,20 +1,75 @@
-# Liza's Kitchen
+# Pocket Cook
 
-Liza's Kitchen is a Flutter recipe, pantry, grocery, meal-planning, cooking, and community app using Provider with optional Firebase Authentication, Cloud Firestore, and callable Cloud Functions.
+Pocket Cook is a Flutter recipe and kitchen-planning app built with Provider and optional Firebase Authentication, Cloud Firestore, and callable Cloud Functions.
 
 ## Current major features
 
+- **Pocket Cook branding** across Flutter, Android, iOS, web/PWA metadata, documentation, seed data, and tests.
+- **Cyan + light-blue + light-orange design system** with coordinated light and dark themes.
+- **15 completely new bundled recipes** covering breakfast, lunch, dinner, snacks, dessert, and drinks.
+- **Make ur plate**: users enter ingredients they already have, optionally add amounts/units, and receive ranked recipe suggestions.
 - Recipe discovery, search, category filters, details, serving scaling, and guided cooking.
 - Favourites, meal planning, grocery lists, and My Pantry recipe matching.
-- Baby-pink, cream, and off-white Liza's Kitchen design system.
 - Email/password sign in, sign up, forgot-password flow, editable profile, and profile-photo URL.
 - Public Cooks directory.
 - Three Firestore-backed roles: Admin, Cook, and Visitor.
 - Recipe requests and Become Cook applications.
-- Admin user management: list, create, block/unblock, delete, and change roles.
-- Admin Cook-request review.
+- Admin user management through callable Cloud Functions: list, create, block/unblock, delete, and change roles.
 - Admin/Cook recipe management: create, update, publish/draft, delete, and fulfil requested recipes.
 - Recipe attribution using `Cook: name`.
+
+## Make ur plate
+
+The new navbar destination lets a user add ingredients such as:
+
+```text
+Chicken        500 g
+Rice           amount optional
+Onion          2 pcs
+```
+
+If the amount is omitted, Pocket Cook treats that ingredient as available. When an amount is supplied, the matcher compares compatible units such as `kg ↔ g` and `l ↔ ml`, and also understands common cooking-volume units (`tsp`, `tbsp`, `cup`). Results are ranked as **Ready to cook**, **Almost there**, or a percentage match. Missing and insufficient ingredients are shown on each result.
+
+The matcher is local application logic and does not require Cloud Functions or an AI API.
+
+## Bundled recipe catalog
+
+The project now ships these 15 recipes:
+
+1. Chicken fried rice
+2. Garlic butter noodles
+3. Beef & potato curry
+4. Vegetable khichuri
+5. Egg paratha roll
+6. Masala omelette
+7. Chickpea tomato curry
+8. Lemon fish with rice
+9. Cheesy potato skillet
+10. Apple cinnamon French toast
+11. Strawberry lassi
+12. Chocolate mug cake
+13. Crispy chicken wrap
+14. Red lentil dal
+15. Spicy tuna pasta
+
+Demo mode reads the new catalog from `assets/data/recipes.json`. Firebase mode reads Firestore, so an existing Firebase project must be reseeded if it still contains the previous system recipes.
+
+## Replace the old Firebase system recipes
+
+The updated seeder includes `--replace-system-recipes`. It removes only recipe documents where `createdByUid == "system"` that are no longer part of the bundled catalog, then writes the 15 new system recipes. Recipes created by real Cooks/Admins are not deleted.
+
+From the project root:
+
+```powershell
+cd firebase
+npm install
+$env:GOOGLE_APPLICATION_CREDENTIALS="C:\FirebaseKeys\YOUR-SERVICE-ACCOUNT.json"
+node scripts/seed_firestore.mjs --project cook-book-b23be --confirm-project cook-book-b23be --replace-system-recipes
+Remove-Item Env:GOOGLE_APPLICATION_CREDENTIALS
+cd ..
+```
+
+Always verify that `cook-book-b23be` is the Firebase project you intend to modify before running the real-project seed command.
 
 ## Role summary
 
@@ -62,36 +117,21 @@ Without the Firebase define, the app uses the local demo workspace.
 
 ## Deploy the role backend
 
-Admin user operations use authenticated callable Cloud Functions because client-side Flutter code must not have Firebase Admin privileges.
+Firestore-only features can be deployed separately:
 
 ```powershell
-firebase login
-firebase deploy --only firestore,functions --project cook-book-b23be
+firebase deploy --only "firestore:rules,firestore:indexes" --project cook-book-b23be
 ```
 
-Then create/update your one bootstrap Admin securely using the included Admin SDK script. Do **not** place the Admin password in Dart source:
+Privileged Admin Authentication operations use callable Cloud Functions and require a Firebase plan that supports Functions deployment:
 
 ```powershell
-cd firebase
-$env:GOOGLE_APPLICATION_CREDENTIALS="C:\FirebaseKeys\liza-admin-sdk.json"
-$env:ADMIN_EMAIL="YOUR_DESIRED_ADMIN_EMAIL"
-$env:ADMIN_PASSWORD="YOUR_DESIRED_ADMIN_PASSWORD"
-$env:ADMIN_NAME="Liza Kitchen Admin"
-npm run bootstrap:admin -- --project cook-book-b23be
-Remove-Item Env:ADMIN_EMAIL, Env:ADMIN_PASSWORD, Env:ADMIN_NAME, Env:GOOGLE_APPLICATION_CREDENTIALS
-cd ..
+firebase deploy --only functions --project cook-book-b23be
 ```
+
+Do **not** place the Admin password or Firebase Admin credentials in Dart source.
 
 For detailed Firebase setup, rules, functions, seeding, and emulator instructions see `docs/FIREBASE_SETUP.md`.
-
-## Important Firebase behavior
-
-- Normal Firebase registration always starts as Visitor.
-- Existing Firebase Auth users automatically receive a Visitor account document when they next sign in if they do not already have one.
-- Admin approval of a Become Cook request changes that user's database role to Cook.
-- Blocking a user disables the Firebase Authentication account and marks the Firestore account as blocked.
-- A currently signed-in Admin cannot delete, block, or demote themselves through the Admin UI.
-- Admins cannot see user passwords; Firebase does not expose passwords.
 
 ## Source structure
 
@@ -100,23 +140,24 @@ lib/
   app/
   core/
   features/
-    accounts/            # roles, public Cook directory
-    admin/               # privileged admin UI + callable client
+    accounts/
+    admin/
     auth/
     cooking/
     favorites/
     grocery_list/
+    make_plate/          # Make ur plate input + matching engine
     meal_planner/
     pantry/
     profile/
-    recipe_management/   # Admin/Cook CRUD
+    recipe_management/
     recipes/
-    requests/            # recipe + Become Cook requests
+    requests/
     settings/
 
 functions/               # trusted Firebase Admin callable backend
 firebase/
-  admin/                  # one-time secure Admin bootstrap
+  admin/
   rules_tests/
   seed/
   scripts/
@@ -142,3 +183,5 @@ flutter build web --release
 ## Security
 
 Do not ship a service-account key, Admin password, or Firebase Admin credentials in the Flutter app. Firestore rules enforce role permissions for direct database access, while privileged Authentication management occurs only in Cloud Functions.
+
+The Android application ID and iOS bundle identifier are intentionally left aligned with the existing Firebase app registrations so the current Firebase connection is not broken by the Pocket Cook rebrand. Their user-visible display names are Pocket Cook.

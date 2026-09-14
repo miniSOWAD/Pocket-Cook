@@ -1,6 +1,6 @@
-import 'package:recipe_app/features/recipes/models/ingredient.dart';
-import 'package:recipe_app/features/recipes/models/recipe.dart';
-import 'package:recipe_app/features/recipes/models/recipe_step.dart';
+import 'package:pocket_cook/features/recipes/models/ingredient.dart';
+import 'package:pocket_cook/features/recipes/models/recipe.dart';
+import 'package:pocket_cook/features/recipes/models/recipe_step.dart';
 Recipe sampleRecipe({String id = 'rice-bowl', String title = 'Rice bowl', int baseServings = 2,
   bool vegetarian = true, int cookMinutes = 15, List<Ingredient>? ingredients}) => Recipe(
     id: id, title: title, description: 'A test recipe', categoryId: 'lunch', prepMinutes: 5,

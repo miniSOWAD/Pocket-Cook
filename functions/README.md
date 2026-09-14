@@ -1,4 +1,4 @@
-# Liza's Kitchen Admin functions
+# Pocket Cook Admin functions
 
 These Node.js callable functions perform privileged Firebase Authentication actions that must not run inside the Flutter client.
 

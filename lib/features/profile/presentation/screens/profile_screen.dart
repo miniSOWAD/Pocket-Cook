@@ -243,8 +243,8 @@ class _EditableProfileState extends State<_EditableProfile> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: Theme.of(context).brightness == Brightness.dark
-                  ? const [Color(0xFF603341), Color(0xFF332429)]
-                  : const [AppTheme.softPink, AppTheme.softCream, AppTheme.offWhite],
+                  ? const [Color(0xFF0E5662), Color(0xFF102E38)]
+                  : const [AppTheme.lightBlue, AppTheme.skyMist, AppTheme.snow],
             ),
             borderRadius: BorderRadius.circular(32),
             border: Border.all(color: scheme.primary.withValues(alpha: 0.10)),
@@ -373,7 +373,7 @@ class _EditableProfileState extends State<_EditableProfile> {
                   textCapitalization: TextCapitalization.sentences,
                   decoration: const InputDecoration(
                     labelText: 'About you',
-                    hintText: 'Tell Liza’s Kitchen a little about your cooking style...',
+                    hintText: 'Tell Pocket Cook a little about your cooking style...',
                     prefixIcon: Icon(Icons.auto_awesome_outlined),
                   ),
                 ),
@@ -449,11 +449,11 @@ class _EditableProfileState extends State<_EditableProfile> {
               ListTile(
                 contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 leading: const _TileIcon(icon: Icons.favorite_outline_rounded),
-                title: const Text("About Liza's Kitchen"),
+                title: const Text("About Pocket Cook"),
                 subtitle: const Text('A softer way to discover, plan, and cook.'),
                 onTap: () => showAboutDialog(
                   context: context,
-                  applicationName: "Liza's Kitchen",
+                  applicationName: "Pocket Cook",
                   applicationVersion: '1.0.0',
                   applicationIcon: const BrandMark(),
                   children: const [

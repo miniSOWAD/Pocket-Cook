@@ -56,3 +56,14 @@ The app includes catalogue loading/empty/error states, empty favorites and groce
 ## Not included
 
 No admin dashboard, image upload, nutrition calculation, ratings/reviews, multi-user shared grocery lists, AI generator, push notification service, barcode scanning, automatic pantry deduction, account-deletion cascade or production monitoring. A recipe catalogue larger than a small app needs a new backend query/pagination/search design.
+
+## Make ur plate
+
+`Make ur plate` is available from the main navigation to guests and signed-in users. A user adds ingredient names and can optionally add amounts and units. Matching is performed locally against the published recipe catalog.
+
+- Missing amount: the named ingredient is treated as available.
+- Compatible quantities: `g/kg`, `ml/l`, `tsp/tbsp/cup`, and `pcs` are compared.
+- Salt and water are treated as basic kitchen staples for matching.
+- Full matches appear as **Ready to cook**.
+- Partial matches are ranked by coverage and show missing/insufficient ingredients.
+- Tapping a suggestion opens the normal recipe-detail page.

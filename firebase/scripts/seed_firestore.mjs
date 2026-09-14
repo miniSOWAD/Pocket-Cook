@@ -1,11 +1,12 @@
 import { loadSeed, validateSeed } from './validate_seed.mjs';
 
 function parseArgs(args) {
-  const result = { emulator: false, overwrite: false, dryRun: false, project: null, confirmProject: null };
+  const result = { emulator: false, overwrite: false, replaceSystemRecipes: false, dryRun: false, project: null, confirmProject: null };
   for (let i = 0; i < args.length; i++) {
     const flag = args[i];
     if (flag === '--emulator') result.emulator = true;
     else if (flag === '--overwrite') result.overwrite = true;
+    else if (flag === '--replace-system-recipes') result.replaceSystemRecipes = true;
     else if (flag === '--dry-run') result.dryRun = true;
     else if (flag === '--project' || flag === '--confirm-project') {
       const value = args[++i];
@@ -40,20 +41,32 @@ async function main() {
   try {
     const db = getFirestore(app);
     const batch = db.batch();
-    let writes = 0, skipped = 0;
+    let writes = 0, skipped = 0, removed = 0;
+
+    if (options.replaceSystemRecipes) {
+      const newRecipeIds = new Set(recipes.map((recipe) => recipe.id));
+      const existingSystem = await db.collection('recipes').where('createdByUid', '==', 'system').get();
+      for (const doc of existingSystem.docs) {
+        if (newRecipeIds.has(doc.id)) continue;
+        batch.delete(doc.ref);
+        removed++;
+      }
+    }
+
     for (const [collection, records] of [['categories', categories], ['recipes', recipes]]) {
       for (const record of records) {
         const { id, ...data } = record;
         const ref = db.collection(collection).doc(id);
         const existing = await ref.get();
-        if (existing.exists && !options.overwrite) { skipped++; continue; }
-        if (options.overwrite) batch.set(ref, data);
+        const forceSet = options.overwrite || (options.replaceSystemRecipes && collection === 'recipes');
+        if (existing.exists && !forceSet) { skipped++; continue; }
+        if (forceSet) batch.set(ref, data);
         else batch.create(ref, data);
         writes++;
       }
     }
-    if (writes > 0) await batch.commit();
-    console.log(`Seeded ${writes} documents in ${projectId}; skipped ${skipped} existing documents. No unrelated documents were deleted.`);
+    if (writes > 0 || removed > 0) await batch.commit();
+    console.log(`Seeded ${writes} documents in ${projectId}; removed ${removed} old system recipe documents; skipped ${skipped} existing documents. User-created recipes were not deleted.`);
   } finally { await deleteApp(app); }
 }
 main().catch((error) => { console.error(error.message); process.exitCode = 1; });

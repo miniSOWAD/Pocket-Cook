@@ -21,7 +21,7 @@ const args = process.argv.slice(2);
 const projectId = readProjectId(args);
 const email = process.env.ADMIN_EMAIL?.trim().toLowerCase();
 const password = process.env.ADMIN_PASSWORD;
-const displayName = process.env.ADMIN_NAME?.trim() || 'Liza Kitchen Admin';
+const displayName = process.env.ADMIN_NAME?.trim() || 'Pocket Cook Admin';
 
 if (!projectId || !email || !password) {
   console.error('Usage: set ADMIN_EMAIL and ADMIN_PASSWORD, then run:');

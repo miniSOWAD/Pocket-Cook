@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:recipe_app/features/recipes/models/recipe_filter.dart';
-import 'package:recipe_app/features/recipes/presentation/providers/recipe_catalog_provider.dart';
-import 'package:recipe_app/features/recipes/presentation/providers/recipe_search_provider.dart';
+import 'package:pocket_cook/features/recipes/models/recipe_filter.dart';
+import 'package:pocket_cook/features/recipes/presentation/providers/recipe_catalog_provider.dart';
+import 'package:pocket_cook/features/recipes/presentation/providers/recipe_search_provider.dart';
 import '../../helpers/fixtures.dart';
 import '../../fakes/fake_recipe_repository.dart';
 void main() {

@@ -5,12 +5,12 @@ import '../features/auth/presentation/providers/auth_provider.dart';
 import '../features/settings/presentation/providers/settings_provider.dart';
 import 'router/app_router.dart';
 
-class LizasKitchenApp extends StatefulWidget {
-  const LizasKitchenApp({super.key});
+class PocketCookApp extends StatefulWidget {
+  const PocketCookApp({super.key});
   @override
-  State<LizasKitchenApp> createState() => _LizasKitchenAppState();
+  State<PocketCookApp> createState() => _PocketCookAppState();
 }
-class _LizasKitchenAppState extends State<LizasKitchenApp> {
+class _PocketCookAppState extends State<PocketCookApp> {
   AuthProvider? _auth;
   String? _lastUid;
   GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
@@ -39,7 +39,7 @@ class _LizasKitchenAppState extends State<LizasKitchenApp> {
   void dispose() { _auth?.removeListener(_sessionChanged); super.dispose(); }
   @override
   Widget build(BuildContext context) => MaterialApp(
-    title: "Liza's Kitchen", debugShowCheckedModeBanner: false, navigatorKey: _navigatorKey,
+    title: "Pocket Cook", debugShowCheckedModeBanner: false, navigatorKey: _navigatorKey,
     theme: AppTheme.build(Brightness.light), darkTheme: AppTheme.build(Brightness.dark),
     themeMode: context.watch<SettingsProvider>().themeMode,
     onGenerateRoute: AppRouter.onGenerateRoute,

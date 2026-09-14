@@ -111,7 +111,7 @@ abstract final class AppRouter {
             return const _PermissionDenied(message: 'Only active Cooks and Admins can manage recipes.');
         }
         return Scaffold(
-          appBar: AppBar(title: const Text("Liza's Kitchen")),
+          appBar: AppBar(title: const Text("Pocket Cook")),
           body: const EmptyStateView(
             title: 'That page is not available',
             message: 'Go back and choose a recipe from the cookbook.',

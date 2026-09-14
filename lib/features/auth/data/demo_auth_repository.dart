@@ -13,8 +13,8 @@ class DemoAuthRepository implements AuthRepository {
     }
   }
 
-  static const _key = 'lizas_kitchen.demo.session';
-  static const _legacyKey = 'savor.demo.session';
+  static const _key = 'pocket_cook.demo.session';
+  static const _legacyKey = 'pocket_cook_legacy.demo.session';
   static const demoUser = AuthUser(
     uid: 'demo-user',
     name: 'Home cook',

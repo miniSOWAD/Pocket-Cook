@@ -32,7 +32,7 @@ class AuthPageLayout extends StatelessWidget {
             Positioned(
               left: -55,
               bottom: 30,
-              child: _AuthBlob(size: 160, color: AppTheme.cream.withValues(alpha: 0.72)),
+              child: _AuthBlob(size: 160, color: AppTheme.orangeWash.withValues(alpha: 0.72)),
             ),
             Center(
               child: SingleChildScrollView(
@@ -51,7 +51,7 @@ class AuthPageLayout extends StatelessWidget {
                           ),
                           const Spacer(),
                           Text(
-                            "Liza's Kitchen",
+                            "Pocket Cook",
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(color: scheme.primary),
                           ),
                         ],
@@ -59,7 +59,7 @@ class AuthPageLayout extends StatelessWidget {
                       const SizedBox(height: 28),
                       const Align(alignment: Alignment.centerLeft, child: BrandMark()),
                       const SizedBox(height: 26),
-                      const Eyebrow('A softer way to cook'),
+                      const Eyebrow('Cook smart, waste less'),
                       const SizedBox(height: 14),
                       Text(title, style: Theme.of(context).textTheme.headlineLarge),
                       const SizedBox(height: 10),
@@ -76,10 +76,10 @@ class AuthPageLayout extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.favorite_rounded, size: 13, color: AppTheme.dustyRose.withValues(alpha: 0.7)),
+                          Icon(Icons.favorite_rounded, size: 13, color: AppTheme.lightOrange.withValues(alpha: 0.7)),
                           const SizedBox(width: 7),
                           Text(
-                            'recipes · rituals · little joys',
+                            'recipes · pantry · smart plates',
                             style: Theme.of(context).textTheme.bodySmall?.copyWith(fontStyle: FontStyle.italic),
                           ),
                         ],
@@ -170,14 +170,14 @@ class _AuthFormState extends State<AuthForm> {
     if (auth.isDemo) {
       return AuthPageLayout(
         title: 'Make yourself at home.',
-        subtitle: "Step into Liza's Kitchen and explore the complete local experience before connecting Firebase.",
+        subtitle: "Step into Pocket Cook and explore the complete local experience before connecting Firebase.",
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const InfoBanner(
               'This is a local demo workspace, not a real account. No email or password is required. '
               'Favorites, groceries, and meal plans stay on this device.',
-              icon: Icons.favorite_outline_rounded,
+              icon: Icons.offline_bolt_outlined,
             ),
             const SizedBox(height: 24),
             ErrorNotice(auth.errorMessage),
@@ -201,7 +201,7 @@ class _AuthFormState extends State<AuthForm> {
     }
 
     return AuthPageLayout(
-      title: widget.register ? 'A lovely new beginning.' : 'Welcome back, lovely.',
+      title: widget.register ? 'Create your Pocket Cook account.' : 'Welcome back to Pocket Cook.',
       subtitle: widget.register
           ? 'Create an account to keep your favorite recipes, plans, and kitchen notes together.'
           : 'Sign in to your recipes, meal plans, grocery list, and pantry.',
