@@ -120,7 +120,7 @@ class ManageRecipesScreen extends StatelessWidget {
                             const Spacer(),
                             FilledButton.tonalIcon(
                               onPressed: manager.busy ? null : () => _edit(context, request: request),
-                              icon: const Icon(Icons.auto_awesome_rounded),
+                              icon: const Icon(Icons.add_circle_outline_rounded),
                               label: const Text('Create from request'),
                             ),
                           ]),

@@ -22,100 +22,163 @@ class AuthPageLayout extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          children: [
-            Positioned(
-              right: -70,
-              top: 40,
-              child: _AuthBlob(size: 210, color: scheme.primaryContainer.withValues(alpha: 0.65)),
-            ),
-            Positioned(
-              left: -55,
-              bottom: 30,
-              child: _AuthBlob(size: 160, color: AppTheme.orangeWash.withValues(alpha: 0.72)),
-            ),
-            Center(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 28),
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 500),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final wide = constraints.maxWidth >= 820;
+            final form = Padding(
+              padding: EdgeInsets.all(wide ? 40 : 22),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
                     children: [
-                      Row(
-                        children: [
-                          IconButton.filledTonal(
-                            tooltip: 'Back',
-                            onPressed: () => Navigator.maybePop(context),
-                            icon: const Icon(Icons.arrow_back_rounded),
-                          ),
-                          const Spacer(),
-                          Text(
-                            "Pocket Cook",
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(color: scheme.primary),
-                          ),
-                        ],
+                      IconButton.filledTonal(
+                        tooltip: 'Back',
+                        onPressed: () => Navigator.maybePop(context),
+                        icon: const Icon(Icons.arrow_back_rounded),
                       ),
-                      const SizedBox(height: 28),
-                      const Align(alignment: Alignment.centerLeft, child: BrandMark()),
-                      const SizedBox(height: 26),
-                      const Eyebrow('Cook smart, waste less'),
-                      const SizedBox(height: 14),
-                      Text(title, style: Theme.of(context).textTheme.headlineLarge),
-                      const SizedBox(height: 10),
-                      Text(
-                        subtitle,
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: scheme.onSurfaceVariant),
-                      ),
-                      const SizedBox(height: 30),
-                      SurfaceCard(
-                        padding: const EdgeInsets.all(24),
-                        child: child,
-                      ),
-                      const SizedBox(height: 22),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.favorite_rounded, size: 13, color: AppTheme.lightOrange.withValues(alpha: 0.7)),
-                          const SizedBox(width: 7),
-                          Text(
-                            'recipes · pantry · smart plates',
-                            style: Theme.of(context).textTheme.bodySmall?.copyWith(fontStyle: FontStyle.italic),
-                          ),
-                        ],
-                      ),
+                      const Spacer(),
+                      if (!wide)
+                        Text(
+                          'Pocket Cook',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                color: scheme.primary,
+                              ),
+                        ),
                     ],
+                  ),
+                  const SizedBox(height: 28),
+                  if (!wide) ...[
+                    const Align(alignment: Alignment.centerLeft, child: BrandMark()),
+                    const SizedBox(height: 24),
+                  ],
+                  const Eyebrow('Cook smart, waste less'),
+                  const SizedBox(height: 12),
+                  Text(title, style: Theme.of(context).textTheme.headlineMedium),
+                  const SizedBox(height: 9),
+                  Text(
+                    subtitle,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: scheme.onSurfaceVariant,
+                        ),
+                  ),
+                  const SizedBox(height: 26),
+                  child,
+                ],
+              ),
+            );
+
+            return Center(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(22),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 980),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: scheme.surface,
+                      borderRadius: BorderRadius.circular(28),
+                      border: Border.all(color: scheme.outlineVariant),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppTheme.deepCyan.withValues(alpha: 0.08),
+                          blurRadius: 34,
+                          offset: const Offset(0, 14),
+                        ),
+                      ],
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: wide
+                        ? IntrinsicHeight(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Expanded(
+                                  flex: 9,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(42),
+                                    decoration: const BoxDecoration(
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        colors: [
+                                          Color(0xFF087F91),
+                                          Color(0xFF18C8D7),
+                                        ],
+                                      ),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        const BrandMark(),
+                                        const SizedBox(height: 28),
+                                        Text(
+                                          'Pocket Cook',
+                                          style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                                                color: Colors.white,
+                                              ),
+                                        ),
+                                        const SizedBox(height: 12),
+                                        Text(
+                                          'Plan less. Waste less. Cook with confidence.',
+                                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                                color: Colors.white.withValues(alpha: 0.86),
+                                              ),
+                                        ),
+                                        const SizedBox(height: 30),
+                                        _AuthFeature(icon: Icons.ramen_dining_outlined, text: 'Match recipes to ingredients you already have'),
+                                        const SizedBox(height: 14),
+                                        _AuthFeature(icon: Icons.calendar_month_outlined, text: 'Plan meals and keep favourites together'),
+                                        const SizedBox(height: 14),
+                                        _AuthFeature(icon: Icons.kitchen_outlined, text: 'Track pantry items and grocery needs'),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Expanded(flex: 11, child: form),
+                              ],
+                            ),
+                          )
+                        : form,
                   ),
                 ),
               ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
   }
 }
 
-class _AuthBlob extends StatelessWidget {
-  const _AuthBlob({required this.size, required this.color});
-  final double size;
-  final Color color;
+class _AuthFeature extends StatelessWidget {
+  const _AuthFeature({required this.icon, required this.text});
+  final IconData icon;
+  final String text;
 
   @override
-  Widget build(BuildContext context) => IgnorePointer(
-        child: Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(size * 0.45),
-              topRight: Radius.circular(size * 0.25),
-              bottomLeft: Radius.circular(size * 0.28),
-              bottomRight: Radius.circular(size * 0.48),
+  Widget build(BuildContext context) => Row(
+        children: [
+          Container(
+            width: 38,
+            height: 38,
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(icon, color: Colors.white, size: 20),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              text,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Colors.white.withValues(alpha: 0.90),
+                  ),
             ),
           ),
-        ),
+        ],
       );
 }
 

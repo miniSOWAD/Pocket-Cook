@@ -107,7 +107,7 @@ class _MakePlateScreenState extends State<MakePlateScreen> {
                 onPressed: catalog.loading
                     ? null
                     : () => setState(() => _searched = true),
-                icon: const Icon(Icons.auto_awesome_rounded),
+                icon: const Icon(Icons.ramen_dining_rounded),
                 label: Text(_searched ? 'Match again' : 'Find recipes I can make'),
               ),
             ),

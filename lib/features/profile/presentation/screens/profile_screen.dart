@@ -22,12 +22,27 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = context.watch<AuthProvider>();
     final profileProvider = context.watch<ProfileProvider>();
+    final account = context.watch<AccountProvider>();
     final user = auth.user;
+    final rawProfile = profileProvider.profile;
+    final rawName = (rawProfile?.displayName ?? user?.name ?? '').trim();
+    final migratedAdminName = account.isAdmin &&
+            (rawName.isEmpty ||
+                rawName.toLowerCase().endsWith('kitchen admin') ||
+                rawName == 'Pocket Cook Admin')
+        ? 'Md Mahruf'
+        : rawName;
+    final displayedProfile = user == null
+        ? rawProfile
+        : UserProfile(
+            displayName: migratedAdminName.isEmpty ? user.name : migratedAdminName,
+            bio: rawProfile?.bio ?? '',
+          );
 
     return FeaturePage(
-      title: 'Your profile.',
-      subtitle: 'Keep your account details and the little things that make this kitchen feel like yours up to date.',
-      eyebrow: 'Made personal',
+      title: 'Account & profile',
+      subtitle: 'Manage your account details, public cook identity, and profile information.',
+      eyebrow: 'Account',
       child: user == null
           ? const SignInPrompt(message: 'Sign in to view and edit your profile.')
           : profileProvider.loading
@@ -35,7 +50,7 @@ class ProfileScreen extends StatelessWidget {
               : _EditableProfile(
                   key: ValueKey(user.uid),
                   user: user,
-                  profile: profileProvider.profile,
+                  profile: displayedProfile,
                 ),
     );
   }
@@ -374,7 +389,7 @@ class _EditableProfileState extends State<_EditableProfile> {
                   decoration: const InputDecoration(
                     labelText: 'About you',
                     hintText: 'Tell Pocket Cook a little about your cooking style...',
-                    prefixIcon: Icon(Icons.auto_awesome_outlined),
+                    prefixIcon: Icon(Icons.notes_rounded),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -450,7 +465,7 @@ class _EditableProfileState extends State<_EditableProfile> {
                 contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 leading: const _TileIcon(icon: Icons.favorite_outline_rounded),
                 title: const Text("About Pocket Cook"),
-                subtitle: const Text('A softer way to discover, plan, and cook.'),
+                subtitle: const Text('Recipes, planning, pantry tools, and smart ingredient matching.'),
                 onTap: () => showAboutDialog(
                   context: context,
                   applicationName: "Pocket Cook",

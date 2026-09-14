@@ -14,8 +14,7 @@ class BrandMark extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scheme = Theme.of(context).colorScheme;
-    final size = compact ? 38.0 : 58.0;
+    final size = compact ? 42.0 : 64.0;
     return Container(
       width: size,
       height: size,
@@ -23,14 +22,13 @@ class BrandMark extends StatelessWidget {
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [AppTheme.lightBlue, AppTheme.orangeWash],
+          colors: [Color(0xFF087F91), Color(0xFF18C8D7)],
         ),
-        borderRadius: BorderRadius.circular(compact ? 14 : 21),
-        border: Border.all(color: scheme.primary.withValues(alpha: 0.16)),
+        borderRadius: BorderRadius.circular(compact ? 14 : 20),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.lightOrange.withValues(alpha: 0.10),
-            blurRadius: 18,
+            color: AppTheme.deepCyan.withValues(alpha: 0.18),
+            blurRadius: compact ? 14 : 22,
             offset: const Offset(0, 7),
           ),
         ],
@@ -38,18 +36,29 @@ class BrandMark extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Icon(Icons.restaurant_menu_rounded, color: scheme.primary, size: compact ? 20 : 27),
+          Icon(
+            Icons.ramen_dining_rounded,
+            color: Colors.white,
+            size: compact ? 24 : 34,
+          ),
           Positioned(
-            right: compact ? 5 : 8,
-            top: compact ? 4 : 7,
-            child: Icon(Icons.local_fire_department_rounded, color: AppTheme.lightOrange, size: compact ? 10 : 13),
+            right: compact ? 5 : 7,
+            bottom: compact ? 5 : 7,
+            child: Container(
+              width: compact ? 9 : 12,
+              height: compact ? 9 : 12,
+              decoration: BoxDecoration(
+                color: AppTheme.lightOrange,
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.white, width: compact ? 1.5 : 2),
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 }
-
 
 class ProfileAvatar extends StatelessWidget {
   const ProfileAvatar({
@@ -142,106 +151,62 @@ class FeaturePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final narrow = MediaQuery.sizeOf(context).width < 600;
+    final narrow = MediaQuery.sizeOf(context).width < 640;
     final scheme = Theme.of(context).colorScheme;
     return SingleChildScrollView(
       key: PageStorageKey(pageKey ?? title),
-      child: Stack(
-        children: [
-          Positioned(
-            right: narrow ? -72 : -22,
-            top: 16,
-            child: _DecorativeBlob(
-              size: narrow ? 150 : 210,
-              color: scheme.primaryContainer.withValues(alpha: 0.48),
-            ),
-          ),
-          Positioned(
-            left: narrow ? -58 : 16,
-            top: narrow ? 190 : 150,
-            child: _DecorativeBlob(
-              size: narrow ? 110 : 140,
-              color: AppTheme.orangeWash.withValues(alpha: 0.52),
-            ),
-          ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              constraints: const BoxConstraints(maxWidth: 1160),
-              padding: EdgeInsets.fromLTRB(
-                narrow ? 20 : 36,
-                narrow ? 18 : 30,
-                narrow ? 20 : 36,
-                36,
-              ),
-              child: Column(
+      padding: EdgeInsets.fromLTRB(
+        narrow ? 18 : 34,
+        narrow ? 22 : 34,
+        narrow ? 18 : 34,
+        narrow ? 122 : 42,
+      ),
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1180),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (eyebrow != null) ...[
-                    Eyebrow(eyebrow!),
-                    const SizedBox(height: 13),
-                  ],
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(title, style: Theme.of(context).textTheme.headlineMedium),
-                            const SizedBox(height: 9),
-                            ConstrainedBox(
-                              constraints: const BoxConstraints(maxWidth: 660),
-                              child: Text(
-                                subtitle,
-                                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                      color: scheme.onSurfaceVariant,
-                                    ),
-                              ),
-                            ),
-                          ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (eyebrow != null) ...[
+                          Eyebrow(eyebrow!),
+                          const SizedBox(height: 12),
+                        ],
+                        Text(title, style: Theme.of(context).textTheme.headlineMedium),
+                        const SizedBox(height: 8),
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 720),
+                          child: Text(
+                            subtitle,
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                  color: scheme.onSurfaceVariant,
+                                ),
+                          ),
                         ),
-                      ),
-                      if (trailing != null) ...[
-                        const SizedBox(width: 14),
-                        trailing!,
                       ],
-                    ],
+                    ),
                   ),
-                  const SizedBox(height: 30),
-                  child,
-                  const SizedBox(height: 32),
+                  if (trailing != null) ...[
+                    const SizedBox(width: 16),
+                    trailing!,
+                  ],
                 ],
               ),
-            ),
+              const SizedBox(height: 28),
+              child,
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
-}
-
-class _DecorativeBlob extends StatelessWidget {
-  const _DecorativeBlob({required this.size, required this.color});
-  final double size;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) => IgnorePointer(
-        child: Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(size * 0.48),
-              topRight: Radius.circular(size * 0.32),
-              bottomLeft: Radius.circular(size * 0.30),
-              bottomRight: Radius.circular(size * 0.50),
-            ),
-          ),
-        ),
-      );
 }
 
 class Eyebrow extends StatelessWidget {
@@ -253,29 +218,28 @@ class Eyebrow extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final foreground = color ?? scheme.primary;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 7),
-      decoration: BoxDecoration(
-        color: color == null ? scheme.primaryContainer.withValues(alpha: 0.72) : Colors.white.withValues(alpha: 0.13),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: foreground.withValues(alpha: 0.12)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.auto_awesome_rounded, size: 12, color: foreground),
-          const SizedBox(width: 6),
-          Text(
-            text.toUpperCase(),
-            style: TextStyle(
-              color: foreground,
-              fontSize: 10,
-              fontWeight: FontWeight.w800,
-              letterSpacing: 1.45,
-            ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 22,
+          height: 3,
+          decoration: BoxDecoration(
+            color: foreground,
+            borderRadius: BorderRadius.circular(999),
           ),
-        ],
-      ),
+        ),
+        const SizedBox(width: 9),
+        Text(
+          text.toUpperCase(),
+          style: TextStyle(
+            color: foreground,
+            fontSize: 10.5,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 1.25,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -329,11 +293,11 @@ class SurfaceCard extends StatelessWidget {
       padding: padding,
       decoration: BoxDecoration(
         color: tint ?? scheme.surface,
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(22),
         border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.85)),
         boxShadow: [
           BoxShadow(
-            color: AppTheme.lightOrange.withValues(alpha: Theme.of(context).brightness == Brightness.dark ? 0.02 : 0.07),
+            color: AppTheme.deepCyan.withValues(alpha: Theme.of(context).brightness == Brightness.dark ? 0.02 : 0.055),
             blurRadius: 24,
             offset: const Offset(0, 9),
           ),
@@ -472,7 +436,7 @@ class EmptyStateView extends StatelessWidget {
                   height: 78,
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(colors: [AppTheme.lightBlue, AppTheme.orangeWash]),
-                    borderRadius: BorderRadius.circular(28),
+                    borderRadius: BorderRadius.circular(22),
                   ),
                   child: Icon(icon, size: 32, color: Theme.of(context).colorScheme.primary),
                 ),

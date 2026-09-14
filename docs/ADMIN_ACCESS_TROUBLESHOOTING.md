@@ -32,7 +32,7 @@ If it fails, repair it with the idempotent bootstrap:
 
 ```powershell
 $env:ADMIN_PASSWORD="USE_A_NEW_STRONG_PASSWORD"
-$env:ADMIN_NAME="Pocket Cook Admin"
+$env:ADMIN_NAME="Md Mahruf"
 npm run bootstrap:admin
 ```
 

@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/config/app_config.dart';
@@ -38,7 +40,7 @@ class _MainShellState extends State<MainShell> {
   int _index = 0;
 
   static const _destinations = [
-    (label: 'Discover', icon: Icons.auto_awesome_outlined, selected: Icons.auto_awesome_rounded),
+    (label: 'Home', icon: Icons.home_outlined, selected: Icons.home_rounded),
     (label: 'Saved', icon: Icons.favorite_border_rounded, selected: Icons.favorite_rounded),
     (label: 'Plan', icon: Icons.calendar_month_outlined, selected: Icons.calendar_month_rounded),
     (label: 'Groceries', icon: Icons.shopping_bag_outlined, selected: Icons.shopping_bag_rounded),
@@ -322,49 +324,62 @@ class _MainShellState extends State<MainShell> {
           )
         : IndexedStack(
             index: _index,
-            children: const [
-              HomeScreen(),
-              FavoritesScreen(),
-              MealPlannerScreen(),
-              GroceryListScreen(),
-              PantryScreen(),
-              MakePlateScreen(),
-              CooksScreen(),
+            children: [
+              HomeScreen(onOpenMakePlate: () => setState(() => _index = 5)),
+              const FavoritesScreen(),
+              const MealPlannerScreen(),
+              const GroceryListScreen(),
+              const PantryScreen(),
+              const MakePlateScreen(),
+              const CooksScreen(),
             ],
           );
 
+    final dark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
+      extendBody: !wide,
       appBar: AppBar(
-        toolbarHeight: 76,
-        leadingWidth: 70,
+        toolbarHeight: 72,
+        leadingWidth: 68,
         leading: const Padding(
-          padding: EdgeInsets.only(left: 18, top: 8, bottom: 8),
+          padding: EdgeInsets.only(left: 18, top: 10, bottom: 10),
           child: BrandMark(compact: true),
         ),
-        titleSpacing: 10,
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Pocket Cook",
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 23, letterSpacing: -0.7),
-            ),
-            Text(
-              auth.user == null ? 'cook smart, waste less' : '${account.roleLabel} · cook smart, waste less',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: scheme.primary,
-                    fontSize: 11,
-                    fontStyle: FontStyle.italic,
+        titleSpacing: 6,
+        title: wide
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Pocket Cook',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontSize: 22,
+                          letterSpacing: -0.6,
+                        ),
                   ),
-            ),
-          ],
-        ),
+                  Text(
+                    'Cook smarter. Waste less.',
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: scheme.onSurfaceVariant,
+                          fontSize: 11,
+                        ),
+                  ),
+                ],
+              )
+            : Text(
+                'Pocket Cook',
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontSize: 22,
+                      letterSpacing: -0.6,
+                    ),
+              ),
         actions: [
           if (auth.isDemo || AppConfig.useEmulators)
             Padding(
               padding: const EdgeInsets.only(right: 8),
               child: Chip(
-                avatar: const Icon(Icons.favorite_rounded, size: 13),
+                avatar: const Icon(Icons.science_outlined, size: 13),
                 label: Text(
                   auth.isDemo ? 'LOCAL DEMO' : 'EMULATOR',
                   style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w800),
@@ -373,14 +388,6 @@ class _MainShellState extends State<MainShell> {
             ),
           _accountAction(context),
         ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Container(
-            height: 1,
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            color: scheme.outlineVariant.withValues(alpha: 0.72),
-          ),
-        ),
       ),
       body: SafeArea(
         bottom: false,
@@ -388,26 +395,30 @@ class _MainShellState extends State<MainShell> {
             ? Row(
                 children: [
                   Container(
-                    width: 206,
+                    width: 212,
                     margin: const EdgeInsets.fromLTRB(16, 18, 0, 18),
                     decoration: BoxDecoration(
                       color: scheme.surface,
-                      borderRadius: BorderRadius.circular(28),
-                      border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.8)),
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(
+                        color: scheme.outlineVariant.withValues(alpha: 0.82),
+                      ),
                       boxShadow: [
                         BoxShadow(
-                          color: AppTheme.lightOrange.withValues(alpha: 0.06),
+                          color: AppTheme.deepCyan.withValues(alpha: 0.06),
                           blurRadius: 24,
-                          offset: const Offset(0, 8),
+                          offset: const Offset(0, 10),
                         ),
                       ],
                     ),
                     child: NavigationRail(
                       selectedIndex: _index,
                       extended: true,
-                      minExtendedWidth: 204,
-                      groupAlignment: -0.75,
-                      onDestinationSelected: account.isBlocked ? null : (index) => setState(() => _index = index),
+                      minExtendedWidth: 210,
+                      groupAlignment: -0.74,
+                      onDestinationSelected: account.isBlocked
+                          ? null
+                          : (index) => setState(() => _index = index),
                       destinations: [
                         for (final destination in _destinations)
                           NavigationRailDestination(
@@ -426,29 +437,51 @@ class _MainShellState extends State<MainShell> {
       ),
       bottomNavigationBar: wide
           ? null
-          : Container(
-              decoration: BoxDecoration(
-                color: scheme.surface,
-                border: Border(top: BorderSide(color: scheme.outlineVariant.withValues(alpha: 0.72))),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppTheme.lightOrange.withValues(alpha: 0.08),
-                    blurRadius: 22,
-                    offset: const Offset(0, -6),
-                  ),
-                ],
-              ),
-              child: NavigationBar(
-                selectedIndex: _index,
-                onDestinationSelected: account.isBlocked ? null : (index) => setState(() => _index = index),
-                destinations: [
-                  for (final destination in _destinations)
-                    NavigationDestination(
-                      icon: Icon(destination.icon),
-                      selectedIcon: Icon(destination.selected),
-                      label: destination.label,
+          : SafeArea(
+              top: false,
+              minimum: const EdgeInsets.fromLTRB(12, 0, 12, 10),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(26),
+                child: BackdropFilter(
+                  filter: ui.ImageFilter.blur(sigmaX: 22, sigmaY: 22),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: scheme.surface.withValues(alpha: dark ? 0.72 : 0.78),
+                      borderRadius: BorderRadius.circular(26),
+                      border: Border.all(
+                        color: dark
+                            ? Colors.white.withValues(alpha: 0.10)
+                            : Colors.white.withValues(alpha: 0.72),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppTheme.deepCyan.withValues(alpha: 0.12),
+                          blurRadius: 30,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
                     ),
-                ],
+                    child: NavigationBar(
+                      height: 70,
+                      backgroundColor: Colors.transparent,
+                      surfaceTintColor: Colors.transparent,
+                      indicatorColor: scheme.primary.withValues(alpha: 0.15),
+                      selectedIndex: _index,
+                      labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+                      onDestinationSelected: account.isBlocked
+                          ? null
+                          : (index) => setState(() => _index = index),
+                      destinations: [
+                        for (final destination in _destinations)
+                          NavigationDestination(
+                            icon: Icon(destination.icon),
+                            selectedIcon: Icon(destination.selected),
+                            label: destination.label,
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
     );

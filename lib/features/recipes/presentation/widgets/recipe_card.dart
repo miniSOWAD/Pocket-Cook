@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../../core/theme/app_theme.dart';
 import '../../models/recipe.dart';
 import 'recipe_image.dart';
@@ -20,25 +21,24 @@ class RecipeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    return Container(
-      decoration: BoxDecoration(
-        color: scheme.surface,
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.9)),
-        boxShadow: [
-          BoxShadow(
-            color: AppTheme.lightOrange.withValues(alpha: 0.07),
-            blurRadius: 24,
-            offset: const Offset(0, 9),
+    return Material(
+      color: scheme.surface,
+      borderRadius: BorderRadius.circular(22),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(22),
+            border: Border.all(color: scheme.outlineVariant),
+            boxShadow: [
+              BoxShadow(
+                color: AppTheme.deepCyan.withValues(alpha: 0.045),
+                blurRadius: 18,
+                offset: const Offset(0, 8),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        borderRadius: BorderRadius.circular(28),
-        clipBehavior: Clip.antiAlias,
-        child: InkWell(
-          onTap: onTap,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -47,61 +47,56 @@ class RecipeCard extends StatelessWidget {
                   fit: StackFit.expand,
                   children: [
                     RecipeImage(recipe: recipe),
-                    Positioned.fill(
-                      child: DecoratedBox(
+                    Positioned(
+                      top: 11,
+                      right: 11,
+                      child: Container(
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Colors.transparent,
-                              Colors.transparent,
-                              AppTheme.ink.withValues(alpha: 0.11),
-                            ],
+                          color: scheme.surface.withValues(alpha: 0.90),
+                          borderRadius: BorderRadius.circular(14),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.55),
                           ),
                         ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 12,
-                      right: 12,
-                      child: Material(
-                        color: scheme.surface.withValues(alpha: 0.94),
-                        borderRadius: BorderRadius.circular(16),
-                        elevation: 0,
                         child: IconButton(
-                          tooltip: isFavorite ? 'Remove ${recipe.title} from favorites' : 'Save ${recipe.title}',
+                          constraints: const BoxConstraints.tightFor(width: 40, height: 40),
+                          padding: EdgeInsets.zero,
+                          tooltip: isFavorite
+                              ? 'Remove ${recipe.title} from favorites'
+                              : 'Save ${recipe.title}',
                           onPressed: onFavoritePressed,
                           icon: Icon(
-                            isFavorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                            isFavorite
+                                ? Icons.favorite_rounded
+                                : Icons.favorite_border_rounded,
                             color: isFavorite ? AppTheme.lightOrange : scheme.primary,
-                            size: 21,
+                            size: 20,
                           ),
                         ),
                       ),
                     ),
                     if (recipe.vegetarian)
                       Positioned(
-                        left: 12,
-                        bottom: 12,
+                        left: 11,
+                        bottom: 11,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 6),
                           decoration: BoxDecoration(
-                            color: AppTheme.snow.withValues(alpha: 0.94),
+                            color: scheme.surface.withValues(alpha: 0.92),
                             borderRadius: BorderRadius.circular(999),
                           ),
-                          child: const Row(
+                          child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.eco_rounded, size: 12, color: AppTheme.deepCyan),
-                              SizedBox(width: 5),
+                              Icon(Icons.eco_rounded, size: 12, color: scheme.primary),
+                              const SizedBox(width: 5),
                               Text(
-                                'VEGETARIAN',
+                                'VEG',
                                 style: TextStyle(
                                   fontSize: 9,
                                   fontWeight: FontWeight.w800,
-                                  letterSpacing: 0.7,
-                                  color: AppTheme.deepCyan,
+                                  letterSpacing: 0.65,
+                                  color: scheme.primary,
                                 ),
                               ),
                             ],
@@ -112,43 +107,49 @@ class RecipeCard extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(17, 15, 17, 17),
+                padding: const EdgeInsets.fromLTRB(15, 14, 15, 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 48.0 * MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 2.0).toDouble(),
-                      child: Text(
-                        recipe.title,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
+                    Text(
+                      recipe.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            height: 1.18,
+                          ),
                     ),
+                    const SizedBox(height: 6),
                     Text(
                       'Cook: ${recipe.cookName}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: scheme.primary,
-                            fontWeight: FontWeight.w700,
+                            color: scheme.onSurfaceVariant,
+                            fontWeight: FontWeight.w600,
                           ),
                     ),
-                    const SizedBox(height: 9),
+                    const SizedBox(height: 11),
                     Row(
                       children: [
-                        _MiniMeta(icon: Icons.schedule_rounded, text: '${recipe.totalMinutes} min'),
-                        const SizedBox(width: 10),
-                        Container(width: 3, height: 3, decoration: BoxDecoration(color: scheme.outline, shape: BoxShape.circle)),
-                        const SizedBox(width: 10),
-                        Expanded(
+                        _Meta(icon: Icons.schedule_rounded, text: '${recipe.totalMinutes} min'),
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                          decoration: BoxDecoration(
+                            color: AppTheme.orangeWash.withValues(alpha: 0.72),
+                            borderRadius: BorderRadius.circular(999),
+                          ),
                           child: Text(
                             recipe.difficulty,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context).textTheme.bodySmall,
+                            style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                  color: const Color(0xFF70410B),
+                                  fontWeight: FontWeight.w800,
+                                ),
                           ),
                         ),
+                        const Spacer(),
+                        Icon(Icons.arrow_forward_rounded, size: 18, color: scheme.primary),
                       ],
                     ),
                   ],
@@ -162,8 +163,8 @@ class RecipeCard extends StatelessWidget {
   }
 }
 
-class _MiniMeta extends StatelessWidget {
-  const _MiniMeta({required this.icon, required this.text});
+class _Meta extends StatelessWidget {
+  const _Meta({required this.icon, required this.text});
   final IconData icon;
   final String text;
 
@@ -171,7 +172,7 @@ class _MiniMeta extends StatelessWidget {
   Widget build(BuildContext context) => Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 15, color: Theme.of(context).colorScheme.primary),
+          Icon(icon, size: 14, color: Theme.of(context).colorScheme.primary),
           const SizedBox(width: 5),
           Text(text, style: Theme.of(context).textTheme.bodySmall),
         ],

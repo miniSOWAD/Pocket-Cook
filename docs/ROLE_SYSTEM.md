@@ -82,7 +82,7 @@ From `firebase/` after `npm install`:
 $env:GOOGLE_APPLICATION_CREDENTIALS="C:\FirebaseKeys\pocket-cook-admin-sdk.json"
 $env:ADMIN_EMAIL="your-admin@example.com"
 $env:ADMIN_PASSWORD="replace-with-your-password"
-$env:ADMIN_NAME="Pocket Cook Admin"
+$env:ADMIN_NAME="Md Mahruf"
 npm run bootstrap:admin -- --project cook-book-b23be
 Remove-Item Env:ADMIN_EMAIL, Env:ADMIN_PASSWORD, Env:ADMIN_NAME, Env:GOOGLE_APPLICATION_CREDENTIALS
 ```

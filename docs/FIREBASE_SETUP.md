@@ -45,7 +45,7 @@ cd firebase
 $env:GOOGLE_APPLICATION_CREDENTIALS="C:\FirebaseKeys\pocket-cook-admin-sdk.json"
 $env:ADMIN_EMAIL="YOUR_DESIRED_ADMIN_EMAIL"
 $env:ADMIN_PASSWORD="YOUR_DESIRED_ADMIN_PASSWORD"
-$env:ADMIN_NAME="Pocket Cook Admin"
+$env:ADMIN_NAME="Md Mahruf"
 node admin/bootstrap_admin.mjs --project cook-book-b23be
 Remove-Item Env:ADMIN_EMAIL, Env:ADMIN_PASSWORD, Env:ADMIN_NAME, Env:GOOGLE_APPLICATION_CREDENTIALS
 cd ..
