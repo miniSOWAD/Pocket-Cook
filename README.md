@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-<div align="center">
-=======
-# Pocket Cook Demo
->>>>>>> cb1b25c835d8d9ee39565e4d106afa20fa23ab3c
-
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:C62828,50:E64A19,100:F9A825&height=270&section=header&text=Pocket%20Cook&fontSize=80&fontColor=ffffff&animation=fadeIn&fontAlignY=36&desc=Smart%20Recipe%20Management%20and%20Cooking%20Assistant&descSize=22&descAlignY=56" alt="Pocket Cook: Smart Recipe Management and Cooking Assistant" width="100%" />
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3200&pause=900&color=E64A19&center=true&vCenter=true&width=720&height=48&lines=Discover+recipes+and+save+your+favorites;Track+your+pantry+and+build+grocery+lists;Plan+your+meals+with+ease;Cook+with+what+you+already+have" alt="Discover recipes, track your pantry, plan your meals and cook with what you already have" />
