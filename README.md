@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <div align="center">
+=======
+# Pocket Cook Demo
+>>>>>>> cb1b25c835d8d9ee39565e4d106afa20fa23ab3c
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:C62828,50:E64A19,100:F9A825&height=270&section=header&text=Pocket%20Cook&fontSize=80&fontColor=ffffff&animation=fadeIn&fontAlignY=36&desc=Smart%20Recipe%20Management%20and%20Cooking%20Assistant&descSize=22&descAlignY=56" alt="Pocket Cook: Smart Recipe Management and Cooking Assistant" width="100%" />
 
