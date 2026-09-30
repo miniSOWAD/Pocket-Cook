@@ -1,4 +1,4 @@
-# Pocket Cook
+# Pocket Cook Demo
 
 ## Smart Recipe Management & Cooking Assistant Application
 
